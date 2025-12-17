@@ -1,0 +1,29 @@
+html,
+body {
+    height: 100%;
+}
+
+#leaderboard td,
+#leaderboard th {
+	white-space: nowrap;
+}
+
+tr.non-student > th,
+tr.non-student > td {
+	color: #969696 !important;
+}
+
+#rankMatrix td.rank-1 {
+	background-color: rgba(255, 193, 7, 0.35) !important;
+	color: #ffffff !important;
+}
+
+#rankMatrix td.rank-2 {
+	background-color: rgba(192, 192, 192, 0.28) !important;
+	color: #ffffff !important;
+}
+
+#rankMatrix td.rank-3 {
+	background-color: rgba(205, 127, 50, 0.32) !important;
+	color: #ffffff !important;
+}
