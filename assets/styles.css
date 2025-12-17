@@ -13,17 +13,41 @@ tr.non-student > td {
 	color: #969696 !important;
 }
 
-#rankMatrix td.rank-1 {
-	background-color: rgba(255, 193, 7, 0.35) !important;
+#rankMatrix td.rank-cell {
 	color: #ffffff !important;
+}
+
+#rankMatrix td.rank-1 {
+	background-color: rgba(255, 195, 47, 0.3) !important;
 }
 
 #rankMatrix td.rank-2 {
-	background-color: rgba(192, 192, 192, 0.28) !important;
-	color: #ffffff !important;
+	background-color: rgba(192, 192, 192, 0.25) !important;
 }
 
 #rankMatrix td.rank-3 {
-	background-color: rgba(205, 127, 50, 0.32) !important;
-	color: #ffffff !important;
+	background-color: rgba(226, 141, 58, 0.25) !important;
 }
+
+/*#rankMatrix td.rank-4 {*/
+/*    background-color: rgba(0, 255, 0, 0.25) !important;*/
+/*}*/
+/*#rankMatrix td.rank-5 {*/
+/*    background-color: rgba(40, 250, 0, 0.25) !important;*/
+/*}*/
+/*#rankMatrix td.rank-6 {*/
+/*    background-color: rgba(80, 240, 0, 0.25) !important;*/
+/*}*/
+/*#rankMatrix td.rank-7 {*/
+/*    background-color: rgba(120, 210, 0, 0.25) !important;*/
+/*}*/
+/*#rankMatrix td.rank-8 {*/
+/*    background-color: rgba(160, 180, 0, 0.25) !important;*/
+/*}*/
+/*#rankMatrix td.rank-9 {*/
+/*    background-color: rgba(200, 150, 0, 0.25) !important;*/
+/*}*/
+/*#rankMatrix td.rank-10 {*/
+/*    background-color: rgba(255, 120, 0, 0.25) !important;*/
+/*}*/
+

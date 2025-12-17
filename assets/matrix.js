@@ -168,7 +168,7 @@ function renderTable(dayDates, rows) {
 	const headerRow = table.querySelector('thead tr');
 	
 	const columns = [
-		{title: 'Rank', data: 'rank', render: (d) => escapeHtml(d), orderable: true, searchable: false},
+		{title: 'Rank', data: 'rank', render: (d) => escapeHtml(d), orderable: true, searchable: false, className: 'rank-cell'},
 		{title: 'Bot', data: 'bot', render: (d) => escapeHtml(d)},
 		...dayDates.map((date) => ({
 			title: `${date.slice(8, 10)}.${date.slice(5, 7)}`,
@@ -176,6 +176,7 @@ function renderTable(dayDates, rows) {
 			render: (d) => escapeHtml(d),
 			orderable: false,
 			searchable: false,
+			className: 'rank-cell',
 		})),
 		{
 			title: 'Rank average',
@@ -183,6 +184,7 @@ function renderTable(dayDates, rows) {
 			render: (d) => (typeof d === 'number' ? escapeHtml(d.toFixed(2)) : ''),
 			orderable: true,
 			searchable: false,
+			className: 'rank-cell',
 		},
 	];
 	
@@ -201,25 +203,25 @@ function renderTable(dayDates, rows) {
 		order: [[columns.length - 1, 'asc']],
 		rowCallback: (row, data) => {
 			row.classList.toggle('non-student', !data.isStudent);
-
+			
 			const cells = row.querySelectorAll('td');
+			const ranks = [];
+			for (let i = 1; i <= 10; i++) {
+				ranks.push(`rank-${i}`)
+			}
 			for (let i = 0; i < dayDates.length; i += 1) {
 				const date = dayDates[i];
 				const cell = cells[i + 2];
 				if (!cell) {
 					continue;
 				}
-
-				cell.classList.remove('rank-1', 'rank-2', 'rank-3');
-
+				
+				cell.classList.remove(...ranks);
+				
 				const value = data[date];
 				const rank = typeof value === 'number' ? value : Number(value);
-				if (rank === 1) {
-					cell.classList.add('rank-1');
-				} else if (rank === 2) {
-					cell.classList.add('rank-2');
-				} else if (rank === 3) {
-					cell.classList.add('rank-3');
+				if (rank) {
+					cell.classList.add(ranks[rank - 1])
 				}
 			}
 		},
