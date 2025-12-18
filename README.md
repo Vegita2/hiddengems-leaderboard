@@ -17,3 +17,6 @@ Then open `http://localhost:8000/` in your browser.
 - `index.html` loads `data.json` via `fetch()`, so it won’t work from `file://`.
 - UI uses Bootstrap + DataTables via CDN.
 - `matrix.html` shows a rank-by-day matrix with a start/end date filter.
+
+
+99% vibe coded
