@@ -3,24 +3,27 @@ main.container-fluid {
 }
 
 .chart-shell {
-	width: fit-content;
-	max-width: 100%;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.chart-inputs {
+	width: 90vw;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 .chart-card {
-	display: inline-block;
-	width: fit-content;
-	max-width: 100%;
+	display: block;
+	width: 90vw;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .chart-card .ratio {
-	width: min(1400px, 92vw);
-}
-
-.chart-width {
-	width: min(1400px, 92vw);
+	width: 100%;
+	--bs-aspect-ratio: 70vh;
 }
 
 #highlightBots {

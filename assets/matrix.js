@@ -203,7 +203,6 @@ function formatRowDetails(rowData) {
 
 	return `
 		<div class="p-2">
-			<div class="small text-secondary mb-2">Rank / score / commit per day</div>
 			<div class="table-responsive">
 				<table class="table table-sm table-bordered align-middle mb-0">
 					<thead>
