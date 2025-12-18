@@ -6,7 +6,6 @@ const canvas = document.querySelector('#rankChart');
 const highlightSelect = document.querySelector('#highlightBots');
 const botSearchInput = document.querySelector('#botSearch');
 const xPointsInput = document.querySelector('#xPoints');
-const botLimitInput = document.querySelector('#botLimit');
 const yMetricInput = document.querySelector('#yMetric');
 const rankLimitInput = document.querySelector('#rankLimit');
 
@@ -86,20 +85,8 @@ function stripLeadingEmoji(label) {
 	return text.slice(spaceIndex + 1).trim();
 }
 
-function buildRankSeries(daysInRange, botLimit, metric, rankLimit) {
+function buildRankSeries(daysInRange, metric, rankLimit) {
 	const dayDates = daysInRange.map((d) => d.date);
-
-	let allowedKeys;
-	if (typeof botLimit === 'number' && Number.isFinite(botLimit) && botLimit > 0 && daysInRange.length > 0) {
-		const limit = Math.max(1, Math.round(botLimit));
-		allowedKeys = new Set();
-		for (const day of daysInRange) {
-			const entries = Array.isArray(day?.entries) ? day.entries : [];
-			for (const entry of entries.slice(0, limit)) {
-				allowedKeys.add(botKey(entry));
-			}
-		}
-	}
 
 	const rankByDay = new Map(); // date -> Map(botKey -> rank)
 	const scoreByDay = new Map(); // date -> Map(botKey -> score)
@@ -121,7 +108,6 @@ function buildRankSeries(daysInRange, botLimit, metric, rankLimit) {
 	for (const day of daysInRange) {
 		for (const entry of day.entries) {
 			const key = botKey(entry);
-			if (allowedKeys && !allowedKeys.has(key)) continue;
 			if (!botMeta.has(key)) botMeta.set(key, botLabel(entry));
 		}
 	}
@@ -246,7 +232,6 @@ let currentRangeKey = '';
 let lastDayDates = [];
 let xWindowPoints = 5;
 let forceXWindow = true;
-let botLimit;
 let yMetric = 'rank';
 let resetZoomOnNextUpdate = false;
 let rankLimit;
@@ -528,18 +513,6 @@ async function main() {
 			});
 		}
 
-		if (botLimitInput instanceof HTMLInputElement) {
-			const parsed = Number.parseInt(botLimitInput.value, 10);
-			if (Number.isFinite(parsed) && parsed >= 1) botLimit = parsed;
-			else botLimitInput.value = '';
-
-			botLimitInput.addEventListener('input', () => {
-				const next = Number.parseInt(botLimitInput.value, 10);
-				botLimit = Number.isFinite(next) && next >= 1 ? next : undefined;
-				update();
-			});
-		}
-
 		if (rankLimitInput instanceof HTMLInputElement) {
 			const parsed = Number.parseInt(rankLimitInput.value, 10);
 			if (Number.isFinite(parsed) && parsed >= 1) rankLimit = parsed;
@@ -562,7 +535,7 @@ async function main() {
 		}
 
 		const update = () => {
-			const { dayDates, datasets } = buildRankSeries(days, botLimit, yMetric, rankLimit);
+			const { dayDates, datasets } = buildRankSeries(days, yMetric, rankLimit);
 			daysBadge.textContent = `Days: ${dayDates.length}`;
 			botsBadge.textContent = `Bots: ${datasets.length}`;
 			updateChart(dayDates, datasets);
