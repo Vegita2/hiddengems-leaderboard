@@ -5,6 +5,10 @@ const botsBadge = document.querySelector('#botsBadge');
 const loadError = document.querySelector('#loadError');
 const serveHint = document.querySelector('#serveHint');
 const canvas = document.querySelector('#rankChart');
+const highlightSelect = document.querySelector('#highlightBots');
+const botSearchInput = document.querySelector('#botSearch');
+
+const highlightedKeys = new Set();
 
 function setVisible(element, visible) {
 	element.classList.toggle('d-none', !visible);
@@ -80,6 +84,28 @@ function colorForKey(key) {
 	return `hsl(${hue}deg ${sat}% ${light}%)`;
 }
 
+function colorForKeyWithAlpha(key, alpha) {
+	const hash = hashString(key);
+	const hue = hash % 360;
+	const sat = 70;
+	const light = 55;
+	return `hsl(${hue}deg ${sat}% ${light}% / ${alpha})`;
+}
+
+const labelCollator = new Intl.Collator(undefined, { sensitivity: 'base', numeric: true });
+
+function stripLeadingEmoji(label) {
+	const text = safeText(label).trim();
+	if (!text) return '';
+
+	const first = text[0];
+	if (/[\p{L}\p{N}]/u.test(first)) return text;
+
+	const spaceIndex = text.indexOf(' ');
+	if (spaceIndex === -1) return text;
+	return text.slice(spaceIndex + 1).trim();
+}
+
 function buildRankSeries(daysInRange) {
 	const dayDates = daysInRange.map((d) => d.date);
 
@@ -109,6 +135,7 @@ function buildRankSeries(daysInRange) {
 			return typeof rank === 'number' ? rank : null;
 		});
 		datasets.push({
+			_key: key,
 			label,
 			data,
 			borderColor: color,
@@ -123,6 +150,72 @@ function buildRankSeries(daysInRange) {
 
 	datasets.sort((a, b) => a.label.localeCompare(b.label));
 	return { dayDates, datasets };
+}
+
+function applyHighlights(datasets) {
+	const selected = highlightedKeys;
+	if (selected.size === 0) {
+		for (const dataset of datasets) {
+			const key = dataset?._key;
+			if (!key) continue;
+			dataset.borderColor = colorForKey(key);
+			dataset.backgroundColor = colorForKey(key);
+			dataset.borderWidth = 1;
+			dataset.pointRadius = 0;
+		}
+		return;
+	}
+
+	for (const dataset of datasets) {
+		const key = dataset?._key;
+		if (!key) continue;
+		const isHighlighted = selected.has(key);
+		dataset.borderColor = isHighlighted ? colorForKey(key) : colorForKeyWithAlpha(key, 0.4);
+		dataset.backgroundColor = dataset.borderColor;
+		dataset.borderWidth = isHighlighted ? 2.5 : 1;
+		dataset.pointRadius = isHighlighted ? 1.5 : 0;
+	}
+}
+
+function populateBotSelect(datasets) {
+	if (!(highlightSelect instanceof HTMLSelectElement)) return;
+	const query = botSearchInput instanceof HTMLInputElement ? botSearchInput.value.trim().toLowerCase() : '';
+
+	const allowed = new Set();
+	for (const dataset of datasets) {
+		if (dataset?._key) allowed.add(dataset._key);
+	}
+	for (const key of [...highlightedKeys]) {
+		if (!allowed.has(key)) highlightedKeys.delete(key);
+	}
+
+	highlightSelect.innerHTML = '';
+	const options = [];
+	for (const dataset of datasets) {
+		const key = dataset?._key;
+		const label = safeText(dataset?.label);
+		if (!key) continue;
+		if (query && !label.toLowerCase().includes(query)) continue;
+		options.push({ key, label });
+	}
+
+	options.sort((a, b) => labelCollator.compare(stripLeadingEmoji(a.label), stripLeadingEmoji(b.label)));
+
+	for (const entry of options) {
+		const option = document.createElement('option');
+		option.value = entry.key;
+		option.textContent = entry.label;
+		option.selected = highlightedKeys.has(entry.key);
+		highlightSelect.append(option);
+	}
+}
+
+function syncHighlightedKeysFromSelect() {
+	if (!(highlightSelect instanceof HTMLSelectElement)) return;
+	for (const option of highlightSelect.options) {
+		if (option.selected) highlightedKeys.add(option.value);
+		else highlightedKeys.delete(option.value);
+	}
 }
 
 async function loadData() {
@@ -317,6 +410,9 @@ function updateChart(dayDates, datasets) {
 	ensureChart(dayDates, datasets);
 	if (!chart) return;
 
+	populateBotSelect(datasets);
+	applyHighlights(datasets);
+
 	chart.data.labels = dayDates;
 	chart.data.datasets = datasets;
 	updateXAxisTicks(dayDates);
@@ -366,6 +462,22 @@ async function main() {
 			botsBadge.textContent = `Bots: ${datasets.length}`;
 			updateChart(dayDates, datasets);
 		};
+
+		if (highlightSelect instanceof HTMLSelectElement) {
+			highlightSelect.addEventListener('change', () => {
+				if (!chart) return;
+				syncHighlightedKeysFromSelect();
+				applyHighlights(chart.data.datasets);
+				chart.update('none');
+			});
+		}
+
+		if (botSearchInput instanceof HTMLInputElement) {
+			botSearchInput.addEventListener('input', () => {
+				if (!chart) return;
+				populateBotSelect(chart.data.datasets);
+			});
+		}
 
 		startDateInput.addEventListener('change', update);
 		endDateInput.addEventListener('change', update);

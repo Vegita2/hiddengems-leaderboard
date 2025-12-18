@@ -64,6 +64,13 @@
 					</div>
 				</div>
 
+				<div class="mt-3 chart-width">
+					<label class="form-label" for="highlightBots">Highlight bots</label>
+					<input class="form-control mb-2" id="botSearch" type="search" placeholder="Filter bots…" />
+					<select class="form-select" id="highlightBots" multiple size="8" aria-label="Select bots to highlight"></select>
+					<div class="form-text">Select one or more bots to highlight; others will be dimmed.</div>
+				</div>
+
 				<div class="mt-3">
 					<div class="alert alert-info d-none" id="serveHint" role="alert">
 						To load <code>data.json</code>, serve this folder (e.g. <code>python -m http.server</code>) instead of opening

@@ -18,3 +18,11 @@ main.container-fluid {
 .chart-card .ratio {
 	width: min(1400px, 92vw);
 }
+
+.chart-width {
+	width: min(1400px, 92vw);
+}
+
+#highlightBots {
+	min-height: 12rem;
+}
