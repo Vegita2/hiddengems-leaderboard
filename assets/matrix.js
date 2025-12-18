@@ -103,13 +103,23 @@ function buildMatrix(daysInRange) {
 	const dayDates = daysInRange.map((d) => d.date);
 	
 	const perDayRank = new Map();
+	const perDayDetails = new Map();
 	for (const day of daysInRange) {
 		const rankByBot = new Map();
+		const detailsByBot = new Map();
 		for (let index = 0; index < day.entries.length; index += 1) {
 			const entry = day.entries[index];
-			rankByBot.set(botKey(entry), index + 1);
+			const rank = index + 1;
+			const key = botKey(entry);
+			rankByBot.set(key, rank);
+			detailsByBot.set(key, {
+				rank,
+				score: Number(entry.score) || 0,
+				commit: safeText(entry.commit),
+			});
 		}
 		perDayRank.set(day.date, rankByBot);
+		perDayDetails.set(day.date, detailsByBot);
 	}
 	
 	const botMeta = new Map(); // botKey -> { label, isStudent }
@@ -127,8 +137,10 @@ function buildMatrix(daysInRange) {
 		let sum = 0;
 		let count = 0;
 		const row = {isStudent: meta.isStudent, bot: meta.label};
+		const timeline = [];
 		for (const date of dayDates) {
 			const rank = perDayRank.get(date)?.get(key);
+			const details = perDayDetails.get(date)?.get(key);
 			if (typeof rank === 'number') {
 				row[date] = rank;
 				sum += rank;
@@ -136,7 +148,14 @@ function buildMatrix(daysInRange) {
 			} else {
 				row[date] = '';
 			}
+			timeline.push({
+				date,
+				rank: details?.rank ?? '',
+				score: details?.score ?? '',
+				commit: details?.commit ?? '',
+			});
 		}
+		row._timeline = timeline;
 		row.avg = count ? sum / count : '';
 		rows.push(row);
 	}
@@ -157,6 +176,51 @@ function buildMatrix(daysInRange) {
 	return {dayDates, rows};
 }
 
+function formatDisplayDate(isoDate) {
+	return `${isoDate.slice(8, 10)}.${isoDate.slice(5, 7)}`;
+}
+
+function formatRowDetails(rowData) {
+	const timeline = Array.isArray(rowData?._timeline) ? rowData._timeline : [];
+	const body = timeline
+		.map((item) => {
+			const date = escapeHtml(formatDisplayDate(safeText(item.date)));
+			const rank = escapeHtml(item.rank);
+			const score = escapeHtml(item.score);
+			const commit = escapeHtml(item.commit);
+			const commitShort = item.commit ? escapeHtml(safeText(item.commit).slice(0, 10)) : '';
+
+			return `
+				<tr>
+					<td class="text-nowrap">${date}</td>
+					<td class="text-nowrap">${rank}</td>
+					<td class="text-nowrap">${score}</td>
+					<td class="text-nowrap font-monospace" title="${commit}">${commitShort}</td>
+				</tr>
+			`;
+		})
+		.join('');
+
+	return `
+		<div class="p-2">
+			<div class="small text-secondary mb-2">Rank / score / commit per day</div>
+			<div class="table-responsive">
+				<table class="table table-sm table-bordered align-middle mb-0">
+					<thead>
+						<tr>
+							<th scope="col">Day</th>
+							<th scope="col">Rank</th>
+							<th scope="col">Score</th>
+							<th scope="col">Commit</th>
+						</tr>
+					</thead>
+					<tbody>${body}</tbody>
+				</table>
+			</div>
+		</div>
+	`;
+}
+
 function renderTable(dayDates, rows) {
 	destroyTable();
 	
@@ -171,7 +235,7 @@ function renderTable(dayDates, rows) {
 		{title: 'Rank', data: 'rank', render: (d) => escapeHtml(d), orderable: true, searchable: false, className: 'rank-cell'},
 		{title: 'Bot', data: 'bot', render: (d) => escapeHtml(d)},
 		...dayDates.map((date) => ({
-			title: `${date.slice(8, 10)}.${date.slice(5, 7)}`,
+			title: formatDisplayDate(date),
 			data: date,
 			render: (d) => escapeHtml(d),
 			orderable: false,
@@ -225,6 +289,23 @@ function renderTable(dayDates, rows) {
 				}
 			}
 		},
+	});
+
+	table.tBodies[0]?.addEventListener('click', (event) => {
+		const tr = event.target instanceof Element ? event.target.closest('tr') : null;
+		if (!tr) {
+			return;
+		}
+		const row = dataTable.row(tr);
+		const rowData = row.data();
+		if (!rowData) return;
+		if (row.child.isShown()) {
+			row.child.hide();
+			tr.classList.remove('shown');
+			return;
+		}
+		row.child(formatRowDetails(rowData)).show();
+		tr.classList.add('shown');
 	});
 }
 

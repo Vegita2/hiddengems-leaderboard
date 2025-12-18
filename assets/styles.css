@@ -3,30 +3,60 @@ body {
     height: 100%;
 }
 
+main.container-fluid {
+    max-width: none;
+}
+
 #leaderboard td,
 #leaderboard th {
-	white-space: nowrap;
+    white-space: nowrap;
+}
+
+#leaderboard,
+#rankMatrix {
+    width: 100% !important;
+}
+
+/* Keep DataTables layouts from getting clipped inside Bootstrap cards. */
+.table-responsive .dt-container {
+    width: 100%;
+}
+
+.table-responsive .dt-layout-row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* DataTables horizontal scroll (scrollX) can clip at the edges inside rounded cards. */
+.dt-scroll,
+.dt-scroll-head,
+.dt-scroll-body {
+    box-sizing: border-box;
+}
+
+.dt-scroll-body {
+    overflow-x: auto !important;
 }
 
 tr.non-student > th,
 tr.non-student > td {
-	color: #969696 !important;
+    color: #969696 !important;
 }
 
 #rankMatrix td.rank-cell {
-	color: #ffffff !important;
+    color: #ffffff !important;
 }
 
 #rankMatrix td.rank-1 {
-	background-color: rgba(255, 195, 47, 0.3) !important;
+    background-color: rgba(255, 195, 47, 0.3) !important;
 }
 
 #rankMatrix td.rank-2 {
-	background-color: rgba(192, 192, 192, 0.25) !important;
+    background-color: rgba(192, 192, 192, 0.25) !important;
 }
 
 #rankMatrix td.rank-3 {
-	background-color: rgba(226, 141, 58, 0.25) !important;
+    background-color: rgba(226, 141, 58, 0.25) !important;
 }
 
 /*#rankMatrix td.rank-4 {*/
@@ -50,4 +80,3 @@ tr.non-student > td {
 /*#rankMatrix td.rank-10 {*/
 /*    background-color: rgba(255, 120, 0, 0.25) !important;*/
 /*}*/
-
