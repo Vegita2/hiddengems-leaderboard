@@ -1,0 +1,65 @@
+/* Matrix-only layout and DataTables scroll tweaks. */
+
+.table-shell {
+	width: fit-content;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Center the table card and let it shrink to the table width (but never exceed viewport). */
+.table-card {
+	display: inline-block;
+	width: fit-content;
+	max-width: 100%;
+}
+
+.table-card .table-responsive {
+	width: fit-content;
+	max-width: 100%;
+}
+
+/* Keep DataTables layouts from getting clipped inside Bootstrap cards. */
+.table-card .dt-container {
+	width: auto;
+	max-width: 100%;
+}
+
+.table-card .dt-layout-row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+/* DataTables horizontal scroll (scrollX) can clip at the edges inside rounded cards. */
+#rankMatrix_wrapper .dt-scroll,
+#rankMatrix_wrapper .dt-scroll-head,
+#rankMatrix_wrapper .dt-scroll-body {
+	box-sizing: border-box;
+}
+
+#rankMatrix_wrapper .dt-scroll-body {
+	overflow-x: auto !important;
+}
+
+/* Prefer content-sized tables; scrolling happens on the responsive wrapper / dt-scroll-body. */
+.table-card .table-responsive > table,
+#rankMatrix_wrapper .dt-scroll-head table,
+#rankMatrix_wrapper .dt-scroll-body table {
+	width: max-content !important;
+}
+
+/* DataTables scrollX renders header and body as separate tables; keep them aligned (avoid centering). */
+#rankMatrix_wrapper .dt-scroll-head,
+#rankMatrix_wrapper .dt-scroll-body {
+	text-align: left;
+}
+
+#rankMatrix_wrapper .dt-scroll-headInner {
+	width: max-content !important;
+}
+
+#rankMatrix_wrapper .dt-scroll-head table,
+#rankMatrix_wrapper .dt-scroll-body table {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}

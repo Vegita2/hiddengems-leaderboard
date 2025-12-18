@@ -37,6 +37,13 @@ function escapeHtml(value) {
 		.replaceAll("'", "&#39;");
 }
 
+function truncateText(value, maxLength) {
+	const text = safeText(value);
+	if (text.length <= maxLength) return text;
+	if (maxLength <= 1) return "…";
+	return `${text.slice(0, maxLength - 1)}…`;
+}
+
 function showError(message) {
 	loadError.textContent = message;
 	setVisible(loadError, true);
@@ -90,8 +97,26 @@ function initTable() {
 			{ title: "GU", data: "gu", render: (d) => escapeHtml(d) },
 			{ title: "CF", data: "cf", render: (d) => escapeHtml(d) },
 			{ title: "FC", data: "fc", render: (d) => escapeHtml(d) },
-			{ title: "Author", data: "author", render: (d) => escapeHtml(d) },
-			{ title: "Location", data: "location", render: (d) => escapeHtml(d) },
+			{
+				title: "Author",
+				data: "author",
+				render: (data, type) => {
+					const author = safeText(data);
+					if (type !== "display") return escapeHtml(author);
+					const short = truncateText(author, 20);
+					return short === author ? escapeHtml(short) : `<span title="${escapeHtml(author)}">${escapeHtml(short)}</span>`;
+				},
+			},
+			{
+				title: "Location",
+				data: "location",
+				render: (data, type) => {
+					const location = safeText(data);
+					if (type !== "display") return escapeHtml(location);
+					const short = truncateText(location, 15);
+					return short === location ? escapeHtml(short) : `<span title="${escapeHtml(location)}">${escapeHtml(short)}</span>`;
+				},
+			},
 			{ title: "Language", data: "language", render: (d) => escapeHtml(d) },
 			{
 				title: "Commit",
