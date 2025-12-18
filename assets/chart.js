@@ -141,12 +141,7 @@ async function loadData() {
 }
 
 let chart;
-
-function destroyChart() {
-	if (!chart) return;
-	chart.destroy();
-	chart = undefined;
-}
+let viewport;
 
 function registerZoomPlugin() {
 	const ChartGlobal = globalThis.Chart;
@@ -172,8 +167,85 @@ function formatDisplayDate(isoDate) {
 	return `${isoDate.slice(8, 10)}.${isoDate.slice(5, 7)}`;
 }
 
-function renderChart(dayDates, datasets) {
-	destroyChart();
+function clampNumber(value, min, max) {
+	if (typeof value !== 'number' || !Number.isFinite(value)) return undefined;
+	return Math.min(max, Math.max(min, value));
+}
+
+function findIndexAtOrAfter(sorted, target) {
+	let lo = 0;
+	let hi = sorted.length;
+	while (lo < hi) {
+		const mid = Math.floor((lo + hi) / 2);
+		if (sorted[mid] < target) lo = mid + 1;
+		else hi = mid;
+	}
+	return Math.min(sorted.length - 1, lo);
+}
+
+function findIndexAtOrBefore(sorted, target) {
+	let lo = 0;
+	let hi = sorted.length;
+	while (lo < hi) {
+		const mid = Math.floor((lo + hi) / 2);
+		if (sorted[mid] <= target) lo = mid + 1;
+		else hi = mid;
+	}
+	return Math.max(0, lo - 1);
+}
+
+function saveViewport(chartInstance) {
+	const labels = Array.isArray(chartInstance.data?.labels) ? chartInstance.data.labels : [];
+	if (labels.length === 0) return;
+
+	const x = chartInstance.scales?.x;
+	const y = chartInstance.scales?.y;
+
+	const minIndexRaw = typeof x?.min === 'number' ? x.min : 0;
+	const maxIndexRaw = typeof x?.max === 'number' ? x.max : labels.length - 1;
+	const minIndex = Math.min(labels.length - 1, Math.max(0, Math.floor(minIndexRaw)));
+	const maxIndex = Math.min(labels.length - 1, Math.max(0, Math.ceil(maxIndexRaw)));
+
+	viewport = {
+		xMinLabel: safeText(labels[minIndex]),
+		xMaxLabel: safeText(labels[maxIndex]),
+		yMin: typeof y?.min === 'number' ? y.min : undefined,
+		yMax: typeof y?.max === 'number' ? y.max : undefined,
+	};
+}
+
+function rankExtent(datasets) {
+	let min = Number.POSITIVE_INFINITY;
+	let max = Number.NEGATIVE_INFINITY;
+	for (const dataset of datasets) {
+		const data = Array.isArray(dataset?.data) ? dataset.data : [];
+		for (const point of data) {
+			if (typeof point !== 'number' || !Number.isFinite(point)) continue;
+			min = Math.min(min, point);
+			max = Math.max(max, point);
+		}
+	}
+	if (!Number.isFinite(min) || !Number.isFinite(max)) return { min: undefined, max: undefined };
+	return { min, max };
+}
+
+function updateXAxisTicks(dayDates) {
+	if (!chart) return;
+	const maxTicks = 14;
+	const step = dayDates.length > maxTicks ? Math.ceil(dayDates.length / maxTicks) : 1;
+	chart.options.scales ||= {};
+	chart.options.scales.x ||= {};
+	chart.options.scales.x.ticks ||= {};
+	chart.options.scales.x.ticks.autoSkip = false;
+	chart.options.scales.x.ticks.callback = (_value, index) => {
+		if (index % step !== 0) return '';
+		const iso = dayDates[index];
+		return iso ? formatDisplayDate(iso) : '';
+	};
+	chart.options.scales.x.ticks.maxRotation = 0;
+}
+
+function ensureChart(dayDates, datasets) {
 	if (!(canvas instanceof HTMLCanvasElement)) {
 		throw new Error('Missing chart canvas');
 	}
@@ -181,10 +253,7 @@ function renderChart(dayDates, datasets) {
 	if (!context) throw new Error('Unable to get chart context');
 
 	registerZoomPlugin();
-
-	// Limit tick labels when there are many days.
-	const maxTicks = 14;
-	const step = dayDates.length > maxTicks ? Math.ceil(dayDates.length / maxTicks) : 1;
+	if (chart) return;
 
 	chart = new Chart(context, {
 		type: 'line',
@@ -202,6 +271,7 @@ function renderChart(dayDates, datasets) {
 					pan: {
 						enabled: true,
 						mode: 'xy',
+						onPanComplete: ({ chart }) => saveViewport(chart),
 					},
 					limits: {
 						x: { min: 'original', max: 'original' },
@@ -212,6 +282,7 @@ function renderChart(dayDates, datasets) {
 						wheel: {
 							enabled: true,
 						},
+						onZoomComplete: ({ chart }) => saveViewport(chart),
 						pinch: {
 							enabled: false,
 						},
@@ -228,15 +299,6 @@ function renderChart(dayDates, datasets) {
 			},
 			scales: {
 				x: {
-					ticks: {
-						autoSkip: false,
-						callback: (value, index) => {
-							if (index % step !== 0) return '';
-							const iso = dayDates[index];
-							return iso ? formatDisplayDate(iso) : '';
-						},
-						maxRotation: 0,
-					},
 					grid: { display: false },
 				},
 				y: {
@@ -247,6 +309,38 @@ function renderChart(dayDates, datasets) {
 			},
 		},
 	});
+
+	updateXAxisTicks(dayDates);
+}
+
+function updateChart(dayDates, datasets) {
+	ensureChart(dayDates, datasets);
+	if (!chart) return;
+
+	chart.data.labels = dayDates;
+	chart.data.datasets = datasets;
+	updateXAxisTicks(dayDates);
+
+	if (viewport && dayDates.length > 0) {
+		const xMinLabel = safeText(viewport.xMinLabel);
+		const xMaxLabel = safeText(viewport.xMaxLabel);
+		const xMinIndex = xMinLabel ? findIndexAtOrAfter(dayDates, xMinLabel) : 0;
+		const xMaxIndex = xMaxLabel ? findIndexAtOrBefore(dayDates, xMaxLabel) : dayDates.length - 1;
+
+		const { min: minRank, max: maxRank } = rankExtent(datasets);
+		const yMin = clampNumber(viewport.yMin, minRank ?? viewport.yMin, maxRank ?? viewport.yMin);
+		const yMax = clampNumber(viewport.yMax, minRank ?? viewport.yMax, maxRank ?? viewport.yMax);
+
+		chart.options.scales ||= {};
+		chart.options.scales.x ||= {};
+		chart.options.scales.y ||= {};
+		chart.options.scales.x.min = xMinIndex;
+		chart.options.scales.x.max = xMaxIndex;
+		chart.options.scales.y.min = yMin;
+		chart.options.scales.y.max = yMax;
+	}
+
+	chart.update('none');
 }
 
 async function main() {
@@ -270,7 +364,7 @@ async function main() {
 			const { dayDates, datasets } = buildRankSeries(inRangeDays);
 			daysBadge.textContent = `Days: ${dayDates.length}`;
 			botsBadge.textContent = `Bots: ${datasets.length}`;
-			renderChart(dayDates, datasets);
+			updateChart(dayDates, datasets);
 		};
 
 		startDateInput.addEventListener('change', update);
