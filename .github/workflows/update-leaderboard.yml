@@ -3,7 +3,7 @@ name: Update scrims leaderboard
 on:
   schedule:
     # GitHub cron is in UTC (09:00 CET = 08:00 UTC in winter).
-    - cron: "0 8 * * *"
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 permissions:
