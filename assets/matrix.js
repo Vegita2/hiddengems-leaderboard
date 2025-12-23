@@ -1,4 +1,4 @@
-import { safeText, escapeHtml, loadBots, loadAvailableDates, loadDayData, formatDisplayDate, truncateText } from './utils.js';
+import { safeText, escapeHtml, loadBots, loadAvailableDates, loadDayData, formatDisplayDate, truncateText, formatInteger } from './utils.js';
 import { DataTable } from './vendor-datatables.js';
 import './components/navbar.js';
 import './components/alerts.js';
@@ -79,6 +79,7 @@ function buildMatrix(daysInRange, botsById) {
 		const ranks = [];
 		const row = { isStudent: meta.isStudent, bot: meta.label };
 		const scoresByDate = {};
+		const scoreCells = [];
 		for (const date of dayDates) {
 			const rank = perDayRank.get(date)?.get(key);
 			const details = perDayDetails.get(date)?.get(key);
@@ -89,8 +90,17 @@ function buildMatrix(daysInRange, botsById) {
 				row[date] = '';
 			}
 			scoresByDate[date] = typeof details?.score === 'number' ? details.score : '';
+			const scoreText = escapeHtml(formatInteger(scoresByDate[date]));
+			scoreCells.push(`<td class="score-cell">${scoreText}</td>`);
 		}
 		row._scores = scoresByDate;
+		row._scoreRowHtml = `
+			<tr class="score-row">
+				<td class="score-label">Score</td>
+				${scoreCells.join('')}
+				<td></td>
+			</tr>
+		`;
 		let median = '';
 		if (ranks.length) {
 			ranks.sort((a, b) => a - b);
@@ -226,28 +236,7 @@ function renderTable(dayDates, rows) {
 		if (!rowData) {
 			return;
 		}
-
-		const scoreRow = document.createElement('tr');
-		scoreRow.classList.add('score-row');
-
-		const labelCell = document.createElement('td');
-		labelCell.textContent = 'Score';
-		labelCell.classList.add('score-label');
-		scoreRow.append(labelCell);
-
-		for (const date of dayDates) {
-			const cell = document.createElement('td');
-			const score = rowData._scores?.[date];
-			cell.textContent = score === '' ? '' : safeText(score);
-			cell.classList.add('score-cell');
-			scoreRow.append(cell);
-		}
-
-		const medianCell = document.createElement('td');
-		medianCell.textContent = '';
-		scoreRow.append(medianCell);
-
-		tr.insertAdjacentElement('afterend', scoreRow);
+		tr.insertAdjacentHTML('afterend', rowData._scoreRowHtml);
 		tr.classList.add('shown');
 	});
 }
