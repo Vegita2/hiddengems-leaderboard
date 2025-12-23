@@ -44,6 +44,27 @@ function colorForKeyWithAlpha(key, alpha) {
 	return `hsl(${hue}deg ${sat}% ${light}% / ${alpha})`;
 }
 
+function lightenHexColor(hex, ratio = 0.45) {
+	const normalized = safeText(hex).trim().replace(/^#/, '');
+	if (!normalized) {
+		return '';
+	}
+	if (!/^[\da-fA-F]{3}([\da-fA-F]{3})?$/.test(normalized)) {
+		return '';
+	}
+	const expand = normalized.length === 3
+		? normalized.split('').map((ch) => ch + ch).join('')
+		: normalized;
+	const r = Number.parseInt(expand.slice(0, 2), 16);
+	const g = Number.parseInt(expand.slice(2, 4), 16);
+	const b = Number.parseInt(expand.slice(4, 6), 16);
+	if (![r, g, b].every((value) => Number.isFinite(value))) {
+		return '';
+	}
+	const mix = (value) => Math.round(value + (255 - value) * ratio);
+	return `rgb(${mix(r)} ${mix(g)} ${mix(b)})`;
+}
+
 const labelCollator = new Intl.Collator(undefined, {sensitivity: 'base', numeric: true});
 
 function stripLeadingEmoji(label) {
@@ -223,6 +244,8 @@ let forceXWindow = true;
 let yMetric = 'rank';
 let resetZoomOnNextUpdate = false;
 let rankLimit;
+let stageInfoByDate = new Map();
+let previousStageKeyByDate = new Map();
 
 function formatMetricValue(metric, value) {
 	if (typeof value !== 'number' || !Number.isFinite(value)) {
@@ -327,6 +350,53 @@ function ensureXWindow(dayDates, points, anchorToEnd = false) {
 	chart.options.scales.x.max = max;
 }
 
+function buildStageKeyAnnotations(dayDates) {
+	const annotations = {};
+	if (!Array.isArray(dayDates) || dayDates.length === 0) {
+		return annotations;
+	}
+	for (let index = 0; index < dayDates.length; index += 1) {
+		const date = dayDates[index];
+		const info = stageInfoByDate.get(date);
+		if (!info?.stageKey) {
+			continue;
+		}
+		const prevKey = previousStageKeyByDate.get(date) || '';
+		if (prevKey === info.stageKey) {
+			continue;
+		}
+		const color = lightenHexColor(info.color) || colorForKeyWithAlpha(info.stageKey, 0.75);
+		const labelText = info.stage ? `${info.stage} (${info.stageKey})` : info.stageKey;
+		annotations[`stageKey-${info.stageKey}-${index}`] = {
+			type: 'line',
+			scaleID: 'x',
+			value: index,
+			borderColor: 'white',
+			borderWidth: 3,
+			borderDash: [6, 6],
+			drawTime: 'afterDatasetsDraw',
+		};
+		annotations[`stageKey-label-${info.stageKey}-${index}`] = {
+			type: 'label',
+			xScaleID: 'x',
+			yScaleID: 'y',
+			xValue: index,
+			yValue: 0,
+			content: labelText,
+			color: '#f6f1e7',
+			// backgroundColor: 'rgba(10, 12, 15, 0.75)',
+			borderRadius: 4,
+			padding: 6,
+			textAlign: 'center',
+			font: {
+				size: 23,
+			},
+			yAdjust: 22,
+		};
+	}
+	return annotations;
+}
+
 function ensureChart(dayDates, datasets) {
 	if (!(canvas instanceof HTMLCanvasElement)) {
 		throw new Error('Missing chart canvas');
@@ -393,16 +463,7 @@ function ensureChart(dayDates, datasets) {
 			},
 		},
 		annotation: {
-			annotations: {
-				box1: {
-					type: 'box',
-					xMin: 1,
-					xMax: 500,
-					yMin: 0,
-					yMax: 300000,
-					backgroundColor: 'rgba(255, 99, 132, 0.25)'
-				}
-			}
+			annotations: {},
 		}
 	};
 	chart = new Chart(context, {
@@ -471,6 +532,9 @@ function updateChart(dayDates, datasets) {
 	chart.data.labels = dayDates;
 	chart.data.datasets = datasets;
 	lastDayDates = dayDates;
+	chart.options.plugins ||= {};
+	chart.options.plugins.annotation ||= {};
+	chart.options.plugins.annotation.annotations = buildStageKeyAnnotations(dayDates);
 	
 	console.log('Chart config', chart.config);
 	
@@ -490,6 +554,22 @@ async function main() {
 		const [botsArray, availableDates] = await Promise.all([loadBots(), loadAvailableDates()]);
 		if (availableDates.length === 0) {
 			throw new Error('No dates found');
+		}
+		
+		stageInfoByDate = new Map();
+		previousStageKeyByDate = new Map();
+		for (let i = 0; i < availableDates.length; i += 1) {
+			const info = availableDates[i];
+			const date = safeText(info?.date);
+			if (!date) {
+				continue;
+			}
+			stageInfoByDate.set(date, {
+				stage: safeText(info?.stage),
+				stageKey: safeText(info?.stageKey),
+				color: safeText(info?.color),
+			});
+			previousStageKeyByDate.set(date, safeText(availableDates[i - 1]?.stageKey));
 		}
 		
 		const botsById = {};
