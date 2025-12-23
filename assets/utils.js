@@ -92,7 +92,7 @@ export async function loadBots() {
 	if (botsCache) {
 		return botsCache;
 	}
-	const response = await fetch('./json/bots.json', {cache: 'no-store'});
+	const response = await fetch('./json/bots.json');
 	if (!response.ok) {
 		throw new Error(`Failed to fetch bots.json (${response.status})`);
 	}
@@ -106,7 +106,7 @@ export async function loadBots() {
  * @returns {Promise<import('../types/types').Leaderboard>}
  */
 export async function loadDayData(date) {
-	const response = await fetch(`./json/data/data-${date}.json`, {cache: 'no-store'});
+	const response = await fetch(`./json/data/data-${date}.json`);
 	if (!response.ok) {
 		throw new Error(`Failed to fetch data for ${date} (${response.status})`);
 	}
@@ -118,7 +118,7 @@ export async function loadDayData(date) {
  * @returns {Promise<Array<{date: string, stage: string, stageKey: string, color: string}>>}
  */
 export async function loadAvailableDates() {
-	const response = await fetch('./json/stages.json', {cache: 'no-store'});
+	const response = await fetch('./json/stages.json');
 	if (!response.ok) {
 		throw new Error(`Failed to fetch stages.json (${response.status})`);
 	}
@@ -188,7 +188,7 @@ export async function loadData(serveHint) {
 		setVisible(serveHint, true);
 	}
 	
-	const response = await fetch('./data.json', {cache: 'no-store'});
+	const response = await fetch('./data.json');
 	if (!response.ok) {
 		throw new Error(`Failed to fetch data.json (${response.status})`);
 	}

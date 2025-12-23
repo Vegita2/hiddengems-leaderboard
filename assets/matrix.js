@@ -251,9 +251,9 @@ function renderTable(dayDates, rows) {
 	});
 }
 
-function clampRange(days, startIso, endIso) {
-	const min = days[0]?.date ?? '';
-	const max = days[days.length - 1]?.date ?? '';
+function clampRange(availableDates, startIso, endIso) {
+	const min = availableDates[0]?.date ?? '';
+	const max = availableDates[availableDates.length - 1]?.date ?? '';
 	let start = startIso || min;
 	let end = endIso || max;
 	if (start && end && start > end) {
@@ -280,28 +280,18 @@ async function main() {
 			throw new Error('No dates found');
 		}
 
-		// Load data for all available dates
-		const days = [];
-		for (const dateInfo of availableDates) {
-			try {
-				const dayData = await loadDayData(dateInfo.date);
-				days.push({
-					date: dayData.date,
-					stage: dayData.stage,
-					seed: dayData.seed,
-					entries: dayData.entries
-				});
-			} catch (error) {
-				// Skip dates that don't have data files yet
-				console.log(`Skipping ${dateInfo.date}: ${error.message}`);
-			}
-		}
+		// Determine the min/max dates from available dates
+		const minDate = availableDates[0].date;
+		const maxDate = availableDates[availableDates.length - 1].date;
 
-		if (days.length === 0) {
-			throw new Error('No data found');
-		}
+		// Set initial date range (default to last 7 days or available range)
+		const defaultStart = availableDates.length > 7
+			? availableDates[availableDates.length - 7].date
+			: minDate;
+		const defaultEnd = maxDate;
 
-		const { start, end, min, max } = clampRange(days, '2025-12-10');
+		// Clamp the initial range
+		const { start, end, min, max } = clampRange(availableDates, defaultStart, defaultEnd);
 		startDateInput.min = min;
 		startDateInput.max = max;
 		endDateInput.min = min;
@@ -309,20 +299,77 @@ async function main() {
 		startDateInput.value = start;
 		endDateInput.value = end;
 
-		const update = () => {
-			const startIso = parseIsoDate(startDateInput.value);
-			const endIso = parseIsoDate(endDateInput.value);
-			const inRangeDays = days.filter((d) => inRange(d.date, startIso, endIso));
+		// Update function that loads only the necessary data
+		const update = async () => {
+			try {
+				const startIso = parseIsoDate(startDateInput.value);
+				const endIso = parseIsoDate(endDateInput.value);
 
-			const { dayDates, rows } = buildMatrix(inRangeDays, botsById);
-			daysBadge.textContent = `Days: ${dayDates.length}`;
-			botsBadge.textContent = `Bots: ${rows.length}`;
-			renderTable(dayDates, rows);
+				// Filter available dates to only those in range
+				const datesInRange = availableDates.filter((d) => inRange(d.date, startIso, endIso));
+
+				// Show loading state
+				daysBadge.textContent = `Days: Loading...`;
+				botsBadge.textContent = `Bots: Loading...`;
+
+				// Load data only for dates in the selected range
+				const days = [];
+				const loadPromises = datesInRange.map(async (dateInfo) => {
+					try {
+						const dayData = await loadDayData(dateInfo.date);
+						return {
+							date: dayData.date,
+							stage: dayData.stage,
+							seed: dayData.seed,
+							entries: dayData.entries
+						};
+					} catch (error) {
+						// Skip dates that don't have data files yet
+						console.log(`Skipping ${dateInfo.date}: ${error.message}`);
+						return null;
+					}
+				});
+
+				const loadedDays = await Promise.all(loadPromises);
+				// Filter out null values (failed loads)
+				for (const day of loadedDays) {
+					if (day !== null) {
+						days.push(day);
+					}
+				}
+
+				if (days.length === 0) {
+					daysBadge.textContent = `Days: 0`;
+					botsBadge.textContent = `Bots: 0`;
+					destroyTable();
+					alertsComponent?.showError('No data available for selected date range');
+					return;
+				}
+
+				// Sort days by date
+				days.sort((a, b) => a.date.localeCompare(b.date));
+
+				const { dayDates, rows } = buildMatrix(days, botsById);
+				daysBadge.textContent = `Days: ${dayDates.length}`;
+				botsBadge.textContent = `Bots: ${rows.length}`;
+				renderTable(dayDates, rows);
+			} catch (error) {
+				alertsComponent?.showError(error instanceof Error ? error.message : String(error));
+			}
 		};
 
-		startDateInput.addEventListener('change', update);
-		endDateInput.addEventListener('change', update);
-		update();
+		// Add debouncing to prevent excessive loading
+		let updateTimeout;
+		const debouncedUpdate = () => {
+			clearTimeout(updateTimeout);
+			updateTimeout = setTimeout(update, 300);
+		};
+
+		startDateInput.addEventListener('change', debouncedUpdate);
+		endDateInput.addEventListener('change', debouncedUpdate);
+
+		// Initial load
+		await update();
 	} catch (error) {
 		alertsComponent?.showError(error instanceof Error ? error.message : String(error));
 	}
