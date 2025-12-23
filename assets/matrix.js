@@ -1,62 +1,18 @@
+import { safeText, escapeHtml, botKey, botLabel, loadData, formatDisplayDate } from './utils.js';
+import { DataTable } from './vendor-datatables.js';
+import './components/navbar.js';
+import './components/alerts.js';
+
 const startDateInput = document.querySelector('#startDate');
 const endDateInput = document.querySelector('#endDate');
 const daysBadge = document.querySelector('#daysBadge');
 const botsBadge = document.querySelector('#botsBadge');
-const loadError = document.querySelector('#loadError');
-const serveHint = document.querySelector('#serveHint');
-
-function setVisible(element, visible) {
-	element.classList.toggle('d-none', !visible);
-}
-
-function safeText(value) {
-	if (value === null || value === undefined) {
-		return '';
-	}
-	return String(value);
-}
-
-function escapeHtml(value) {
-	return safeText(value)
-		.replaceAll('&', '&amp;')
-		.replaceAll('<', '&lt;')
-		.replaceAll('>', '&gt;')
-		.replaceAll('"', '&quot;')
-		.replaceAll('\'', '&#39;');
-}
-
-function showError(message) {
-	loadError.textContent = message;
-	setVisible(loadError, true);
-}
-
-function isLikelyFileUrl() {
-	return window.location.protocol === 'file:';
-}
-
-function normalizeDay(day) {
-	const entries = Array.isArray(day.entries) ? day.entries : [];
-	const sortedEntries = [...entries].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
-	return {
-		date: safeText(day.date),
-		entries: sortedEntries,
-	};
-}
-
-function botKey(entry) {
-	return safeText(entry.bot);
-}
-
-function botLabel(entry) {
-	const emoji = entry.emoji ? `${entry.emoji} ` : '';
-	return `${emoji}${safeText(entry.bot)}`;
-}
+const alertsComponent = document.querySelector('hg-alerts');
 
 function parseIsoDate(value) {
 	if (!value) {
 		return null;
 	}
-	// Expect yyyy-mm-dd (lexicographic order matches chronological)
 	return value;
 }
 
@@ -68,25 +24,6 @@ function inRange(dayIso, startIso, endIso) {
 		return false;
 	}
 	return true;
-}
-
-async function loadData() {
-	if (isLikelyFileUrl()) {
-		setVisible(serveHint, true);
-	}
-	
-	const response = await fetch('./data.json', {cache: 'no-store'});
-	if (!response.ok) {
-		throw new Error(`Failed to fetch data.json (${response.status})`);
-	}
-	const raw = await response.json();
-	if (!Array.isArray(raw)) {
-		throw new Error('data.json must be a JSON array of day objects');
-	}
-	
-	const days = raw.map(normalizeDay).filter((d) => d.date);
-	days.sort((a, b) => a.date.localeCompare(b.date));
-	return days;
 }
 
 let dataTable;
@@ -101,7 +38,7 @@ function destroyTable() {
 
 function buildMatrix(daysInRange) {
 	const dayDates = daysInRange.map((d) => d.date);
-	
+
 	const perDayRank = new Map();
 	const perDayDetails = new Map();
 	for (const day of daysInRange) {
@@ -115,28 +52,28 @@ function buildMatrix(daysInRange) {
 			detailsByBot.set(key, {
 				rank,
 				score: Number(entry.score) || 0,
-				commit: safeText(entry.commit),
+				id: safeText(entry.id),
 			});
 		}
 		perDayRank.set(day.date, rankByBot);
 		perDayDetails.set(day.date, detailsByBot);
 	}
-	
-	const botMeta = new Map(); // botKey -> { label, isStudent }
+
+	const botMeta = new Map();
 	for (const day of daysInRange) {
 		for (const entry of day.entries) {
 			const key = botKey(entry);
 			if (!botMeta.has(key)) {
-				botMeta.set(key, {label: botLabel(entry), isStudent: Boolean(entry.student)});
+				botMeta.set(key, { label: botLabel(entry), isStudent: Boolean(entry.student) });
 			}
 		}
 	}
-	
+
 	const rows = [];
 	for (const [key, meta] of botMeta.entries()) {
 		let sum = 0;
 		let count = 0;
-		const row = {isStudent: meta.isStudent, bot: meta.label};
+		const row = { isStudent: meta.isStudent, bot: meta.label };
 		const timeline = [];
 		for (const date of dayDates) {
 			const rank = perDayRank.get(date)?.get(key);
@@ -152,14 +89,14 @@ function buildMatrix(daysInRange) {
 				date,
 				rank: details?.rank ?? '',
 				score: details?.score ?? '',
-				commit: details?.commit ?? '',
+				id: details?.id ?? '',
 			});
 		}
 		row._timeline = timeline;
 		row.avg = count ? sum / count : '';
 		rows.push(row);
 	}
-	
+
 	rows.sort((a, b) => {
 		const av = typeof a.avg === 'number' ? a.avg : Number.POSITIVE_INFINITY;
 		const bv = typeof b.avg === 'number' ? b.avg : Number.POSITIVE_INFINITY;
@@ -168,16 +105,12 @@ function buildMatrix(daysInRange) {
 		}
 		return safeText(a.bot).localeCompare(safeText(b.bot));
 	});
-	
+
 	for (let i = 0; i < rows.length; i += 1) {
 		rows[i].rank = i + 1;
 	}
-	
-	return {dayDates, rows};
-}
 
-function formatDisplayDate(isoDate) {
-	return `${isoDate.slice(8, 10)}.${isoDate.slice(5, 7)}`;
+	return { dayDates, rows };
 }
 
 function formatRowDetails(rowData) {
@@ -187,15 +120,14 @@ function formatRowDetails(rowData) {
 			const date = escapeHtml(formatDisplayDate(safeText(item.date)));
 			const rank = escapeHtml(item.rank);
 			const score = escapeHtml(item.score);
-			const commit = escapeHtml(item.commit);
-			const commitShort = item.commit ? escapeHtml(safeText(item.commit).slice(0, 10)) : '';
+			const id = escapeHtml(item.id);
 
 			return `
 				<tr>
 					<td class="text-nowrap">${date}</td>
 					<td class="text-nowrap">${rank}</td>
 					<td class="text-nowrap">${score}</td>
-					<td class="text-nowrap font-monospace" title="${commit}">${commitShort}</td>
+					<td class="text-nowrap font-monospace small">${id}</td>
 				</tr>
 			`;
 		})
@@ -210,7 +142,7 @@ function formatRowDetails(rowData) {
 							<th scope="col">Day</th>
 							<th scope="col">Rank</th>
 							<th scope="col">Score</th>
-							<th scope="col">Commit</th>
+							<th scope="col">ID</th>
 						</tr>
 					</thead>
 					<tbody>${body}</tbody>
@@ -222,17 +154,17 @@ function formatRowDetails(rowData) {
 
 function renderTable(dayDates, rows) {
 	destroyTable();
-	
+
 	const oldTable = document.querySelector('#rankMatrix');
 	const table = oldTable.cloneNode(false);
 	table.innerHTML = '<thead><tr></tr></thead><tbody></tbody>';
 	oldTable.replaceWith(table);
-	
+
 	const headerRow = table.querySelector('thead tr');
-	
+
 	const columns = [
-		{title: 'Rank', data: 'rank', render: (d) => escapeHtml(d), orderable: true, searchable: false, className: 'rank-cell'},
-		{title: 'Bot', data: 'bot', render: (d) => escapeHtml(d)},
+		{ title: 'Rank', data: 'rank', render: (d) => escapeHtml(d), orderable: true, searchable: false, className: 'rank-cell' },
+		{ title: 'Bot', data: 'bot', render: (d) => escapeHtml(d) },
 		...dayDates.map((date) => ({
 			title: formatDisplayDate(date),
 			data: date,
@@ -250,13 +182,13 @@ function renderTable(dayDates, rows) {
 			className: 'rank-cell',
 		},
 	];
-	
+
 	for (const col of columns) {
 		const th = document.createElement('th');
 		th.textContent = col.title;
 		headerRow.append(th);
 	}
-	
+
 	dataTable = new DataTable(table, {
 		data: rows,
 		columns,
@@ -264,13 +196,19 @@ function renderTable(dayDates, rows) {
 		paging: false,
 		scrollX: true,
 		order: [[columns.length - 1, 'asc']],
+		layout: {
+			topStart: null,
+			topEnd: null,
+			bottomStart: 'info',
+			bottomEnd: null
+		},
 		rowCallback: (row, data) => {
 			row.classList.toggle('non-student', !data.isStudent);
-			
+
 			const cells = row.querySelectorAll('td');
 			const ranks = [];
 			for (let i = 1; i <= 10; i++) {
-				ranks.push(`rank-${i}`)
+				ranks.push(`rank-${i}`);
 			}
 			for (let i = 0; i < dayDates.length; i += 1) {
 				const date = dayDates[i];
@@ -278,13 +216,13 @@ function renderTable(dayDates, rows) {
 				if (!cell) {
 					continue;
 				}
-				
+
 				cell.classList.remove(...ranks);
-				
+
 				const value = data[date];
 				const rank = typeof value === 'number' ? value : Number(value);
 				if (rank) {
-					cell.classList.add(ranks[rank - 1])
+					cell.classList.add(ranks[rank - 1]);
 				}
 			}
 		},
@@ -316,40 +254,40 @@ function clampRange(days, startIso, endIso) {
 	if (start && end && start > end) {
 		[start, end] = [end, start];
 	}
-	return {start, end, min, max};
+	return { start, end, min, max };
 }
 
 async function main() {
 	try {
-		const days = await loadData();
+		const days = await loadData(alertsComponent?.serveHint);
 		if (days.length === 0) {
 			throw new Error('No days found in data.json');
 		}
-		
-		const {start, end, min, max} = clampRange(days);
+
+		const { start, end, min, max } = clampRange(days);
 		startDateInput.min = min;
 		startDateInput.max = max;
 		endDateInput.min = min;
 		endDateInput.max = max;
 		startDateInput.value = start;
 		endDateInput.value = end;
-		
+
 		const update = () => {
 			const startIso = parseIsoDate(startDateInput.value);
 			const endIso = parseIsoDate(endDateInput.value);
 			const inRangeDays = days.filter((d) => inRange(d.date, startIso, endIso));
-			
-			const {dayDates, rows} = buildMatrix(inRangeDays);
+
+			const { dayDates, rows } = buildMatrix(inRangeDays);
 			daysBadge.textContent = `Days: ${dayDates.length}`;
 			botsBadge.textContent = `Bots: ${rows.length}`;
 			renderTable(dayDates, rows);
 		};
-		
+
 		startDateInput.addEventListener('change', update);
 		endDateInput.addEventListener('change', update);
 		update();
 	} catch (error) {
-		showError(error instanceof Error ? error.message : String(error));
+		alertsComponent?.showError(error instanceof Error ? error.message : String(error));
 	}
 }
 

@@ -193,9 +193,9 @@
     "emoji": "🤺",
     "name": "Mr. Botty Bot",
     "student": false,
-    "author": "",
-    "location": "",
-    "language": ""
+    "author": "BOTschafter",
+    "location": "Köln",
+    "language": "js"
   },
   {
     "id": "77789fee0810626a",
@@ -651,10 +651,10 @@
     "id": "df6138abe77cf5e0",
     "emoji": "Σ",
     "name": "SigmaSeek",
-    "student": false,
-    "author": "",
-    "location": "",
-    "language": ""
+    "student": true,
+    "author": "Nickname",
+    "location": "Görschlitz",
+    "language": "rust"
   },
   {
     "id": "cb7586d6079a4c5f",
@@ -1173,10 +1173,10 @@
     "id": "980adac714115ede",
     "emoji": "🫳",
     "name": "Treasure-Hunter",
-    "student": false,
-    "author": "",
-    "location": "",
-    "language": ""
+    "student": true,
+    "author": "Cyberturtle",
+    "location": "Höhenkirchen",
+    "language": "ruby"
   },
   {
     "id": "366288116afa1ab4",
@@ -1210,9 +1210,9 @@
     "emoji": "🐡",
     "name": "huda0816",
     "student": false,
-    "author": "",
-    "location": "",
-    "language": ""
+    "author": "huda0816",
+    "location": "Wien",
+    "language": "js"
   },
   {
     "id": "5490c1dc42f9456d",
@@ -1264,9 +1264,9 @@
     "emoji": "🦝",
     "name": "RatchetyRaccoon",
     "student": false,
-    "author": "",
-    "location": "",
-    "language": ""
+    "author": "phnt0m",
+    "location": "Göttingen",
+    "language": "cpp"
   },
   {
     "id": "c24011cb9229badf",
@@ -1336,9 +1336,9 @@
     "emoji": "🐦",
     "name": "Rusty Snake",
     "student": false,
-    "author": "",
-    "location": "",
-    "language": ""
+    "author": "K-Sys",
+    "location": "Lübeck",
+    "language": "rust"
   },
   {
     "id": "9b69687f2b0614a3",
@@ -1849,9 +1849,9 @@
     "emoji": "🟊",
     "name": "One transistor bot",
     "student": false,
-    "author": "",
-    "location": "",
-    "language": ""
+    "author": "GC117b",
+    "location": "Magdeburg",
+    "language": "cpp"
   },
   {
     "id": "7feaf3e119fe89b1",
@@ -2218,9 +2218,9 @@
     "emoji": "🎶",
     "name": "Bottinson Cursoe",
     "student": false,
-    "author": "",
-    "location": "",
-    "language": ""
+    "author": "sebbi08",
+    "location": "Schifferstadt",
+    "language": "js"
   },
   {
     "id": "e81e30ac05728502",

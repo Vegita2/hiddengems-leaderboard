@@ -6,15 +6,9 @@ export namespace API {
 		bots: { [key: string]: Bot };
 	}
 	
-	export type Bot = DeterministicBot | NonDeterministicBot;
-	
-	interface DeterministicBot {
-		deterministic: true;
-		profile: Profile;
-	}
-	
-	interface NonDeterministicBot {
-		deterministic: false;
+	interface Bot {
+		deterministic: boolean;
+		profile?: Profile;
 	}
 	
 	export interface Profile {
@@ -39,7 +33,7 @@ export namespace API {
 		floor_coverage: number;
 		ticks_to_first_capture?: number;
 		disqualified_for: null;
-		response_time_stats: ResponseTimeStats;
+		response_time_stats?: ResponseTimeStats;
 	}
 	
 	export interface ResponseTimeStats {

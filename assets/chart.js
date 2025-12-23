@@ -1,7 +1,11 @@
+import { safeText, botKey, botLabel, loadData, formatDisplayDate } from './utils.js';
+import { Chart } from './vendor-chart.js';
+import './components/navbar.js';
+import './components/alerts.js';
+
 const daysBadge = document.querySelector('#daysBadge');
 const botsBadge = document.querySelector('#botsBadge');
-const loadError = document.querySelector('#loadError');
-const serveHint = document.querySelector('#serveHint');
+const alertsComponent = document.querySelector('hg-alerts');
 const canvas = document.querySelector('#rankChart');
 const highlightSelect = document.querySelector('#highlightBots');
 const botSearchInput = document.querySelector('#botSearch');
@@ -10,42 +14,6 @@ const yMetricInput = document.querySelector('#yMetric');
 const rankLimitInput = document.querySelector('#rankLimit');
 
 const highlightedKeys = new Set();
-
-function setVisible(element, visible) {
-	element.classList.toggle('d-none', !visible);
-}
-
-function safeText(value) {
-	if (value === null || value === undefined) return '';
-	return String(value);
-}
-
-function showError(message) {
-	loadError.textContent = message;
-	setVisible(loadError, true);
-}
-
-function isLikelyFileUrl() {
-	return window.location.protocol === 'file:';
-}
-
-function normalizeDay(day) {
-	const entries = Array.isArray(day.entries) ? day.entries : [];
-	const sortedEntries = [...entries].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
-	return {
-		date: safeText(day.date),
-		entries: sortedEntries,
-	};
-}
-
-function botKey(entry) {
-	return safeText(entry.bot);
-}
-
-function botLabel(entry) {
-	const emoji = entry.emoji ? `${entry.emoji} ` : '';
-	return `${emoji}${safeText(entry.bot)}`;
-}
 
 function hashString(text) {
 	let hash = 0;
@@ -88,8 +56,8 @@ function stripLeadingEmoji(label) {
 function buildRankSeries(daysInRange, metric, rankLimit) {
 	const dayDates = daysInRange.map((d) => d.date);
 
-	const rankByDay = new Map(); // date -> Map(botKey -> rank)
-	const scoreByDay = new Map(); // date -> Map(botKey -> score)
+	const rankByDay = new Map();
+	const scoreByDay = new Map();
 	for (const day of daysInRange) {
 		const perBot = new Map();
 		const perBotScore = new Map();
@@ -104,7 +72,7 @@ function buildRankSeries(daysInRange, metric, rankLimit) {
 		scoreByDay.set(day.date, perBotScore);
 	}
 
-	const botMeta = new Map(); // botKey -> label
+	const botMeta = new Map();
 	for (const day of daysInRange) {
 		for (const entry of day.entries) {
 			const key = botKey(entry);
@@ -128,16 +96,16 @@ function buildRankSeries(daysInRange, metric, rankLimit) {
 		});
 		if (data.some((point) => typeof point?.y === 'number' && Number.isFinite(point.y))) {
 			datasets.push({
-			_key: key,
-			label,
-			data,
-			borderColor: color,
-			backgroundColor: color,
-			borderWidth: 1,
-			pointRadius: 0,
-			pointHitRadius: 6,
-			tension: 0,
-			spanGaps: false,
+				_key: key,
+				label,
+				data,
+				borderColor: color,
+				backgroundColor: color,
+				borderWidth: 1,
+				pointRadius: 0,
+				pointHitRadius: 6,
+				tension: 0,
+				spanGaps: false,
 			});
 		}
 	}
@@ -212,21 +180,6 @@ function syncHighlightedKeysFromSelect() {
 	}
 }
 
-async function loadData() {
-	if (isLikelyFileUrl()) {
-		setVisible(serveHint, true);
-	}
-
-	const response = await fetch('./data.json', { cache: 'no-store' });
-	if (!response.ok) throw new Error(`Failed to fetch data.json (${response.status})`);
-	const raw = await response.json();
-	if (!Array.isArray(raw)) throw new Error('data.json must be a JSON array of day objects');
-
-	const days = raw.map(normalizeDay).filter((d) => d.date);
-	days.sort((a, b) => a.date.localeCompare(b.date));
-	return days;
-}
-
 let chart;
 let currentRangeKey = '';
 let lastDayDates = [];
@@ -257,44 +210,6 @@ function applyYMetricToChart(metric) {
 	} else {
 		chart.options.scales.y.ticks.precision = undefined;
 	}
-}
-
-function registerZoomPlugin() {
-	const ChartGlobal = globalThis.Chart;
-	if (!ChartGlobal?.register) return;
-
-	const candidates = [
-		globalThis.ChartZoom,
-		globalThis.zoomPlugin,
-		globalThis.chartjsPluginZoom,
-		globalThis['chartjs-plugin-zoom'],
-	];
-
-	for (const plugin of candidates) {
-		const resolved = plugin?.default ?? plugin;
-		if (resolved) {
-			ChartGlobal.register(resolved);
-			return;
-		}
-	}
-}
-
-function registerDataLabelsPlugin() {
-	const ChartGlobal = globalThis.Chart;
-	if (!ChartGlobal?.register) throw new Error('Chart.js is not available (globalThis.Chart missing)');
-
-	const plugin = globalThis.ChartDataLabels;
-	if (!plugin) {
-		throw new Error(
-			'chartjs-plugin-datalabels is not available (globalThis.ChartDataLabels missing). Check that it is loaded before assets/chart.js.',
-		);
-	}
-
-	ChartGlobal.register(plugin?.default ?? plugin);
-}
-
-function formatDisplayDate(isoDate) {
-	return `${isoDate.slice(8, 10)}.${isoDate.slice(5, 7)}`;
 }
 
 function updateXAxisTicks(dayDates) {
@@ -357,9 +272,6 @@ function ensureChart(dayDates, datasets) {
 	}
 	const context = canvas.getContext('2d');
 	if (!context) throw new Error('Unable to get chart context');
-
-	registerZoomPlugin();
-	registerDataLabelsPlugin();
 	if (chart) return;
 
 	chart = new Chart(context, {
@@ -379,10 +291,7 @@ function ensureChart(dayDates, datasets) {
 						enabled: true,
 						mode: 'xy',
 					},
-					limits: {
-						// x: { min: 'original', max: 'original' },
-						// y: { min: 'original', max: 'original' },
-					},
+					limits: {},
 					zoom: {
 						mode: 'y',
 						wheel: {
@@ -412,7 +321,7 @@ function ensureChart(dayDates, datasets) {
 					clip: true,
 					font: {
 						size: 16,
-					}
+					},
 				},
 				tooltip: {
 					callbacks: {
@@ -493,7 +402,7 @@ function updateChart(dayDates, datasets) {
 
 async function main() {
 	try {
-		const days = await loadData();
+		const days = await loadData(alertsComponent?.serveHint);
 		if (days.length === 0) throw new Error('No days found in data.json');
 
 		if (xPointsInput instanceof HTMLInputElement) {
@@ -559,9 +468,8 @@ async function main() {
 
 		update();
 	} catch (error) {
-		// Keep the error visible in DevTools for debugging.
 		console.error(error);
-		showError(error instanceof Error ? error.message : String(error));
+		alertsComponent?.showError(error instanceof Error ? error.message : String(error));
 	}
 }
 
