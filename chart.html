@@ -20,7 +20,8 @@
 		"imports": {
 			"chart.js": "https://esm.sh/chart.js@4.5.0",
 			"chartjs-plugin-datalabels": "https://esm.sh/chartjs-plugin-datalabels@2.2.0",
-			"chartjs-plugin-zoom": "https://esm.sh/chartjs-plugin-zoom@2.2.0"
+			"chartjs-plugin-zoom": "https://esm.sh/chartjs-plugin-zoom@2.2.0",
+			"chartjs-plugin-annotations": "https://cdn.jsdelivr.net/npm/chartjs-plugin-annotations@0.6.1/src/index.min.js"
 		}
 	}
 	</script>
@@ -31,18 +32,36 @@
 <main class="container-fluid py-4">
 	<div class="chart-shell">
 		<div class="chart-inputs">
-			<div class="row g-3 align-items-start">
+			<div class="row g-3 align-items-end">
+				<div class="col-12 col-md-6 col-lg-3">
+					<label class="form-label" for="startDate">Start date</label>
+					<input class="form-control" type="date" id="startDate" />
+				</div>
+				<div class="col-12 col-md-6 col-lg-3">
+					<label class="form-label" for="endDate">End date</label>
+					<input class="form-control" type="date" id="endDate" />
+				</div>
+				<div class="col-12 col-md-6 col-lg-3">
+					<label class="form-label" for="stageSelect">Stage</label>
+					<select class="form-select" id="stageSelect"></select>
+				</div>
+				<div class="col-12 col-md-6 col-lg-3">
+					<label class="form-label" for="stageKeySelect">Stage key</label>
+					<select class="form-select" id="stageKeySelect"></select>
+				</div>
+			</div>
+			<div class="row g-3 align-items-start mt-1">
 				<div class="col-12 col-lg-3">
 					<div class="vstack gap-3">
 						<div>
 							<label class="form-label" for="xPoints">X points</label>
-							<input class="form-control" type="number" inputmode="numeric" id="xPoints" min="2" step="1" value="12"/>
+							<input class="form-control" type="number" inputmode="numeric" id="xPoints" min="2" step="1" value="36"/>
 						</div>
 						<div>
 							<label class="form-label" for="yMetric">Y metric</label>
 							<select class="form-select" id="yMetric" aria-label="Select Y axis metric">
-								<option value="rank" selected>Rank</option>
-								<option value="score">Score</option>
+								<option value="rank">Rank</option>
+								<option value="score" selected>Score</option>
 							</select>
 						</div>
 						<div>

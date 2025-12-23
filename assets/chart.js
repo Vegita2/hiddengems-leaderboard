@@ -1,4 +1,5 @@
-import { safeText, botKey, botLabel, loadData, formatDisplayDate } from './utils.js';
+import { safeText, loadBots, loadAvailableDates, loadDayData, formatDisplayDate, formatBotLabel } from './utils.js';
+import { initDateRangeSelectors } from './date-range.js';
 import { Chart } from './vendor-chart.js';
 import './components/navbar.js';
 import './components/alerts.js';
@@ -12,6 +13,10 @@ const botSearchInput = document.querySelector('#botSearch');
 const xPointsInput = document.querySelector('#xPoints');
 const yMetricInput = document.querySelector('#yMetric');
 const rankLimitInput = document.querySelector('#rankLimit');
+const startDateInput = document.querySelector('#startDate');
+const endDateInput = document.querySelector('#endDate');
+const stageSelect = document.querySelector('#stageSelect');
+const stageKeySelect = document.querySelector('#stageKeySelect');
 
 const highlightedKeys = new Set();
 
@@ -53,7 +58,7 @@ function stripLeadingEmoji(label) {
 	return text.slice(spaceIndex + 1).trim();
 }
 
-function buildRankSeries(daysInRange, metric, rankLimit) {
+function buildRankSeries(daysInRange, botsById, metric, rankLimit) {
 	const dayDates = daysInRange.map((d) => d.date);
 
 	const rankByDay = new Map();
@@ -63,7 +68,7 @@ function buildRankSeries(daysInRange, metric, rankLimit) {
 		const perBotScore = new Map();
 		for (let index = 0; index < day.entries.length; index += 1) {
 			const entry = day.entries[index];
-			const key = botKey(entry);
+			const key = safeText(entry?.id);
 			perBot.set(key, index + 1);
 			const score = Number(entry?.score);
 			perBotScore.set(key, Number.isFinite(score) ? score : null);
@@ -75,8 +80,11 @@ function buildRankSeries(daysInRange, metric, rankLimit) {
 	const botMeta = new Map();
 	for (const day of daysInRange) {
 		for (const entry of day.entries) {
-			const key = botKey(entry);
-			if (!botMeta.has(key)) botMeta.set(key, botLabel(entry));
+			const key = safeText(entry?.id);
+			if (!key || botMeta.has(key)) continue;
+			const bot = botsById[key] || {};
+			const label = formatBotLabel(bot, key, 32);
+			botMeta.set(key, label);
 		}
 	}
 
@@ -248,7 +256,7 @@ function clampInteger(value, min, max) {
 	return Math.min(max, Math.max(min, Math.round(value)));
 }
 
-function ensureXWindow(dayDates, points) {
+function ensureXWindow(dayDates, points, anchorToEnd = false) {
 	if (!chart) return;
 	if (dayDates.length === 0) return;
 	if (typeof points !== 'number' || !Number.isFinite(points)) return;
@@ -256,7 +264,9 @@ function ensureXWindow(dayDates, points) {
 	const boundedPoints = Math.min(dayDates.length, Math.max(2, Math.round(points)));
 
 	const maxIndex = dayDates.length - 1;
-	const currentMaxRaw = chart.scales?.x?.max ?? chart.options?.scales?.x?.max ?? maxIndex;
+	const currentMaxRaw = anchorToEnd
+		? maxIndex
+		: (chart.scales?.x?.max ?? chart.options?.scales?.x?.max ?? maxIndex);
 	const max = clampInteger(currentMaxRaw, 0, maxIndex);
 	const min = Math.max(0, max - (boundedPoints - 1));
 
@@ -358,7 +368,7 @@ function ensureChart(dayDates, datasets) {
 
 	applyYMetricToChart(yMetric);
 	updateXAxisTicks(dayDates);
-	ensureXWindow(dayDates, xWindowPoints);
+	ensureXWindow(dayDates, xWindowPoints, true);
 }
 
 function updateChart(dayDates, datasets) {
@@ -393,7 +403,7 @@ function updateChart(dayDates, datasets) {
 	if (forceXWindow || nextRangeKey !== currentRangeKey) {
 		currentRangeKey = nextRangeKey;
 		forceXWindow = false;
-		ensureXWindow(dayDates, xWindowPoints);
+		ensureXWindow(dayDates, xWindowPoints, true);
 	}
 
 	updateXAxisTicks(dayDates);
@@ -402,8 +412,18 @@ function updateChart(dayDates, datasets) {
 
 async function main() {
 	try {
-		const days = await loadData(alertsComponent?.serveHint);
-		if (days.length === 0) throw new Error('No days found in data.json');
+		const [botsArray, availableDates] = await Promise.all([loadBots(), loadAvailableDates()]);
+		if (availableDates.length === 0) throw new Error('No dates found');
+
+		const botsById = {};
+		for (let i = 0; i < botsArray.length; i += 1) {
+			const bot = botsArray[i];
+			botsById[bot.id] = bot;
+			botsById[i] = bot;
+		}
+
+		const daysByDate = new Map();
+		let dateRange;
 
 		if (xPointsInput instanceof HTMLInputElement) {
 			const parsed = Number.parseInt(xPointsInput.value, 10);
@@ -416,7 +436,7 @@ async function main() {
 				xWindowPoints = next;
 				forceXWindow = true;
 				if (!chart) return;
-				ensureXWindow(lastDayDates, xWindowPoints);
+				ensureXWindow(lastDayDates, xWindowPoints, true);
 				updateXAxisTicks(lastDayDates);
 				chart.update('none');
 			});
@@ -430,7 +450,7 @@ async function main() {
 			rankLimitInput.addEventListener('input', () => {
 				const next = Number.parseInt(rankLimitInput.value, 10);
 				rankLimit = Number.isFinite(next) && next >= 1 ? next : undefined;
-				update();
+				void update();
 			});
 		}
 
@@ -439,15 +459,65 @@ async function main() {
 			yMetricInput.addEventListener('change', () => {
 				yMetric = yMetricInput.value === 'score' ? 'score' : 'rank';
 				resetZoomOnNextUpdate = true;
-				update();
+				void update();
 			});
 		}
 
-		const update = () => {
-			const { dayDates, datasets } = buildRankSeries(days, yMetric, rankLimit);
-			daysBadge.textContent = `Days: ${dayDates.length}`;
-			botsBadge.textContent = `Bots: ${datasets.length}`;
-			updateChart(dayDates, datasets);
+		daysBadge.textContent = 'Days: Loading...';
+		botsBadge.textContent = 'Bots: Loading...';
+
+		const loadDaysForRange = async (datesInRange) => {
+			const loadPromises = datesInRange.map(async (dateInfo) => {
+				if (daysByDate.has(dateInfo.date)) {
+					return daysByDate.get(dateInfo.date);
+				}
+				try {
+					const dayData = await loadDayData(dateInfo.date);
+					const day = {
+						date: dayData.date,
+						stage: dayData.stage,
+						seed: dayData.seed,
+						entries: dayData.entries,
+					};
+					daysByDate.set(dateInfo.date, day);
+					return day;
+				} catch (error) {
+					console.log(`Skipping ${dateInfo.date}: ${error.message}`);
+					return null;
+				}
+			});
+
+			const loadedDays = await Promise.all(loadPromises);
+			const days = loadedDays.filter((day) => day !== null);
+			days.sort((a, b) => a.date.localeCompare(b.date));
+			return days;
+		};
+
+		const update = async () => {
+			try {
+				const datesInRange = dateRange ? dateRange.getDatesInRange() : availableDates;
+
+				daysBadge.textContent = 'Days: Loading...';
+				botsBadge.textContent = 'Bots: Loading...';
+
+				const days = await loadDaysForRange(datesInRange);
+				if (days.length === 0) {
+					daysBadge.textContent = 'Days: 0';
+					botsBadge.textContent = 'Bots: 0';
+					if (chart) {
+						updateChart([], []);
+					}
+					alertsComponent?.showError('No data available for selected date range');
+					return;
+				}
+
+				const { dayDates, datasets } = buildRankSeries(days, botsById, yMetric, rankLimit);
+				daysBadge.textContent = `Days: ${dayDates.length}`;
+				botsBadge.textContent = `Bots: ${datasets.length}`;
+				updateChart(dayDates, datasets);
+			} catch (error) {
+				alertsComponent?.showError(error instanceof Error ? error.message : String(error));
+			}
 		};
 
 		if (highlightSelect instanceof HTMLSelectElement) {
@@ -466,7 +536,18 @@ async function main() {
 			});
 		}
 
-		update();
+		dateRange = initDateRangeSelectors({
+			availableDates,
+			startDateInput,
+			endDateInput,
+			stageSelect,
+			stageKeySelect,
+			onChange: () => void update(),
+			debounceMs: 300,
+			includeAllStages: true,
+		});
+
+		await update();
 	} catch (error) {
 		console.error(error);
 		alertsComponent?.showError(error instanceof Error ? error.message : String(error));
