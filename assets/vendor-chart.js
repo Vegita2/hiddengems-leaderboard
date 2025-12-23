@@ -9,8 +9,10 @@ Chart.register(...registerables);
 // Chart.js plugins
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import annotationPlugin from 'chartjs-plugin-annotation';
 
 Chart.register(ChartDataLabels);
 Chart.register(zoomPlugin);
+Chart.register(annotationPlugin);
 
 export { Chart };
