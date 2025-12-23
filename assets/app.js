@@ -68,11 +68,6 @@ function initTable() {
 				},
 			},
 			{ title: 'Language', data: 'language', render: (d) => escapeHtml(d) },
-			{
-				title: 'ID',
-				data: 'id',
-				render: (data) => `<span class="font-monospace small">${escapeHtml(data)}</span>`,
-			},
 		],
 		deferRender: true,
 		paging: true,
