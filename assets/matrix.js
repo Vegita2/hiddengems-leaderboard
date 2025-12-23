@@ -7,6 +7,7 @@ const startDateInput = document.querySelector('#startDate');
 const endDateInput = document.querySelector('#endDate');
 const stageSelect = document.querySelector('#stageSelect');
 const stageKeySelect = document.querySelector('#stageKeySelect');
+const searchInput = document.querySelector('#matrixSearch');
 const daysBadge = document.querySelector('#daysBadge');
 const botsBadge = document.querySelector('#botsBadge');
 const alertsComponent = document.querySelector('hg-alerts');
@@ -210,6 +211,10 @@ function renderTable(dayDates, rows) {
 			}
 		},
 	});
+
+	if (searchInput) {
+		dataTable.search(searchInput.value).draw();
+	}
 
 	table.addEventListener('draw.dt', () => {
 		const scoreRows = table.tBodies[0]?.querySelectorAll('.score-row');
@@ -461,6 +466,10 @@ async function main() {
 			clearTimeout(updateTimeout);
 			updateTimeout = setTimeout(update, 300);
 		};
+
+		searchInput?.addEventListener('input', () => {
+			dataTable?.search(searchInput.value).draw();
+		});
 
 		startDateInput.addEventListener('change', debouncedUpdate);
 		endDateInput.addEventListener('change', debouncedUpdate);

@@ -4,6 +4,7 @@ import './components/navbar.js';
 import './components/alerts.js';
 
 const dateSelect = document.querySelector('#dateSelect');
+const searchInput = document.querySelector('#indexSearch');
 const stageBadge = document.querySelector('#stageBadge');
 const seedBadge = document.querySelector('#seedBadge');
 const countBadge = document.querySelector('#countBadge');
@@ -84,6 +85,10 @@ function initTable() {
 			bottomStart: 'info',
 			bottomEnd: 'paging'
 		}
+	});
+
+	searchInput?.addEventListener('input', () => {
+		dataTable.search(searchInput.value).draw();
 	});
 }
 
