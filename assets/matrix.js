@@ -479,12 +479,16 @@ async function main() {
 		});
 		stageKeySelect?.addEventListener('change', () => {
 			const selectedKey = stageKeySelect.value;
-			const stage = stageKeyMap.stageByKey.get(selectedKey) || '';
+			const stage = selectedKey
+				? (stageKeyMap.stageByKey.get(selectedKey) || '')
+				: (stageSelect?.value || '');
 			if (stageSelect && stage) {
 				stageSelect.value = stage;
 			}
 			updateStageKeyOptions(stageKeySelect, stageKeyMap, stage || '', selectedKey);
-			const range = stageKeyRanges.ranges.get(selectedKey);
+			const range = selectedKey
+				? stageKeyRanges.ranges.get(selectedKey)
+				: stageRanges.ranges.get(stageSelect?.value || '');
 			if (!range) {
 				return;
 			}
