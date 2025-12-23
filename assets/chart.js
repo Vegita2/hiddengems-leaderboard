@@ -99,18 +99,27 @@ function buildRankSeries(daysInRange, botsById, metric, rankLimit) {
 	
 	const rankByDay = new Map();
 	const scoreByDay = new Map();
+	const maxScoreByDay = new Map();
 	for (const day of daysInRange) {
 		const perBot = new Map();
 		const perBotScore = new Map();
+		let maxScore = null;
 		for (let index = 0; index < day.entries.length; index += 1) {
 			const entry = day.entries[index];
 			const key = safeText(entry?.id);
 			perBot.set(key, index + 1);
 			const score = Number(entry?.score);
-			perBotScore.set(key, Number.isFinite(score) ? score : null);
+			const safeScore = Number.isFinite(score) ? score : null;
+			perBotScore.set(key, safeScore);
+			if (typeof safeScore === 'number' && Number.isFinite(safeScore)) {
+				if (maxScore === null || safeScore > maxScore) {
+					maxScore = safeScore;
+				}
+			}
 		}
 		rankByDay.set(day.date, perBot);
 		scoreByDay.set(day.date, perBotScore);
+		maxScoreByDay.set(day.date, maxScore);
 	}
 	
 	const botMeta = new Map();
@@ -133,17 +142,30 @@ function buildRankSeries(daysInRange, botsById, metric, rankLimit) {
 			const rank = rankByDay.get(date)?.get(key);
 			if (typeof rankLimit === 'number' && Number.isFinite(rankLimit)) {
 				if (typeof rank !== 'number' || !Number.isFinite(rank) || rank > rankLimit) {
-					return {x: index, y: null, rank: null, score: null};
+					return {x: index, y: null, rank: null, score: null, scoreGap: null, scoreScaled: null};
 				}
 			}
 			
 			const score = scoreByDay.get(date)?.get(key);
-			const value = metric === 'score' ? score : rank;
+			const maxScore = maxScoreByDay.get(date);
+			const scaledScore = typeof score === 'number' && Number.isFinite(score) && typeof maxScore === 'number' && maxScore > 0
+				? (score / maxScore) * 100
+				: null;
+			const scoreGap = typeof score === 'number' && Number.isFinite(score) && typeof maxScore === 'number' && Number.isFinite(maxScore)
+				? Math.max(0, maxScore - score)
+				: null;
+			const value = metric === 'score'
+				? score
+				: metric === 'scoreScaled'
+					? scaledScore
+					: rank;
 			return {
 				x: index,
 				y: typeof value === 'number' && Number.isFinite(value) ? value : null,
 				rank: typeof rank === 'number' && Number.isFinite(rank) ? rank : null,
 				score: typeof score === 'number' && Number.isFinite(score) ? score : null,
+				scoreGap: typeof scoreGap === 'number' && Number.isFinite(scoreGap) ? scoreGap : null,
+				scoreScaled: typeof scaledScore === 'number' && Number.isFinite(scaledScore) ? scaledScore : null,
 			};
 		});
 		if (data.some((point) => typeof point?.y === 'number' && Number.isFinite(point.y))) {
@@ -270,6 +292,9 @@ function formatMetricValue(metric, value) {
 	if (metric === 'rank') {
 		return String(Math.round(value));
 	}
+	if (metric === 'scoreScaled') {
+		return `${value.toFixed(1)}%`;
+	}
 	if (Number.isInteger(value)) {
 		return String(value);
 	}
@@ -285,12 +310,24 @@ function applyYMetricToChart(metric) {
 	chart.options.scales.y.reverse = metric === 'rank';
 	chart.options.scales.y.title ||= {};
 	chart.options.scales.y.title.display = true;
-	chart.options.scales.y.title.text = metric === 'rank' ? 'Rank (1 = best)' : 'Score';
+	chart.options.scales.y.title.text = metric === 'rank'
+		? 'Rank (1 = best)'
+		: metric === 'scoreScaled'
+			? 'Score (scaled to daily max)'
+			: 'Score';
 	chart.options.scales.y.ticks ||= {};
 	if (metric === 'rank') {
 		chart.options.scales.y.ticks.precision = 0;
+		chart.options.scales.y.suggestedMin = undefined;
+		chart.options.scales.y.suggestedMax = undefined;
+	} else if (metric === 'scoreScaled') {
+		chart.options.scales.y.ticks.precision = 0;
+		chart.options.scales.y.suggestedMin = 0;
+		chart.options.scales.y.suggestedMax = 100;
 	} else {
 		chart.options.scales.y.ticks.precision = undefined;
+		chart.options.scales.y.suggestedMin = undefined;
+		chart.options.scales.y.suggestedMax = undefined;
 	}
 }
 
@@ -493,12 +530,20 @@ function ensureChart(dayDates, datasets) {
 				if (!point || typeof point !== 'object') {
 					return false;
 				}
-				const value = labelMetric === 'score' ? point.score : point.rank;
+				const value = labelMetric === 'score'
+					? point.score
+					: labelMetric === 'scoreGap'
+						? point.scoreGap
+						: point.rank;
 				return typeof value === 'number' && Number.isFinite(value);
 			},
 			formatter: (value) => {
 				const point = value && typeof value === 'object' ? value : {};
-				const metricValue = labelMetric === 'score' ? point.score : point.rank;
+				const metricValue = labelMetric === 'score'
+					? point.score
+					: labelMetric === 'scoreGap'
+						? point.scoreGap
+						: point.rank;
 				return formatMetricValue(labelMetric, metricValue);
 			},
 			color: (context) => {
@@ -685,18 +730,34 @@ async function main() {
 		}
 		
 		if (yMetricInput instanceof HTMLSelectElement) {
-			yMetric = yMetricInput.value === 'score' ? 'score' : 'rank';
+			yMetric = yMetricInput.value === 'score'
+				? 'score'
+				: yMetricInput.value === 'scoreScaled'
+					? 'scoreScaled'
+					: 'rank';
 			yMetricInput.addEventListener('change', () => {
-				yMetric = yMetricInput.value === 'score' ? 'score' : 'rank';
+				yMetric = yMetricInput.value === 'score'
+					? 'score'
+					: yMetricInput.value === 'scoreScaled'
+						? 'scoreScaled'
+						: 'rank';
 				resetZoomOnNextUpdate = true;
 				void update();
 			});
 		}
 
 		if (labelMetricInput instanceof HTMLSelectElement) {
-			labelMetric = labelMetricInput.value === 'score' ? 'score' : 'rank';
+			labelMetric = labelMetricInput.value === 'score'
+				? 'score'
+				: labelMetricInput.value === 'scoreGap'
+					? 'scoreGap'
+					: 'rank';
 			labelMetricInput.addEventListener('change', () => {
-				labelMetric = labelMetricInput.value === 'score' ? 'score' : 'rank';
+				labelMetric = labelMetricInput.value === 'score'
+					? 'score'
+					: labelMetricInput.value === 'scoreGap'
+						? 'scoreGap'
+						: 'rank';
 				if (!chart) {
 					return;
 				}
