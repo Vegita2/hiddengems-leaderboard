@@ -7,7 +7,7 @@ Static webpage for browsing `data.json` by date and viewing each day’s leaderb
 From this folder:
 
 ```bash
-python -m http.server
+python -m http.server 4200
 ```
 
 Then open `http://localhost:8000/` in your browser.
