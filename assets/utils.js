@@ -236,6 +236,22 @@ export function formatInteger(value) {
 }
 
 /**
+ * Format a signed integer with optional plus sign.
+ * @param {*} value
+ * @returns {string}
+ */
+export function formatSignedInteger(value) {
+	const number = Number(value);
+	if (!Number.isFinite(number)) {
+		return '';
+	}
+	if (number > 0) {
+		return `+${formatInteger(number)}`;
+	}
+	return formatInteger(number);
+}
+
+/**
  * Truncate text with ellipsis.
  * @param {*} value
  * @param {number} maxLength
@@ -250,6 +266,19 @@ export function truncateText(value, maxLength) {
 		return '…';
 	}
 	return `${text.slice(0, maxLength - 1)}…`;
+}
+
+/**
+ * Format a bot label with optional emoji and truncation.
+ * @param {object} bot
+ * @param {string} fallback
+ * @param {number} maxLength
+ * @returns {string}
+ */
+export function formatBotLabel(bot, fallback, maxLength = 22) {
+	const emoji = bot?.emoji ? `${bot.emoji} ` : '';
+	const name = safeText(bot?.name || fallback);
+	return truncateText(`${emoji}${name}`, maxLength);
 }
 
 /**

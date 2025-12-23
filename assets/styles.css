@@ -8,24 +8,80 @@ body {
     white-space: nowrap;
 }
 
-tr.non-student > th,
-tr.non-student > td {
+/* Match matrix scroll behavior for wide daily tables. */
+#leaderboard_wrapper .dt-scroll,
+#leaderboard_wrapper .dt-scroll-head,
+#leaderboard_wrapper .dt-scroll-body {
+	box-sizing: border-box;
+}
+
+#leaderboard_wrapper .dt-scroll-body {
+	overflow-x: auto !important;
+}
+
+#leaderboard_wrapper .dt-scroll-head table,
+#leaderboard_wrapper .dt-scroll-body table,
+.table-responsive > #leaderboard {
+	width: max-content !important;
+}
+
+#leaderboard_wrapper .dt-scroll-head,
+#leaderboard_wrapper .dt-scroll-body {
+	text-align: left;
+}
+
+#leaderboard_wrapper .dt-scroll-headInner {
+	width: max-content !important;
+}
+
+#leaderboard_wrapper .dt-scroll-head table,
+#leaderboard_wrapper .dt-scroll-body table {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
+#rankMatrix tr.non-student > td {
     color: #969696 !important;
 }
 
-#rankMatrix td.rank-cell {
+#leaderboard tr.non-student > td {
+	color: inherit;
+}
+
+#leaderboard tr.non-student > td:nth-child(1),
+#leaderboard tr.non-student > td:nth-child(2) {
+	color: #969696 !important;
+}
+
+#rankMatrix td.rank-cell,
+#leaderboard td.rank-cell,
+#roundSeedsTable td.rank-cell {
     color: #ffffff !important;
 }
 
-#rankMatrix td.rank-1 {
+#leaderboard td.diff-positive {
+	color: #6dd17c !important;
+}
+
+#leaderboard td.diff-negative {
+	color: #ff8a8a !important;
+}
+
+#rankMatrix td.rank-1,
+#leaderboard td.rank-1,
+#roundSeedsTable td.rank-1 {
     background-color: rgba(255, 195, 47, 0.3) !important;
 }
 
-#rankMatrix td.rank-2 {
+#rankMatrix td.rank-2,
+#leaderboard td.rank-2,
+#roundSeedsTable td.rank-2 {
     background-color: rgba(192, 192, 192, 0.25) !important;
 }
 
-#rankMatrix td.rank-3 {
+#rankMatrix td.rank-3,
+#leaderboard td.rank-3,
+#roundSeedsTable td.rank-3 {
     background-color: rgba(226, 141, 58, 0.25) !important;
 }
 

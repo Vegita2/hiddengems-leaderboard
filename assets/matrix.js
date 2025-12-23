@@ -1,4 +1,4 @@
-import { safeText, escapeHtml, loadBots, loadAvailableDates, loadDayData, formatDisplayDate, truncateText, formatInteger } from './utils.js';
+import { safeText, escapeHtml, loadBots, loadAvailableDates, loadDayData, formatDisplayDate, formatBotLabel, formatInteger } from './utils.js';
 import { DataTable } from './vendor-datatables.js';
 import './components/navbar.js';
 import './components/alerts.js';
@@ -68,8 +68,7 @@ function buildMatrix(daysInRange, botsById) {
 			const key = safeText(entry.id); // Use ID as the key
 			if (!botMeta.has(key)) {
 				const bot = botsById[entry.id] || {};
-				const emoji = bot.emoji ? `${bot.emoji} ` : '';
-				const label = truncateText(`${emoji}${safeText(bot.name || entry.id)}`, 22); // Fallback to ID if name not found
+				const label = formatBotLabel(bot, entry.id, 22); // Fallback to ID if name not found
 				botMeta.set(key, { label, isStudent: Boolean(bot.student) });
 			}
 		}
