@@ -1,4 +1,4 @@
-import { safeText, escapeHtml, botKey, botLabel, loadData, formatDisplayDate } from './utils.js';
+import { safeText, escapeHtml, loadBots, loadAvailableDates, loadDayData, formatDisplayDate } from './utils.js';
 import { DataTable } from './vendor-datatables.js';
 import './components/navbar.js';
 import './components/alerts.js';
@@ -36,7 +36,7 @@ function destroyTable() {
 	dataTable = undefined;
 }
 
-function buildMatrix(daysInRange) {
+function buildMatrix(daysInRange, botsById) {
 	const dayDates = daysInRange.map((d) => d.date);
 
 	const perDayRank = new Map();
@@ -47,7 +47,7 @@ function buildMatrix(daysInRange) {
 		for (let index = 0; index < day.entries.length; index += 1) {
 			const entry = day.entries[index];
 			const rank = index + 1;
-			const key = botKey(entry);
+			const key = safeText(entry.id); // Use ID as the key
 			rankByBot.set(key, rank);
 			detailsByBot.set(key, {
 				rank,
@@ -62,9 +62,12 @@ function buildMatrix(daysInRange) {
 	const botMeta = new Map();
 	for (const day of daysInRange) {
 		for (const entry of day.entries) {
-			const key = botKey(entry);
+			const key = safeText(entry.id); // Use ID as the key
 			if (!botMeta.has(key)) {
-				botMeta.set(key, { label: botLabel(entry), isStudent: Boolean(entry.student) });
+				const bot = botsById[entry.id] || {};
+				const emoji = bot.emoji ? `${bot.emoji} ` : '';
+				const label = `${emoji}${safeText(bot.name || entry.id)}`; // Fallback to ID if name not found
+				botMeta.set(key, { label, isStudent: Boolean(bot.student) });
 			}
 		}
 	}
@@ -193,14 +196,16 @@ function renderTable(dayDates, rows) {
 		data: rows,
 		columns,
 		deferRender: true,
-		paging: false,
+		paging: true,
+		pageLength: 100,
+		lengthMenu: [[25, 50, 100, 250, -1], [25, 50, 100, 250, 'All']],
 		scrollX: true,
 		order: [[columns.length - 1, 'asc']],
 		layout: {
 			topStart: null,
 			topEnd: null,
 			bottomStart: 'info',
-			bottomEnd: null
+			bottomEnd: 'paging'
 		},
 		rowCallback: (row, data) => {
 			row.classList.toggle('non-student', !data.isStudent);
@@ -259,12 +264,44 @@ function clampRange(days, startIso, endIso) {
 
 async function main() {
 	try {
-		const days = await loadData(alertsComponent?.serveHint);
-		if (days.length === 0) {
-			throw new Error('No days found in data.json');
+		// Load bots and available dates in parallel
+		const [botsArray, availableDates] = await Promise.all([
+			loadBots(),
+			loadAvailableDates()
+		]);
+
+		// Convert bots array to an object indexed by ID
+		const botsById = {};
+		for (const bot of botsArray) {
+			botsById[bot.id] = bot;
 		}
 
-		const { start, end, min, max } = clampRange(days);
+		if (availableDates.length === 0) {
+			throw new Error('No dates found');
+		}
+
+		// Load data for all available dates
+		const days = [];
+		for (const dateInfo of availableDates) {
+			try {
+				const dayData = await loadDayData(dateInfo.date);
+				days.push({
+					date: dayData.date,
+					stage: dayData.stage,
+					seed: dayData.seed,
+					entries: dayData.entries
+				});
+			} catch (error) {
+				// Skip dates that don't have data files yet
+				console.log(`Skipping ${dateInfo.date}: ${error.message}`);
+			}
+		}
+
+		if (days.length === 0) {
+			throw new Error('No data found');
+		}
+
+		const { start, end, min, max } = clampRange(days, '2025-12-10');
 		startDateInput.min = min;
 		startDateInput.max = max;
 		endDateInput.min = min;
@@ -277,7 +314,7 @@ async function main() {
 			const endIso = parseIsoDate(endDateInput.value);
 			const inRangeDays = days.filter((d) => inRange(d.date, startIso, endIso));
 
-			const { dayDates, rows } = buildMatrix(inRangeDays);
+			const { dayDates, rows } = buildMatrix(inRangeDays, botsById);
 			daysBadge.textContent = `Days: ${dayDates.length}`;
 			botsBadge.textContent = `Bots: ${rows.length}`;
 			renderTable(dayDates, rows);

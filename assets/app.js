@@ -74,13 +74,15 @@ function initTable() {
 			},
 		],
 		deferRender: true,
-		paging: false,
+		paging: true,
+		pageLength: 100,
+		lengthMenu: [[25, 50, 100, 250, -1], [25, 50, 100, 250, 'All']],
 		order: [[2, 'desc']],
 		layout: {
 			topStart: null,
 			topEnd: null,
 			bottomStart: 'info',
-			bottomEnd: null
+			bottomEnd: 'paging'
 		}
 	});
 }
