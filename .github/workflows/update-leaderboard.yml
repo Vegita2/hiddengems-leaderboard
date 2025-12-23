@@ -17,20 +17,20 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Scrape leaderboard and update data.json
-        run: node update-data.mjs
+      - name: Scrape leaderboard and update data
+        run: node update-data.ts
 
       - name: Commit and push if changed
         run: |
-          if [[ -z "$(git status --porcelain data.json)" ]]; then
+          if [[ -z "$(git status --porcelain json/)" ]]; then
             echo "No changes to commit."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data.json
+          git add json/
           git commit -m "Update scrims leaderboard data"
           git push

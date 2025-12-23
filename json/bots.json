@@ -1,0 +1,3278 @@
+[
+  {
+    "id": "b80d52e3aff280a5",
+    "emoji": "🐊",
+    "name": "Hanz",
+    "student": true,
+    "author": "Hanz",
+    "location": "Berlin",
+    "language": "csharp"
+  },
+  {
+    "id": "c6c03b40546d1237",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "9a145cbae0eae288",
+    "emoji": "🐦",
+    "name": "Black Bird",
+    "student": false,
+    "author": "Black Bird",
+    "location": "München",
+    "language": "rust"
+  },
+  {
+    "id": "ec94f803a4389b0d",
+    "emoji": "🎯",
+    "name": "Wobbly Dart",
+    "student": false,
+    "author": "Kirusha",
+    "location": "München",
+    "language": "dart"
+  },
+  {
+    "id": "ec905ec611c36f5a",
+    "emoji": "🐭",
+    "name": "MazeMouse",
+    "student": true,
+    "author": "MazeMouse",
+    "location": "Wilkau-Hasslau",
+    "language": "python"
+  },
+  {
+    "id": "bd47324a281fc3d8",
+    "emoji": "🦋",
+    "name": "Naletare",
+    "student": true,
+    "author": "Naletare",
+    "location": "Oelde",
+    "language": "python"
+  },
+  {
+    "id": "2eddc8fc0c99ce5d",
+    "emoji": "🚣",
+    "name": "Guybrush",
+    "student": false,
+    "author": "Island Monkey",
+    "location": "Jena",
+    "language": "php"
+  },
+  {
+    "id": "36ac928fae0abb3f",
+    "emoji": "⬛",
+    "name": "noname-bot",
+    "student": true,
+    "author": "Anonyme Programmierer",
+    "location": "Bockenheim",
+    "language": "python"
+  },
+  {
+    "id": "5317fff8c65e58ea",
+    "emoji": "🔥",
+    "name": "0x539",
+    "student": false,
+    "author": "GridZero",
+    "location": "Nordhausen",
+    "language": "go"
+  },
+  {
+    "id": "886c9e70ce800fdf",
+    "emoji": "🪐",
+    "name": "Ratazongs GemRunnerV3",
+    "student": false,
+    "author": "Ratazong",
+    "location": "Oberursel",
+    "language": "perl"
+  },
+  {
+    "id": "78f281a92a9febeb",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "e44017b2b001afd0",
+    "emoji": "☀",
+    "name": "Überall Stollentrolle",
+    "student": false,
+    "author": "Robertoni",
+    "location": "Wuppertal",
+    "language": "go"
+  },
+  {
+    "id": "262970d35bf02c10",
+    "emoji": "🐢",
+    "name": "Maschine",
+    "student": true,
+    "author": "Simonesien",
+    "location": "Darmstadt",
+    "language": "python"
+  },
+  {
+    "id": "7c900bdd7e2aa6f1",
+    "emoji": "🦀",
+    "name": "Mr. Krabs",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "a61d6caf3eeba5d0",
+    "emoji": "🐒",
+    "name": "Sigi Reuven",
+    "student": false,
+    "author": "LifeAdmin",
+    "location": "Köln",
+    "language": "python"
+  },
+  {
+    "id": "6cf7e7f77def6e9a",
+    "emoji": "🐙",
+    "name": "Psibot",
+    "student": true,
+    "author": "!ψ",
+    "location": "Berlin",
+    "language": "csharp"
+  },
+  {
+    "id": "9c3ab2211b4523d9",
+    "emoji": "🐧",
+    "name": "tux-bot",
+    "student": true,
+    "author": "idk",
+    "location": "Fulda",
+    "language": "java"
+  },
+  {
+    "id": "3a6faeb08ba7d074",
+    "emoji": "🦫",
+    "name": "Searching Beaver",
+    "student": false,
+    "author": "Cyber Beaver",
+    "location": "Neustrelitz",
+    "language": "python"
+  },
+  {
+    "id": "3babb00051e95c00",
+    "emoji": "🌃",
+    "name": "Manhattan Mover",
+    "student": false,
+    "author": "keszocze",
+    "location": "Bad Harzburg",
+    "language": "python"
+  },
+  {
+    "id": "da4be24013d87de7",
+    "emoji": "🎃",
+    "name": "BOT1",
+    "student": true,
+    "author": "PA09",
+    "location": "Stuttgart",
+    "language": "java"
+  },
+  {
+    "id": "885467be41283eee",
+    "emoji": "🧠",
+    "name": "Mother Brain",
+    "student": false,
+    "author": "Cramer",
+    "location": "Stuttgart",
+    "language": "ts"
+  },
+  {
+    "id": "e4d62f140b5e488c",
+    "emoji": "🤺",
+    "name": "Mr. Botty Bot",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "77789fee0810626a",
+    "emoji": "👌",
+    "name": "Botinator",
+    "student": true,
+    "author": "PrettyMoFugger",
+    "location": "Hanau",
+    "language": "python"
+  },
+  {
+    "id": "3fb01a2cbf680a45",
+    "emoji": "☠️",
+    "name": "Black Pearl",
+    "student": false,
+    "author": "Jack Sparrow",
+    "location": "Schlaitdorf",
+    "language": "dart"
+  },
+  {
+    "id": "1ef1291b2514af1c",
+    "emoji": "🦥",
+    "name": "Mr. Sloth",
+    "student": true,
+    "author": "Werdox",
+    "location": "Worms",
+    "language": "ts"
+  },
+  {
+    "id": "eb599b6998d9511e",
+    "emoji": "🍵",
+    "name": "Strawberry Matcha",
+    "student": false,
+    "author": "Matcha Club",
+    "location": "Ingelheim",
+    "language": "python"
+  },
+  {
+    "id": "28b0fc587cdfcd50",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "9eff7cdec61ec5a1",
+    "emoji": "🦘",
+    "name": "Der MBboter",
+    "student": false,
+    "author": "mb-bot",
+    "location": "Breuna",
+    "language": "python"
+  },
+  {
+    "id": "d98d524e7e60316f",
+    "emoji": "🐶",
+    "name": "Mud walker",
+    "student": false,
+    "author": "mudwalker",
+    "location": "Darmstadt",
+    "language": "python"
+  },
+  {
+    "id": "4989ad62ec90e357",
+    "emoji": "🤖",
+    "name": "Gotta Catch 'Em All",
+    "student": false,
+    "author": "Theo",
+    "location": "Frankfurt am Main",
+    "language": "python"
+  },
+  {
+    "id": "af045bc594293c6f",
+    "emoji": "🐹",
+    "name": "Lost Gopher",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "63187c2ca8f73fd9",
+    "emoji": "🛸",
+    "name": "E.T.",
+    "student": false,
+    "author": "E.T.",
+    "location": "Marktheidenfeld",
+    "language": "csharp"
+  },
+  {
+    "id": "3290c2506726d48a",
+    "emoji": "🥵",
+    "name": "Boty",
+    "student": false,
+    "author": "Chris",
+    "location": "Bondorf",
+    "language": "java"
+  },
+  {
+    "id": "b802fa20791cf338",
+    "emoji": "🌟︎",
+    "name": "Stelly",
+    "student": true,
+    "author": "Sagittarius",
+    "location": "Limbach-Oberfrohna",
+    "language": "java"
+  },
+  {
+    "id": "da5bb2f515c7ca0c",
+    "emoji": "🍪",
+    "name": "Haferbot",
+    "student": true,
+    "author": "Haferkekse",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "1ceae7f01c0029d9",
+    "emoji": "👀",
+    "name": "Sucher",
+    "student": false,
+    "author": "Metaview",
+    "location": "Werder (Havel)",
+    "language": "c"
+  },
+  {
+    "id": "1ad8d2ab6b027378",
+    "emoji": "🥁",
+    "name": "Shuffle Step",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "f092c91a078b8f2f",
+    "emoji": "🥕",
+    "name": "EchterWasabi",
+    "student": false,
+    "author": "EchterWasabi",
+    "location": "Darmstadt",
+    "language": "cpp"
+  },
+  {
+    "id": "e5fccd17815d8a08",
+    "emoji": "🐋",
+    "name": "Moby-Dig",
+    "student": false,
+    "author": "Captain Ahab",
+    "location": "Wolfsburg",
+    "language": "java"
+  },
+  {
+    "id": "6292a1b4f29e89ab",
+    "emoji": "🌟",
+    "name": "O(n!) to the moon🚀",
+    "student": false,
+    "author": "Nibble",
+    "location": "Coswig",
+    "language": "python"
+  },
+  {
+    "id": "24425e8e2f06a5be",
+    "emoji": "👻",
+    "name": "153Champ",
+    "student": true,
+    "author": "153mo",
+    "location": "Grimma",
+    "language": "python"
+  },
+  {
+    "id": "0b8e1a3cd78b4aa4",
+    "emoji": "🐧",
+    "name": "Pendelnder Pinguin",
+    "student": false,
+    "author": "stem",
+    "location": "Selb",
+    "language": "php"
+  },
+  {
+    "id": "08e49a0308e17659",
+    "emoji": "🌚",
+    "name": "Bot-uhm-Up",
+    "student": false,
+    "author": "Tom L",
+    "location": "Stahnsdorf",
+    "language": "cpp"
+  },
+  {
+    "id": "9190fca146e34b56",
+    "emoji": "🐈‍",
+    "name": "Catbot",
+    "student": true,
+    "author": "27,5",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "6dd0a9d0aa70e22f",
+    "emoji": "🐲",
+    "name": "Tanzender Drache",
+    "student": false,
+    "author": "RandomWalker",
+    "location": "Hagen",
+    "language": "go"
+  },
+  {
+    "id": "4c33b80f691f31c2",
+    "emoji": "🕵️",
+    "name": "Relic Ranger",
+    "student": false,
+    "author": "Robotronick",
+    "location": "Großpösna",
+    "language": "php"
+  },
+  {
+    "id": "2c3b014689cf543f",
+    "emoji": "🤑",
+    "name": "Dagobert",
+    "student": true,
+    "author": "Trajan1305",
+    "location": "Geislingen (Steige)",
+    "language": "python"
+  },
+  {
+    "id": "24059a23f39a8492",
+    "emoji": "🕯️",
+    "name": "Der Blinder Wanderer",
+    "student": false,
+    "author": "T3N0N",
+    "location": "Münstertal",
+    "language": "python"
+  },
+  {
+    "id": "a484e442d2771c01",
+    "emoji": "🐀",
+    "name": "𝐂𝐚𝐧𝐯𝐚𝐬𝐅𝐨𝐫𝐠𝐞",
+    "student": true,
+    "author": "CanvasForge",
+    "location": "Paderborn",
+    "language": "go"
+  },
+  {
+    "id": "0970113d4abb7146",
+    "emoji": "🤠",
+    "name": "Gemster",
+    "student": false,
+    "author": "crc",
+    "location": "Regensburg",
+    "language": "dart"
+  },
+  {
+    "id": "fce07e2ce1150d4a",
+    "emoji": "🐍",
+    "name": "meow",
+    "student": true,
+    "author": "Tudor",
+    "location": "Weinstadt",
+    "language": "python"
+  },
+  {
+    "id": "6c4fcc9345050527",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "67cb2b6a8a337840",
+    "emoji": "🗿",
+    "name": "too greedily and too deep",
+    "student": false,
+    "author": "too_greedily_and_too_deep",
+    "location": "Baden-Baden",
+    "language": "python"
+  },
+  {
+    "id": "e87dd6131d57eeeb",
+    "emoji": "🤖",
+    "name": "Smartbot",
+    "student": true,
+    "author": "ILikeAlien",
+    "location": "Region München",
+    "language": "js"
+  },
+  {
+    "id": "eeceb05d8c291672",
+    "emoji": "🤔",
+    "name": "Where are the GEMZ",
+    "student": true,
+    "author": "player5136",
+    "location": "Heiligensee",
+    "language": "ruby"
+  },
+  {
+    "id": "89cb2e8ee287739d",
+    "emoji": "🎃",
+    "name": "superbot",
+    "student": true,
+    "author": "Nilsl",
+    "location": "Stuttgart",
+    "language": "java"
+  },
+  {
+    "id": "c0d2820653277420",
+    "emoji": "🪲",
+    "name": "HNB-GemBug",
+    "student": true,
+    "author": "Erwin2Punkt0",
+    "location": "Magdeburg",
+    "language": "cpp"
+  },
+  {
+    "id": "5e08d4b74bc30b7f",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "abe03cf4c0939a78",
+    "emoji": "💥",
+    "name": "Segfault Stumbler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "247318a93343b842",
+    "emoji": "☃️",
+    "name": "Schneesteinsucher",
+    "student": true,
+    "author": "Leander",
+    "location": "Biesenthal",
+    "language": "python"
+  },
+  {
+    "id": "dd9694e982ab6897",
+    "emoji": "🥱",
+    "name": "Sleepy",
+    "student": true,
+    "author": "Hai Tsung",
+    "location": "Berlin",
+    "language": "dart"
+  },
+  {
+    "id": "97291dabc630ac2b",
+    "emoji": "⛏️",
+    "name": "Gem Digger",
+    "student": false,
+    "author": "fleckenzwerg",
+    "location": "Teltow",
+    "language": "cpp"
+  },
+  {
+    "id": "73709449fea88dc6",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "4bc448f0e4871d8f",
+    "emoji": "🪱",
+    "name": "Hölenwurm",
+    "student": true,
+    "author": "mrHerrerasaurus",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "7ba8283ba67bf42c",
+    "emoji": "⛵",
+    "name": "Segelbot",
+    "student": false,
+    "author": "ship it",
+    "location": "München",
+    "language": "java"
+  },
+  {
+    "id": "7e8caeaa56899419",
+    "emoji": "🔥",
+    "name": "SimpleSun-Runner",
+    "student": false,
+    "author": "SimpleSun",
+    "location": "Landshut",
+    "language": "cpp"
+  },
+  {
+    "id": "069bb76487807080",
+    "emoji": "=>",
+    "name": "Railjet",
+    "student": true,
+    "author": "trainfan-223",
+    "location": "Wien",
+    "language": "python"
+  },
+  {
+    "id": "94804e64bf0f951a",
+    "emoji": "🤖",
+    "name": "Botty McBotface",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "0c82ced7981b5508",
+    "emoji": "🗿",
+    "name": "Defi misser",
+    "student": true,
+    "author": "Defi misser",
+    "location": "Krefeld",
+    "language": "julia"
+  },
+  {
+    "id": "8dc34ca106142a8c",
+    "emoji": "📦",
+    "name": "Virginia",
+    "student": false,
+    "author": "Wueba-87",
+    "location": "Hemau",
+    "language": "js"
+  },
+  {
+    "id": "68fee884bbad3d1b",
+    "emoji": "😎",
+    "name": "BFS 3.14",
+    "student": false,
+    "author": "Gravitar",
+    "location": "Nienhagen",
+    "language": "python"
+  },
+  {
+    "id": "59e02a51209eddd4",
+    "emoji": "🤖",
+    "name": "Fliewatüüt",
+    "student": false,
+    "author": "TheRealFredFire",
+    "location": "Bremen",
+    "language": "python"
+  },
+  {
+    "id": "df6138abe77cf5e0",
+    "emoji": "Σ",
+    "name": "SigmaSeek",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "cb7586d6079a4c5f",
+    "emoji": "💎",
+    "name": "One gem to rule them all",
+    "student": false,
+    "author": "Michael",
+    "location": "Bad Lausick",
+    "language": "java"
+  },
+  {
+    "id": "806b01a53e41f93b",
+    "emoji": "🏹",
+    "name": "Gem Hunter",
+    "student": false,
+    "author": "Kekrops",
+    "location": "Biederitz",
+    "language": "csharp"
+  },
+  {
+    "id": "f4e639dff9ad78b1",
+    "emoji": "🥷",
+    "name": "Arin",
+    "student": true,
+    "author": "Jimmy",
+    "location": "Darmstadt",
+    "language": "python"
+  },
+  {
+    "id": "c378f0bc45bdd409",
+    "emoji": "🤖",
+    "name": "Bot in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "1c6574814754b397",
+    "emoji": "🛡️",
+    "name": "JS Defender",
+    "student": true,
+    "author": "KonniBotting",
+    "location": "Aachen",
+    "language": "js"
+  },
+  {
+    "id": "08686b009776555a",
+    "emoji": "⭐",
+    "name": "ein stern",
+    "student": true,
+    "author": "a star",
+    "location": "Berlin",
+    "language": "js"
+  },
+  {
+    "id": "13c38a59bf58b3e4",
+    "emoji": "🚀",
+    "name": "vividBot",
+    "student": true,
+    "author": "LU€4",
+    "location": "Schorndorf",
+    "language": "java"
+  },
+  {
+    "id": "8d7f31135b013f22",
+    "emoji": "⛄️",
+    "name": "Snow Golem",
+    "student": true,
+    "author": "Copper Golem",
+    "location": "Köln",
+    "language": "python"
+  },
+  {
+    "id": "fb65609abdfc533f",
+    "emoji": "🦾",
+    "name": "Dr. Clanker",
+    "student": true,
+    "author": "Dr. Clanker",
+    "location": "Berlin",
+    "language": "java"
+  },
+  {
+    "id": "1a12434170dcf5cc",
+    "emoji": "😇",
+    "name": "Battle Angel Alita",
+    "student": false,
+    "author": "hexce",
+    "location": "Lörrach",
+    "language": "rust"
+  },
+  {
+    "id": "bed8a451807136b8",
+    "emoji": "🥁",
+    "name": "Shuffle Step",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "959918d27fb83f36",
+    "emoji": "👺",
+    "name": "Emils boshafter Bot",
+    "student": true,
+    "author": "Emil Richter",
+    "location": "Dresden",
+    "language": "lua"
+  },
+  {
+    "id": "936d8b4e20d729c5",
+    "emoji": "🧏",
+    "name": "SigmaGem 6 7",
+    "student": true,
+    "author": "ツ",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "e7920ac621384a2c",
+    "emoji": "🤺",
+    "name": "Viper Strike of Mamba Pathfinder",
+    "student": false,
+    "author": "HerrMenne",
+    "location": "Coesfeld",
+    "language": "python"
+  },
+  {
+    "id": "82702c0a67b56d10",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "1e2b01cf5d42a0c5",
+    "emoji": "🦄",
+    "name": "Coonnaarr",
+    "student": false,
+    "author": "dino-bot-hotfix",
+    "location": "Potsdam",
+    "language": "python"
+  },
+  {
+    "id": "61e44ea1eda4c957",
+    "emoji": "🐕",
+    "name": "RealDog",
+    "student": false,
+    "author": "Simon.S.K",
+    "location": "Koblenz",
+    "language": "python"
+  },
+  {
+    "id": "b536600a62324781",
+    "emoji": "🦖",
+    "name": "dino",
+    "student": true,
+    "author": "mister 11.9.18.3.8#ifnxxx",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "cac9a39611a38750",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "b00143b83692af53",
+    "emoji": "🤖",
+    "name": "unendlicherBot",
+    "student": true,
+    "author": "unendlicherPing",
+    "location": "Potsdam",
+    "language": "js"
+  },
+  {
+    "id": "3700f7d7f08756eb",
+    "emoji": "🗿",
+    "name": "GigaBot",
+    "student": true,
+    "author": "Simon",
+    "location": "Potsdam",
+    "language": "js"
+  },
+  {
+    "id": "4c47a989dd7c82db",
+    "emoji": "🥁",
+    "name": "Shuffle Step",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "58e32e8a85b52528",
+    "emoji": "🕷️",
+    "name": "System Bug",
+    "student": true,
+    "author": "Sophie_3070",
+    "location": "Wittmund",
+    "language": "java"
+  },
+  {
+    "id": "7d3cf5fe9c5ed153",
+    "emoji": "🎃",
+    "name": "Brownscher Runner",
+    "student": false,
+    "author": "Brownies",
+    "location": "Pliezhausen",
+    "language": "python"
+  },
+  {
+    "id": "08afc196b1757100",
+    "emoji": "☀️",
+    "name": "NanoBot",
+    "student": true,
+    "author": "NanoNerd",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "769e376f721271d7",
+    "emoji": "🐍",
+    "name": "DGStudios",
+    "student": true,
+    "author": "DGStudios",
+    "location": "Bitburg",
+    "language": "python"
+  },
+  {
+    "id": "b957a128a366769d",
+    "emoji": "☕",
+    "name": "Bean Walker",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "60920fe8669cdfdf",
+    "emoji": "🐣",
+    "name": "HatchlingHunter :𝟛",
+    "student": true,
+    "author": "TheChaoticJan",
+    "location": "Neustrelitz",
+    "language": "java"
+  },
+  {
+    "id": "a667cc2b9fee96cd",
+    "emoji": "👑",
+    "name": "King of Gems",
+    "student": false,
+    "author": "Vater & Sohn",
+    "location": "Bielefeld",
+    "language": "python"
+  },
+  {
+    "id": "800ee2f4f03afd2c",
+    "emoji": "🦖",
+    "name": "GemHunter",
+    "student": false,
+    "author": "Thorgar",
+    "location": "Maisach",
+    "language": "rust"
+  },
+  {
+    "id": "3c2b79e633e46f69",
+    "emoji": "🗿",
+    "name": "Boingus",
+    "student": false,
+    "author": "IMinerI",
+    "location": "Bremen",
+    "language": "java"
+  },
+  {
+    "id": "53562aae079b6a19",
+    "emoji": "🚴",
+    "name": "GemHunter3000",
+    "student": false,
+    "author": "abalke",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "57d0dc0d8ec15651",
+    "emoji": "🦆",
+    "name": "Ente",
+    "student": true,
+    "author": "einekleineEnte",
+    "location": "Magdeburg",
+    "language": "python"
+  },
+  {
+    "id": "c3aafe3c7a862e0a",
+    "emoji": "⚡",
+    "name": "HenJay",
+    "student": false,
+    "author": "HenJay",
+    "location": "Zollikerberg",
+    "language": "python"
+  },
+  {
+    "id": "ed2ab5533371e433",
+    "emoji": "🌿",
+    "name": "EntropyBot",
+    "student": true,
+    "author": "Entropy",
+    "location": "Leipzig",
+    "language": "python"
+  },
+  {
+    "id": "d179cc4a5d7b34e7",
+    "emoji": "👑",
+    "name": "Kaiser Franz der II",
+    "student": true,
+    "author": "boredvoidater",
+    "location": "Nürnberg",
+    "language": "python"
+  },
+  {
+    "id": "d31a07e0a2d366dc",
+    "emoji": "🗿",
+    "name": "Indiana_Jems",
+    "student": false,
+    "author": "olek_",
+    "location": "Aachen",
+    "language": "python"
+  },
+  {
+    "id": "5a058d813c25e206",
+    "emoji": "🐓",
+    "name": "Blindes Huhn",
+    "student": false,
+    "author": "HerrGruenwald",
+    "location": "Münster",
+    "language": "python"
+  },
+  {
+    "id": "4ec7c4b772b39a06",
+    "emoji": "🐷",
+    "name": "Trüffelschwein",
+    "student": false,
+    "author": "Icegegi",
+    "location": "Metzingen",
+    "language": "csharp"
+  },
+  {
+    "id": "bc896ee126a82661",
+    "emoji": "🐛",
+    "name": "Bug",
+    "student": true,
+    "author": "Fnordy",
+    "location": "Hamburg",
+    "language": "js"
+  },
+  {
+    "id": "8a20c3506e374189",
+    "emoji": "🧸",
+    "name": "Lobo Walker",
+    "student": false,
+    "author": "Lobo Boom",
+    "location": "Neumarkt",
+    "language": "php"
+  },
+  {
+    "id": "00843f5ec3837384",
+    "emoji": "💰",
+    "name": "176-671",
+    "student": true,
+    "author": "Opa Knack",
+    "location": "Hamburg",
+    "language": "python"
+  },
+  {
+    "id": "5e75b9c4d638cc4f",
+    "emoji": "💀",
+    "name": "Skully",
+    "student": false,
+    "author": "123AlleSindSauer",
+    "location": "Lünen & Dortmund",
+    "language": "js"
+  },
+  {
+    "id": "fd55493ed8fe2658",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "22e23ed4fc727748",
+    "emoji": "🥇",
+    "name": "봍",
+    "student": false,
+    "author": "Dannyboy",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "9bed16ed0f5d086b",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "2177880f168739be",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "9e119d44fecae3f8",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "e63e6502fd6891af",
+    "emoji": "🐹",
+    "name": "Lost Gopher",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "c7f6c41a7f79d5ad",
+    "emoji": "😏",
+    "name": "GemHunter",
+    "student": false,
+    "author": "Andre",
+    "location": "Bondorf",
+    "language": "js"
+  },
+  {
+    "id": "33f15f48b51e2406",
+    "emoji": "💾",
+    "name": "RequestTimeout",
+    "student": true,
+    "author": "404 Team not found",
+    "location": "Bonn",
+    "language": "python"
+  },
+  {
+    "id": "e9fa56b5b3867b23",
+    "emoji": "🕸",
+    "name": "Geminator",
+    "student": false,
+    "author": "Geminator",
+    "location": "Pforzheim",
+    "language": "ruby"
+  },
+  {
+    "id": "1023f3fc12efb819",
+    "emoji": "👾",
+    "name": "fixxbot",
+    "student": false,
+    "author": "fixx",
+    "location": "Hamburg",
+    "language": "cpp"
+  },
+  {
+    "id": "14b72c6110a87da9",
+    "emoji": "🙈",
+    "name": "Blind Monkey",
+    "student": false,
+    "author": "Free Range Dev",
+    "location": "Erfurt",
+    "language": "rust"
+  },
+  {
+    "id": "5163801a9ab6d888",
+    "emoji": "💀",
+    "name": "FMC_Gemming_HiTec",
+    "student": true,
+    "author": "FMCreators",
+    "location": "Markt Schwaben",
+    "language": "python"
+  },
+  {
+    "id": "f88ff10d6c4d5f38",
+    "emoji": "🐱",
+    "name": "funny_cat_pics.exe",
+    "student": false,
+    "author": "Paul",
+    "location": "Gäufelden",
+    "language": "python"
+  },
+  {
+    "id": "5d19de305e15bd23",
+    "emoji": "🦊",
+    "name": "cunning collector",
+    "student": false,
+    "author": "RunnigFox",
+    "location": "Nürnberg",
+    "language": "rust"
+  },
+  {
+    "id": "980adac714115ede",
+    "emoji": "🫳",
+    "name": "Treasure-Hunter",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "366288116afa1ab4",
+    "emoji": "🤖",
+    "name": "PyBotic",
+    "student": false,
+    "author": "Ryland Grace",
+    "location": "Pforzheim",
+    "language": "python"
+  },
+  {
+    "id": "6bd3a13b65a26412",
+    "emoji": "🐟",
+    "name": "Backfisch",
+    "student": true,
+    "author": "Backfisch",
+    "location": "Neubrandenburg",
+    "language": "python"
+  },
+  {
+    "id": "3cb08e307ae82f72",
+    "emoji": "🧭",
+    "name": "Mazerunner",
+    "student": true,
+    "author": "Luca",
+    "location": "Wildberg (Reichshof)",
+    "language": "python"
+  },
+  {
+    "id": "db5453b623c112bc",
+    "emoji": "🐡",
+    "name": "huda0816",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "5490c1dc42f9456d",
+    "emoji": "🐔",
+    "name": "Aimless Chicken",
+    "student": false,
+    "author": "Inarion",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "fd0019d3568f8b55",
+    "emoji": "🦙",
+    "name": "CrAzY Alpaka",
+    "student": false,
+    "author": "Alpaka Corp",
+    "location": "Pforzheim",
+    "language": "cpp"
+  },
+  {
+    "id": "9516e83735ae77b5",
+    "emoji": "🦀",
+    "name": "boti-wan",
+    "student": false,
+    "author": "Fabiwan",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "829dd1b8d893f093",
+    "emoji": "⏳",
+    "name": "Async Rambler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "25c93ea195a1b351",
+    "emoji": "⛏️",
+    "name": "Sir Digs-A-Lot",
+    "student": false,
+    "author": "CraftedWilds",
+    "location": "Wetzlar",
+    "language": "python"
+  },
+  {
+    "id": "ff7a5f699388cc8b",
+    "emoji": "🦝",
+    "name": "RatchetyRaccoon",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "c24011cb9229badf",
+    "emoji": "🌌",
+    "name": "ArGOnaut",
+    "student": false,
+    "author": "ArGOnaut",
+    "location": "Leipzig",
+    "language": "go"
+  },
+  {
+    "id": "2f93d288eec36368",
+    "emoji": "☣",
+    "name": "Stollentrolle überall",
+    "student": false,
+    "author": "Thaddäus",
+    "location": "Velbert",
+    "language": "python"
+  },
+  {
+    "id": "fb0d56e7ec838ff4",
+    "emoji": "🦎",
+    "name": "ASGBOT.exe",
+    "student": true,
+    "author": "jojo.exe",
+    "location": "Limbach-Oberfrohna",
+    "language": "python"
+  },
+  {
+    "id": "42cb343c669fab53",
+    "emoji": "🐻️",
+    "name": "Eisbär",
+    "student": false,
+    "author": "Eisbär",
+    "location": "Isny im Allgäu",
+    "language": "python"
+  },
+  {
+    "id": "6bbce099ba954d12",
+    "emoji": "∰",
+    "name": "R4-K5",
+    "student": true,
+    "author": "DaafWeda",
+    "location": "Ilmenau",
+    "language": "cpp"
+  },
+  {
+    "id": "9e06ee15ea0b6cc5",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "d3e40c34990c7989",
+    "emoji": "🧌",
+    "name": "Chef",
+    "student": true,
+    "author": "Krebserregend",
+    "location": "Ludwigsburg",
+    "language": "cpp"
+  },
+  {
+    "id": "b1e34ca042c90d4f",
+    "emoji": "🐦",
+    "name": "Rusty Snake",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "9b69687f2b0614a3",
+    "emoji": "🛰️",
+    "name": "Pathfinder",
+    "student": true,
+    "author": "Pathfinder",
+    "location": "Berlin",
+    "language": "go"
+  },
+  {
+    "id": "df6084c3e6397b1a",
+    "emoji": "💥",
+    "name": "RustyRacer",
+    "student": false,
+    "author": "bb123",
+    "location": "München",
+    "language": "cpp"
+  },
+  {
+    "id": "7e7f7c7e34b75650",
+    "emoji": "🦖",
+    "name": "Dino's Bot",
+    "student": false,
+    "author": "Dino Bot",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "6eddc433cd707885",
+    "emoji": "😮",
+    "name": "DLH629",
+    "student": false,
+    "author": "Buffo",
+    "location": "Weinstadt",
+    "language": "cpp"
+  },
+  {
+    "id": "ecd420c256bfeab8",
+    "emoji": "🏎️",
+    "name": "swift",
+    "student": true,
+    "author": "swift",
+    "location": "Wiesbaden",
+    "language": "python"
+  },
+  {
+    "id": "68f03c8a100038b7",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "8f1f2aafb8379622",
+    "emoji": "🐻",
+    "name": "curi-OSo",
+    "student": false,
+    "author": "oh-my-bot",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "68ea98f5c6336e09",
+    "emoji": "⛏",
+    "name": "antigeon",
+    "student": false,
+    "author": "geodan",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "a4c6dadab877db40",
+    "emoji": "⛄",
+    "name": "Brain Freeze",
+    "student": false,
+    "author": "Broboter",
+    "location": "Potsdam",
+    "language": "js"
+  },
+  {
+    "id": "ad63f662931c136d",
+    "emoji": "🐪",
+    "name": "CamelGem",
+    "student": false,
+    "author": "spuelrich",
+    "location": "Augsburg",
+    "language": "perl"
+  },
+  {
+    "id": "d426029adf89462f",
+    "emoji": "🪔",
+    "name": "Aladin and his lamp",
+    "student": false,
+    "author": "jjm",
+    "location": "Haimhausen",
+    "language": "python"
+  },
+  {
+    "id": "b15adc8063dba673",
+    "emoji": "🎅",
+    "name": "Schelli",
+    "student": false,
+    "author": "schelli04",
+    "location": "Ottendorf-Okrilla",
+    "language": "python"
+  },
+  {
+    "id": "e1dcf34c1c02e4d1",
+    "emoji": "🐣",
+    "name": "Baby Botty",
+    "student": true,
+    "author": "Daddy Botty",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "948ce2f37d9f9156",
+    "emoji": "⛏",
+    "name": "Ģem DiggeɌ",
+    "student": false,
+    "author": "Captain Ahab",
+    "location": "Wolfsburg",
+    "language": "java"
+  },
+  {
+    "id": "e7361cefa4a7504a",
+    "emoji": "🦋",
+    "name": "Charaxes",
+    "student": true,
+    "author": "Butter",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "3b21d9edb1370c06",
+    "emoji": "🦗",
+    "name": "Hopper McJump",
+    "student": false,
+    "author": "Carco",
+    "location": "Sarstedt",
+    "language": "python"
+  },
+  {
+    "id": "c7113301789ce70f",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "0480331de1232c72",
+    "emoji": "⏳",
+    "name": "Async Rambler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "2476e91ec4409f59",
+    "emoji": "🤖",
+    "name": "Botty McBotface",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "541e41c64ae9a142",
+    "emoji": "🐘",
+    "name": "Stelefantastisch",
+    "student": false,
+    "author": "Stefan",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "259fb333e05d40b1",
+    "emoji": "🐊",
+    "name": "CrocoBot",
+    "student": true,
+    "author": "Fedi41",
+    "location": "Leipzig",
+    "language": "python"
+  },
+  {
+    "id": "e092ea37e9ea5ce1",
+    "emoji": "🧭",
+    "name": "Curious Explorer",
+    "student": false,
+    "author": "ChrisK",
+    "location": "Laichingen",
+    "language": "js"
+  },
+  {
+    "id": "ea71bb0f44900197",
+    "emoji": "🐝",
+    "name": "Honey-Bee",
+    "student": true,
+    "author": "Milan",
+    "location": "Ostritz",
+    "language": "python"
+  },
+  {
+    "id": "9e0ac1c99a0439f8",
+    "emoji": "🦋",
+    "name": "Zong Falter",
+    "student": false,
+    "author": "Zong",
+    "location": "Trier",
+    "language": "c"
+  },
+  {
+    "id": "a82a6cca2613dcc5",
+    "emoji": "🐮",
+    "name": "the cowking",
+    "student": false,
+    "author": "Milchmann",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "f186a44f2514bb96",
+    "emoji": "🤖",
+    "name": "JPS-Bot",
+    "student": false,
+    "author": "JSchuster",
+    "location": "Bad Homburg vor der Höhe",
+    "language": "python"
+  },
+  {
+    "id": "41fc78f6d16a6bb8",
+    "emoji": "🤖",
+    "name": "Botty McBotface",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "4b5e1509a37a34c9",
+    "emoji": "💥",
+    "name": "The159Bot",
+    "student": false,
+    "author": "bot159",
+    "location": "Renningen",
+    "language": "cpp"
+  },
+  {
+    "id": "1c0fa28ce0844fdb",
+    "emoji": "😎",
+    "name": "GojoBot",
+    "student": true,
+    "author": "letrix",
+    "location": "Riesa",
+    "language": "python"
+  },
+  {
+    "id": "9db58ca21236330a",
+    "emoji": "🤔",
+    "name": "Big_M",
+    "student": true,
+    "author": "Malle",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "ceeee660f8f458b6",
+    "emoji": "🕵️",
+    "name": "ActionSnake",
+    "student": false,
+    "author": "ActionLuzifer",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "6b3233e744ea815b",
+    "emoji": "🍕",
+    "name": "Pizza_1.4",
+    "student": true,
+    "author": "Blockbudii",
+    "location": "Stuttgart",
+    "language": "csharp"
+  },
+  {
+    "id": "86520b3ec8b53657",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "2ea331f5bddc0f27",
+    "emoji": "🐈",
+    "name": "Garry",
+    "student": true,
+    "author": "Fortnite 2",
+    "location": "Hanau",
+    "language": "c"
+  },
+  {
+    "id": "a4b0984c7d1f829b",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "bca0c9db911cd9ae",
+    "emoji": "🛩️",
+    "name": "Fliewatüüt",
+    "student": false,
+    "author": "Robbi und Tobbi",
+    "location": "Hamburg",
+    "language": "python"
+  },
+  {
+    "id": "1ee674a2179c05df",
+    "emoji": "🐑",
+    "name": "Lange Schafe",
+    "student": true,
+    "author": "Eulenkatze",
+    "location": "Wülfrath",
+    "language": "python"
+  },
+  {
+    "id": "073bae48ef9e646e",
+    "emoji": "🦎",
+    "name": "ᓬ(•ᴗ•)ᕒ",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "b00aa51f153c2671",
+    "emoji": "🐕",
+    "name": "Dog",
+    "student": true,
+    "author": "davos",
+    "location": "Baesweiler",
+    "language": "python"
+  },
+  {
+    "id": "fd490c8ddf2e3070",
+    "emoji": "🤺",
+    "name": "TheseusAI",
+    "student": false,
+    "author": "tsrastafan",
+    "location": "Riegelsberg",
+    "language": "python"
+  },
+  {
+    "id": "6e88dd5103eb6677",
+    "emoji": "⚜️",
+    "name": "Abominable Intelligence",
+    "student": false,
+    "author": "Erzmagos Deca Rho",
+    "location": "Jena",
+    "language": "python"
+  },
+  {
+    "id": "e0eda777163159d4",
+    "emoji": "🧵",
+    "name": "Ariadne",
+    "student": true,
+    "author": "LoneBit",
+    "location": "Berlin",
+    "language": "java"
+  },
+  {
+    "id": "4e0842c7132bf4b9",
+    "emoji": "🐰",
+    "name": "Agitated Bunny",
+    "student": false,
+    "author": "Romax",
+    "location": "Steinenberg",
+    "language": "php"
+  },
+  {
+    "id": "e02282d3e11fee13",
+    "emoji": "🛰️",
+    "name": "geobot",
+    "student": false,
+    "author": "Schrombel",
+    "location": "Koblenz",
+    "language": "python"
+  },
+  {
+    "id": "46970c3273373e89",
+    "emoji": "🐬",
+    "name": "Wasserschlange",
+    "student": true,
+    "author": "Hildegard Walther",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "c188d60360a224f9",
+    "emoji": "⚔️",
+    "name": "dalinar",
+    "student": true,
+    "author": "bb7king",
+    "location": "Berlin",
+    "language": "java"
+  },
+  {
+    "id": "d584f532655e7184",
+    "emoji": "🦀",
+    "name": "Fearless Ferris",
+    "student": true,
+    "author": "weihnaxbaum",
+    "location": "Berlin",
+    "language": "rust"
+  },
+  {
+    "id": "c3cd3d5c3d2f1cf8",
+    "emoji": "⊚",
+    "name": "crater",
+    "student": true,
+    "author": "n0v0",
+    "location": "Ilmenau",
+    "language": "rust"
+  },
+  {
+    "id": "420fce9713247de4",
+    "emoji": "🐍",
+    "name": "Unser persönlicher Favorit",
+    "student": true,
+    "author": "Unser persönlicher Favorit",
+    "location": "Gaildorf",
+    "language": "python"
+  },
+  {
+    "id": "df1ac2b1f647879e",
+    "emoji": "🤓",
+    "name": "Mathemarbot",
+    "student": true,
+    "author": "Pupsi28",
+    "location": "Fulda",
+    "language": "java"
+  },
+  {
+    "id": "091df7b4819ccd9f",
+    "emoji": "🦢",
+    "name": "SAT",
+    "student": true,
+    "author": "SAT",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "0b26004eb64d5e5d",
+    "emoji": "🍄",
+    "name": "Fungus Gem",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "62dd4709cc132e6d",
+    "emoji": "💥",
+    "name": "Fires on Wires",
+    "student": false,
+    "author": "AVD",
+    "location": "Ahrensburg",
+    "language": "rust"
+  },
+  {
+    "id": "3887a86ff06521c9",
+    "emoji": "🛸",
+    "name": "Greens Bot",
+    "student": true,
+    "author": "GreenSky",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "461162a85b694c6a",
+    "emoji": "🥶",
+    "name": "Best bot in town",
+    "student": false,
+    "author": "best-bot-in-town",
+    "location": "Emmendingen",
+    "language": "js"
+  },
+  {
+    "id": "29d6608c04c99f99",
+    "emoji": "🏃",
+    "name": "TraineeBot",
+    "student": false,
+    "author": "Trainee",
+    "location": "Eningen unter Achalm",
+    "language": "csharp"
+  },
+  {
+    "id": "71477429b1c85eb0",
+    "emoji": "🟊",
+    "name": "One transistor bot",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "7feaf3e119fe89b1",
+    "emoji": "📉",
+    "name": "SGSGS",
+    "student": false,
+    "author": "StillGreen-san",
+    "location": "",
+    "language": "cpp"
+  },
+  {
+    "id": "b16a66cea17beb6a",
+    "emoji": "🚀",
+    "name": "Ground Control",
+    "student": false,
+    "author": "Maj.Tom",
+    "location": "Pfaffenhofen",
+    "language": "java"
+  },
+  {
+    "id": "603cc64fb143d733",
+    "emoji": "🧠",
+    "name": "16 U",
+    "student": false,
+    "author": "Großer Kopf",
+    "location": "Hamburg",
+    "language": "ts"
+  },
+  {
+    "id": "f5d47cb770c99b3c",
+    "emoji": "👿",
+    "name": "Imp",
+    "student": false,
+    "author": "Dungeon Keeper",
+    "location": "Jena",
+    "language": "csharp"
+  },
+  {
+    "id": "5a45c53f591f7d4f",
+    "emoji": "👽",
+    "name": "Sir Pathalot",
+    "student": false,
+    "author": "Sir Pathalot",
+    "location": "Warendorf",
+    "language": "python"
+  },
+  {
+    "id": "cac633d2559b8a33",
+    "emoji": "🧚",
+    "name": "Team WeinNietzsche",
+    "student": true,
+    "author": "Team WeinNietzsche",
+    "location": "Naumburg (Saale)",
+    "language": "python"
+  },
+  {
+    "id": "6a2d079209874658",
+    "emoji": "💰",
+    "name": "Kapitalist",
+    "student": true,
+    "author": "Goldkopp",
+    "location": "Stolzenau",
+    "language": "python"
+  },
+  {
+    "id": "2859a3cfbd879e52",
+    "emoji": "☕",
+    "name": "Bean Walker",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "7db0985c619b601e",
+    "emoji": "🐈",
+    "name": "GemFänger",
+    "student": true,
+    "author": "Drama_Lvl1",
+    "location": "Duisburg",
+    "language": "python"
+  },
+  {
+    "id": "c55693000e8d9300",
+    "emoji": "👻",
+    "name": "Bart",
+    "student": false,
+    "author": "Mikerophony",
+    "location": "Wildau",
+    "language": "python"
+  },
+  {
+    "id": "9de316d97bee093f",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "2bdac0428c670c03",
+    "emoji": "🐌",
+    "name": "undefined",
+    "student": true,
+    "author": "${entry.teamName}",
+    "location": "Halle (Saale)",
+    "language": "python"
+  },
+  {
+    "id": "f6b9ac7221aa28a2",
+    "emoji": "🚯",
+    "name": "Geminhalator",
+    "student": true,
+    "author": "Kaktus",
+    "location": "Dorfen",
+    "language": "python"
+  },
+  {
+    "id": "22b0963dea03edfc",
+    "emoji": "🤖",
+    "name": "Botty McBotface",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "fe01dd7c3d518510",
+    "emoji": "🥞",
+    "name": "pancake",
+    "student": true,
+    "author": "lexicore",
+    "location": "Bad Homburg",
+    "language": "python"
+  },
+  {
+    "id": "adaaa9e77aa1ae52",
+    "emoji": "🦥",
+    "name": "Faultier Bot",
+    "student": false,
+    "author": "JoHo",
+    "location": "Berlin",
+    "language": "rust"
+  },
+  {
+    "id": "bc66d8e00348b321",
+    "emoji": "🦀",
+    "name": "Crustacean",
+    "student": true,
+    "author": "Mrk",
+    "location": "Recklinghausen",
+    "language": "rust"
+  },
+  {
+    "id": "322e69554f68ee88",
+    "emoji": "🤖",
+    "name": "Quick Bot",
+    "student": true,
+    "author": "Norbert",
+    "location": "Freising",
+    "language": "cpp"
+  },
+  {
+    "id": "9963cf76b60ff4b1",
+    "emoji": "🦀",
+    "name": "Ferris",
+    "student": true,
+    "author": "Green21Black",
+    "location": "Pfaffenhofen",
+    "language": "rust"
+  },
+  {
+    "id": "d3082dae7875d5c8",
+    "emoji": "👽",
+    "name": "T800 Cyberdyne",
+    "student": true,
+    "author": "basti",
+    "location": "Karlsruhe",
+    "language": "python"
+  },
+  {
+    "id": "c2640bb461be636c",
+    "emoji": "⏳",
+    "name": "Async Rambler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "f9a34348b57ab754",
+    "emoji": "🥶",
+    "name": "Bubichoo",
+    "student": false,
+    "author": "Bubichoo",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "c20786a7db09f923",
+    "emoji": "👀",
+    "name": "GemSeeker",
+    "student": false,
+    "author": "sike",
+    "location": "Bielefeld",
+    "language": "java"
+  },
+  {
+    "id": "6231273c064ea7b4",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "b3b19142f81af826",
+    "emoji": "🦊",
+    "name": "AmShaegar",
+    "student": false,
+    "author": "AmShaegar",
+    "location": "Kappeln",
+    "language": "ruby"
+  },
+  {
+    "id": "a178481cabb41516",
+    "emoji": "💥",
+    "name": "Segfault Stumbler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "b50436c697cec0a6",
+    "emoji": "🤑",
+    "name": "Dagobot Duck",
+    "student": true,
+    "author": "Sebu",
+    "location": "Stuttgart",
+    "language": "js"
+  },
+  {
+    "id": "20121fba934fd8ff",
+    "emoji": "🦎",
+    "name": "Mara",
+    "student": true,
+    "author": "Jqnnissito",
+    "location": "Biesenthal",
+    "language": "python"
+  },
+  {
+    "id": "7b2ab368d4c312ac",
+    "emoji": "👾",
+    "name": "Hairy Botter",
+    "student": true,
+    "author": "Hairy Botter",
+    "location": "Görschlitz",
+    "language": "js"
+  },
+  {
+    "id": "2b0529378e777591",
+    "emoji": "😋",
+    "name": "YummyGemsWalker",
+    "student": true,
+    "author": "olli:coding",
+    "location": "Potsdam",
+    "language": "python"
+  },
+  {
+    "id": "f9ac8874590471b2",
+    "emoji": "🐝",
+    "name": "Trollkirsch3",
+    "student": true,
+    "author": "Bruno März",
+    "location": "Berlin",
+    "language": "java"
+  },
+  {
+    "id": "42da1b8752f6386f",
+    "emoji": "🥸",
+    "name": "Geminator",
+    "student": true,
+    "author": "derkrankesenator",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "7c7d80f4f818c510",
+    "emoji": "🐥",
+    "name": "Mazequacker",
+    "student": false,
+    "author": "Mazequacker",
+    "location": "Monheim am Rhein",
+    "language": "julia"
+  },
+  {
+    "id": "89ae09048fdbff6e",
+    "emoji": "🕊️",
+    "name": "Dove",
+    "student": false,
+    "author": "taube Taube",
+    "location": "Bückeburg",
+    "language": "cpp"
+  },
+  {
+    "id": "ce4d5bf23649d933",
+    "emoji": "🤖",
+    "name": "robi",
+    "student": false,
+    "author": "Xander",
+    "location": "Würzburg",
+    "language": "java"
+  },
+  {
+    "id": "df951f8731c93a55",
+    "emoji": "🐨",
+    "name": "Kinetic Koala",
+    "student": false,
+    "author": "klein-phi",
+    "location": "Dresden",
+    "language": "python"
+  },
+  {
+    "id": "13744b90857ca3ff",
+    "emoji": "🐑",
+    "name": "Sheeper",
+    "student": false,
+    "author": "Sheeper",
+    "location": "Schaftstädt",
+    "language": "fsharp"
+  },
+  {
+    "id": "25ce2a08379c371f",
+    "emoji": "🥁",
+    "name": "Shuffle Step",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "08cbb12ff7ada261",
+    "emoji": "👶",
+    "name": "Flaverty",
+    "student": true,
+    "author": "Flaverty Bot",
+    "location": "12163",
+    "language": "java"
+  },
+  {
+    "id": "e5715bc0d55fe719",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "6ad15741e23276b8",
+    "emoji": "🎶",
+    "name": "Bottinson Cursoe",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "e81e30ac05728502",
+    "emoji": "🌈",
+    "name": "DeeQnator",
+    "student": false,
+    "author": "Q’nnected Minds",
+    "location": "Paderborn",
+    "language": "java"
+  },
+  {
+    "id": "dd4999d9c7825d5d",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "05369c790e0c0e8c",
+    "emoji": "🤖",
+    "name": "ID10T",
+    "student": false,
+    "author": "Lwtsde",
+    "location": "Aachen",
+    "language": "ts"
+  },
+  {
+    "id": "64386751bf5d1f4a",
+    "emoji": "🃏",
+    "name": "Arti",
+    "student": true,
+    "author": "HW/Arti",
+    "location": "",
+    "language": "cpp"
+  },
+  {
+    "id": "97fd6e6931d2a552",
+    "emoji": "🐈",
+    "name": "StrangeCat",
+    "student": true,
+    "author": "CoolCat",
+    "location": "Rüdersdorf",
+    "language": "julia"
+  },
+  {
+    "id": "22d992edfed5a4a6",
+    "emoji": "🤖",
+    "name": "Botty McBotface",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "c8646da715eb66b0",
+    "emoji": "🌙",
+    "name": "Lunar Drifter",
+    "student": false,
+    "author": "123HI",
+    "location": "Berlin",
+    "language": "lua"
+  },
+  {
+    "id": "76422466a4098b6e",
+    "emoji": "🤹",
+    "name": "Daves Explorer",
+    "student": false,
+    "author": "David",
+    "location": "München",
+    "language": "julia"
+  },
+  {
+    "id": "e99c2e75db79febb",
+    "emoji": "🥁",
+    "name": "Shuffle Step",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "f55508861a902bc6",
+    "emoji": "🥷",
+    "name": "Nakamura",
+    "student": false,
+    "author": "Taiko Nakamura",
+    "location": "Darmstadt",
+    "language": "java"
+  },
+  {
+    "id": "07246839ef09b6fb",
+    "emoji": "𖦹",
+    "name": "𝐓𝐖𝐎𝐋",
+    "student": true,
+    "author": "𝐍𝐎𝐕𝐀𝐓𝐔𝐒",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "1873e3664b1d78d7",
+    "emoji": "🧿",
+    "name": "ONYX_BOT",
+    "student": true,
+    "author": "FIER",
+    "location": "Berlin",
+    "language": "cpp"
+  },
+  {
+    "id": "f8995f8ae8e74a7c",
+    "emoji": "🐺",
+    "name": "SuchHund",
+    "student": true,
+    "author": "BuntderHund",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "40903c31fe4f8dd3",
+    "emoji": "💰",
+    "name": "Officer",
+    "student": false,
+    "author": "rovoe",
+    "location": "Wedemark",
+    "language": "python"
+  },
+  {
+    "id": "8524dfc345186a60",
+    "emoji": "🛼",
+    "name": "robo_slove",
+    "student": true,
+    "author": "KayCrafter",
+    "location": "Neuwied",
+    "language": "python"
+  },
+  {
+    "id": "e4ef0fe84ca3552d",
+    "emoji": "🕵️‍♂️",
+    "name": "Spy",
+    "student": true,
+    "author": "sivos",
+    "location": "Baesweiler",
+    "language": "python"
+  },
+  {
+    "id": "2fc98357103ce0c3",
+    "emoji": "👒",
+    "name": "Two Piece",
+    "student": true,
+    "author": "Gear Six",
+    "location": "Aachen",
+    "language": "java"
+  },
+  {
+    "id": "ad4f89416018b404",
+    "emoji": "🦅",
+    "name": "Falke",
+    "student": false,
+    "author": "DavidSK",
+    "location": "Koblenz",
+    "language": "python"
+  },
+  {
+    "id": "5d10e0a4e5f4bdca",
+    "emoji": "💥",
+    "name": "JS Destroyer",
+    "student": true,
+    "author": "Opti",
+    "location": "Aachen",
+    "language": "c"
+  },
+  {
+    "id": "09f535f1df3dc691",
+    "emoji": "🦅",
+    "name": "Elisa",
+    "student": true,
+    "author": "Elisa",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "d770c8bf7fd1087c",
+    "emoji": "🐍",
+    "name": "Sid Snake",
+    "student": false,
+    "author": "Sid Snake",
+    "location": "Minden",
+    "language": "python"
+  },
+  {
+    "id": "b85fd96c6f1562a5",
+    "emoji": "🐹",
+    "name": "Lost Gopher",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "a72bcfeebbdaef6b",
+    "emoji": "🐹",
+    "name": "Carl",
+    "student": false,
+    "author": "Carl",
+    "location": "Bergen",
+    "language": "go"
+  },
+  {
+    "id": "c1048b15dc19ee28",
+    "emoji": "🥶",
+    "name": "Marianum Snake in the Maze",
+    "student": true,
+    "author": "Key-boarder",
+    "location": "Fulda",
+    "language": "python"
+  },
+  {
+    "id": "caa4acb4cfbb9ef7",
+    "emoji": "🦄",
+    "name": "Hornhub",
+    "student": false,
+    "author": "A Bunch of Nutcases",
+    "location": "Tailfingen (Gäufelden)",
+    "language": "python"
+  },
+  {
+    "id": "5a8a375112e90054",
+    "emoji": "💀",
+    "name": "KxB-Bot",
+    "student": false,
+    "author": "KxB",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "176f820e3ce34df6",
+    "emoji": "🦉",
+    "name": "PathOwlogicª",
+    "student": false,
+    "author": "PathOwlogicus",
+    "location": "Wullersdorf",
+    "language": "lua"
+  },
+  {
+    "id": "d80d327c4ee310bb",
+    "emoji": "🔮",
+    "name": "Heljens Bot",
+    "student": false,
+    "author": "TurtleJo",
+    "location": "Heiligenhaus",
+    "language": "csharp"
+  },
+  {
+    "id": "0defb247956af196",
+    "emoji": "🌊",
+    "name": "Tsunami",
+    "student": true,
+    "author": "Hildegard Walther / ez",
+    "location": "Berlin",
+    "language": "go"
+  },
+  {
+    "id": "d2fea84f26b373d5",
+    "emoji": "🐒",
+    "name": "Greedy Monkey",
+    "student": false,
+    "author": "pd07",
+    "location": "Regensburg",
+    "language": "php"
+  },
+  {
+    "id": "5364f10bd40b26c7",
+    "emoji": "🐶",
+    "name": "MKM",
+    "student": true,
+    "author": "hallo",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "3a1ffb48bc4df3a0",
+    "emoji": "🥭",
+    "name": "Juicy Mango",
+    "student": false,
+    "author": "JuicyMango",
+    "location": "Oldenburg",
+    "language": "php"
+  },
+  {
+    "id": "75550d775daf83cf",
+    "emoji": "🎮",
+    "name": "Gangster",
+    "student": true,
+    "author": "Die Gangster",
+    "location": "Dresden",
+    "language": "python"
+  },
+  {
+    "id": "4eff7fb3839e9ac8",
+    "emoji": "🐉",
+    "name": "Gem Fly",
+    "student": false,
+    "author": "Overfly",
+    "location": "Porta Westfalica",
+    "language": "python"
+  },
+  {
+    "id": "ecbd784136d63aaa",
+    "emoji": "🤾",
+    "name": "handball bot",
+    "student": true,
+    "author": "leo-g",
+    "location": "Seeheim-Jugenheim",
+    "language": "python"
+  },
+  {
+    "id": "f9fea478c8dda5c8",
+    "emoji": "🚶",
+    "name": "Cave Man",
+    "student": false,
+    "author": "Cave_Runner",
+    "location": "Jena",
+    "language": "cpp"
+  },
+  {
+    "id": "90482704a7d57c72",
+    "emoji": "💀",
+    "name": "Lokalhorst",
+    "student": false,
+    "author": "Lokalhorst",
+    "location": "Passau",
+    "language": "ruby"
+  },
+  {
+    "id": "4950acd15388244d",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "42065aaf7f004b2e",
+    "emoji": "🦀",
+    "name": "Mr. Krabs",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "13d3de09fd802291",
+    "emoji": "🗿",
+    "name": "Stack Tracer",
+    "student": true,
+    "author": "Abbadon",
+    "location": "Burglengenfeld",
+    "language": "cpp"
+  },
+  {
+    "id": "d9c96ff81c96b72d",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "7f5c662cd2cc6ab0",
+    "emoji": "😎",
+    "name": "Snake",
+    "student": true,
+    "author": "Valentin",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "a44cedc0aae33cbb",
+    "emoji": "🤘",
+    "name": "Drop B",
+    "student": false,
+    "author": "Donnemann",
+    "location": "Neustadt in Holstein",
+    "language": "python"
+  },
+  {
+    "id": "d0f12b4755c83c8a",
+    "emoji": "🗿",
+    "name": "thegoodboy",
+    "student": true,
+    "author": "Lord_Ertzul",
+    "location": "Berlin",
+    "language": "rust"
+  },
+  {
+    "id": "2d11157d0620c279",
+    "emoji": "🐺",
+    "name": "KINDRED",
+    "student": true,
+    "author": "Kindred",
+    "location": "Weinstadt",
+    "language": "js"
+  },
+  {
+    "id": "9fa5368835b728e5",
+    "emoji": "⏳",
+    "name": "Async Rambler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "1cc7470813ce6b90",
+    "emoji": "🐿️",
+    "name": "Gem Squirrel",
+    "student": false,
+    "author": "GemSquirrel",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "ca674c89f3a9680d",
+    "emoji": "🐜",
+    "name": "ScavengerAnt :𝟛",
+    "student": true,
+    "author": "B.A.H.",
+    "location": "Fürstenberg/Havel",
+    "language": "csharp"
+  },
+  {
+    "id": "1080dfcdb48631e6",
+    "emoji": "🤖",
+    "name": "Traveling Bot",
+    "student": true,
+    "author": "BotOnAJourney",
+    "location": "Aachen",
+    "language": "java"
+  },
+  {
+    "id": "55ea17e34f04381e",
+    "emoji": "🎅",
+    "name": "Santa Claus",
+    "student": true,
+    "author": "Bohne47",
+    "location": "Völklingen",
+    "language": "csharp"
+  },
+  {
+    "id": "135761a6325abd49",
+    "emoji": "🟠",
+    "name": "Y sammelt Edelsteine",
+    "student": false,
+    "author": "Marlene",
+    "location": "Zehlendorf",
+    "language": "python"
+  },
+  {
+    "id": "661ba7db62970bb7",
+    "emoji": "⛈",
+    "name": "Strange_Bot",
+    "student": true,
+    "author": "Strange_Timothy",
+    "location": "",
+    "language": "java"
+  },
+  {
+    "id": "f7ccec648a8c58f3",
+    "emoji": "🥁",
+    "name": "Shuffle Step",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "bb17d66d3bc85e92",
+    "emoji": "🔻",
+    "name": "StackBot",
+    "student": true,
+    "author": "5tack",
+    "location": "Frankfurt am Main",
+    "language": "python"
+  },
+  {
+    "id": "113b8e912e1d9748",
+    "emoji": "🐕",
+    "name": "Running Merlosch",
+    "student": false,
+    "author": "Rozik",
+    "location": "Regensburg",
+    "language": "java"
+  },
+  {
+    "id": "ead85f0ecc6970f5",
+    "emoji": "🤖",
+    "name": "Any bot in the Maze",
+    "student": false,
+    "author": "Dreaks",
+    "location": "Schongau",
+    "language": "python"
+  },
+  {
+    "id": "ab8d98afe67b2b83",
+    "emoji": "👽",
+    "name": "Weltraumerei",
+    "student": false,
+    "author": "Weltraumerei",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "55258cad2daa0ece",
+    "emoji": "🤖",
+    "name": "NimVek",
+    "student": false,
+    "author": "NimVek",
+    "location": "Magdeburg",
+    "language": "python"
+  },
+  {
+    "id": "dea5b32eae2dd5af",
+    "emoji": "☕",
+    "name": "Bean Walker",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "995f787643df81d3",
+    "emoji": "🤖",
+    "name": "Botty McBotface",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "adbf018096363c82",
+    "emoji": "🦄",
+    "name": "lol",
+    "student": true,
+    "author": "Tschüss",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "6f5e4ee539a40722",
+    "emoji": "🗿",
+    "name": "iarwe",
+    "student": false,
+    "author": "Iarwe",
+    "location": "Quickborn",
+    "language": "python"
+  },
+  {
+    "id": "4fa8d2138f6233b8",
+    "emoji": "🪐",
+    "name": "Interstellar octopus",
+    "student": true,
+    "author": "phrix",
+    "location": "Dresden",
+    "language": "python"
+  },
+  {
+    "id": "c5010aa7e8eb77fc",
+    "emoji": "👻",
+    "name": "rubinenbot",
+    "student": true,
+    "author": "Valentin und Jakob",
+    "location": "Berlin",
+    "language": "ruby"
+  },
+  {
+    "id": "c28f96c6efb23d29",
+    "emoji": "🔥",
+    "name": "Phyroks",
+    "student": false,
+    "author": "Joshua154",
+    "location": "Berlin",
+    "language": "java"
+  },
+  {
+    "id": "1cdad28bd90818ee",
+    "emoji": "🥸",
+    "name": "Karls Bot",
+    "student": false,
+    "author": "Karlito",
+    "location": "Feldatal",
+    "language": "java"
+  },
+  {
+    "id": "f80f1d64e640e7d5",
+    "emoji": "🐍",
+    "name": "datavoid",
+    "student": false,
+    "author": "datavoid",
+    "location": "Manderscheid",
+    "language": "python"
+  },
+  {
+    "id": "db58362a5e0237cf",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "5ded7bccf9183bb2",
+    "emoji": "🤠",
+    "name": "Cowboy",
+    "student": true,
+    "author": "Steglitz",
+    "location": "Berlin",
+    "language": "lua"
+  },
+  {
+    "id": "4870edbeae649882",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "332fa89388472e83",
+    "emoji": "🦅",
+    "name": "wopr",
+    "student": true,
+    "author": "Beli",
+    "location": "Paderborn",
+    "language": "python"
+  },
+  {
+    "id": "2c50987e2eea6396",
+    "emoji": "👀",
+    "name": "TomBot",
+    "student": true,
+    "author": "motbot",
+    "location": "Neustadt",
+    "language": "python"
+  },
+  {
+    "id": "80c460bf8a6c2f2a",
+    "emoji": "🦀",
+    "name": "Find my Gems",
+    "student": false,
+    "author": "GFG",
+    "location": "Swisttal",
+    "language": "rust"
+  },
+  {
+    "id": "35d7bac86d3f5998",
+    "emoji": "🔙",
+    "name": "CLAJ",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "738c3d55f1180d36",
+    "emoji": "👻",
+    "name": "Arto",
+    "student": true,
+    "author": "ak67",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "182d280bc360b646",
+    "emoji": "🦊",
+    "name": "Fox Bot",
+    "student": false,
+    "author": "skibb",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "c7dea0be216a2679",
+    "emoji": "🏋️‍♂️",
+    "name": "PascalGym",
+    "student": true,
+    "author": "Johyojo",
+    "location": "Münster",
+    "language": "java"
+  },
+  {
+    "id": "e40302863f4cdd23",
+    "emoji": "🐖",
+    "name": "Butcher",
+    "student": false,
+    "author": "GEMminer Kerl",
+    "location": "Stuttgart",
+    "language": "csharp"
+  },
+  {
+    "id": "553263f13e41ea8b",
+    "emoji": "🐍",
+    "name": "Snake in the Phraze",
+    "student": false,
+    "author": "ReminderBot",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "ad6caa127afc12bb",
+    "emoji": "🫕",
+    "name": "Fonduepot",
+    "student": true,
+    "author": "418 I'm a Fonduepot",
+    "location": "Zürich",
+    "language": "go"
+  },
+  {
+    "id": "16583aa3d77babfc",
+    "emoji": "🧟",
+    "name": "GemoBOT",
+    "student": false,
+    "author": "PythonPiper",
+    "location": "Neustadt in Holstein",
+    "language": "python"
+  },
+  {
+    "id": "8bd974567293e41d",
+    "emoji": "🦝",
+    "name": "Theos Bot",
+    "student": false,
+    "author": "Theo+Friedrich",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "fef698cb4af9e181",
+    "emoji": "💎",
+    "name": "DiaBot",
+    "student": true,
+    "author": "ErziDia",
+    "location": "Stuttgart",
+    "language": "csharp"
+  },
+  {
+    "id": "5f8de74bda4da5aa",
+    "emoji": "🏎",
+    "name": "Wurstgulasch67",
+    "student": true,
+    "author": "Wurstgulasch 67",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "64cd998e600a5179",
+    "emoji": "🍋",
+    "name": "ZitronenBot",
+    "student": true,
+    "author": "Zitronenlolli",
+    "location": "Darmstadt",
+    "language": "python"
+  },
+  {
+    "id": "c14f8cfb0250f32e",
+    "emoji": "🫃",
+    "name": "Compile Error",
+    "student": true,
+    "author": "SleepOverrated",
+    "location": "Paderborn",
+    "language": "c"
+  },
+  {
+    "id": "6e7a14a3e0cd75b7",
+    "emoji": "❄️",
+    "name": "spectrum",
+    "student": true,
+    "author": "; )",
+    "location": "Murr",
+    "language": "ruby"
+  },
+  {
+    "id": "3149231d355540bd",
+    "emoji": "🧛",
+    "name": "Daywalker",
+    "student": false,
+    "author": "Daywalker",
+    "location": "Ratingen",
+    "language": "python"
+  },
+  {
+    "id": "c005b616f54a7b04",
+    "emoji": "🍪",
+    "name": "paninum",
+    "student": true,
+    "author": "paninum",
+    "location": "Berlin",
+    "language": "perl"
+  },
+  {
+    "id": "4083a12ff88e6d58",
+    "emoji": "☕",
+    "name": "Bean Walker",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "461663ad497cc43a",
+    "emoji": "💥",
+    "name": "Segfault Stumbler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "513187ec54b6a76c",
+    "emoji": "👀",
+    "name": "I can see you",
+    "student": false,
+    "author": "TheCurl",
+    "location": "Kempten",
+    "language": "python"
+  },
+  {
+    "id": "5c192630773a5b69",
+    "emoji": "⚡",
+    "name": "Hertz-Bot",
+    "student": true,
+    "author": "hertz",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "a63e5e8b04d18106",
+    "emoji": "🥁",
+    "name": "Shuffle Step",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "3abf161b20b6d5ff",
+    "emoji": "🍔",
+    "name": "Big Mac",
+    "student": true,
+    "author": "spezi / ⑥⑦",
+    "location": "Frankfurt am Main",
+    "language": "python"
+  },
+  {
+    "id": "3bbca72719ee67f1",
+    "emoji": "🔥",
+    "name": "🪼 Jellyfish",
+    "student": true,
+    "author": "wudadapi",
+    "location": "Selb",
+    "language": "c"
+  },
+  {
+    "id": "69f3f5acb7463cbf",
+    "emoji": "🛒",
+    "name": "Compressed_Carbon_Collector",
+    "student": false,
+    "author": "Rawpunzel",
+    "location": "Chorin",
+    "language": "python"
+  },
+  {
+    "id": "bf7a11dd1d63f78b",
+    "emoji": "🐍",
+    "name": "grief gegönnt",
+    "student": true,
+    "author": "gg",
+    "location": "Recklinghausen",
+    "language": "python"
+  },
+  {
+    "id": "7af1904386703f62",
+    "emoji": "🧃",
+    "name": "Bot Tschigerillo",
+    "student": true,
+    "author": "Minorminer",
+    "location": "Berlin",
+    "language": "java"
+  },
+  {
+    "id": "ceeacba7120587a5",
+    "emoji": "☕",
+    "name": "koch",
+    "student": true,
+    "author": "dieKoeche187",
+    "location": "Paderborn",
+    "language": "java"
+  },
+  {
+    "id": "47bfa4843b6bff08",
+    "emoji": "🐙",
+    "name": "My Drunken Walker",
+    "student": false,
+    "author": "schleiwellen",
+    "location": "Lüneburg",
+    "language": "java"
+  },
+  {
+    "id": "34badd527ac8acbf",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "5ca60923044959cc",
+    "emoji": "🦁",
+    "name": "CLS",
+    "student": true,
+    "author": "CLS",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "75b759ab26657c79",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "c05dd2a4a1104b9e",
+    "emoji": "🐗",
+    "name": "jeBot",
+    "student": false,
+    "author": "jerchen",
+    "location": "Hamburg",
+    "language": "java"
+  },
+  {
+    "id": "026608d38fb2c94c",
+    "emoji": "🔝",
+    "name": "toPBot",
+    "student": false,
+    "author": "Team topBot meaT",
+    "location": "Chemnitz",
+    "language": "csharp"
+  },
+  {
+    "id": "50f51d6e6200175e",
+    "emoji": "🤣",
+    "name": "mat-bot",
+    "student": true,
+    "author": "M.B.-Medtrix",
+    "location": "Regensburg",
+    "language": "python"
+  },
+  {
+    "id": "9ca9cc99fc03102c",
+    "emoji": "🍜",
+    "name": "onigiri",
+    "student": true,
+    "author": "ewa-ichwerdegezwungen",
+    "location": "Berlin",
+    "language": "python"
+  },
+  {
+    "id": "86141c45cee837c7",
+    "emoji": "🐣",
+    "name": "Icebot",
+    "student": true,
+    "author": "Iceman",
+    "location": "Stuttgart",
+    "language": "python"
+  },
+  {
+    "id": "71ae49c806153d82",
+    "emoji": "📞",
+    "name": "Onsite Bot",
+    "student": true,
+    "author": "Onsite WHV",
+    "location": "Wilhelmshaven",
+    "language": "python"
+  },
+  {
+    "id": "d3bc9af211a11431",
+    "emoji": "🗿",
+    "name": "RoBot",
+    "student": true,
+    "author": "opaotti",
+    "location": "Berlin",
+    "language": "java"
+  },
+  {
+    "id": "7bdfc0fff9e089a0",
+    "emoji": "🐝",
+    "name": "Flying Penguin",
+    "student": false,
+    "author": "Pinguin Abel",
+    "location": "Oelde",
+    "language": "python"
+  },
+  {
+    "id": "81b0edf94d26febb",
+    "emoji": "💥",
+    "name": "Segfault Stumbler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "733b33b645d404f7",
+    "emoji": "🤖",
+    "name": "Botty McBotface",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "61a3bce64cacb7e8",
+    "emoji": "🛸",
+    "name": "pybot",
+    "student": false,
+    "author": "M!tz",
+    "location": "Steglitz",
+    "language": "python"
+  },
+  {
+    "id": "26d39162639777c9",
+    "emoji": "Ni",
+    "name": "Nimble",
+    "student": false,
+    "author": "flow-based-programmer",
+    "location": "Wien",
+    "language": "c"
+  },
+  {
+    "id": "f6b81bdfc4ab7e2b",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  }
+]
