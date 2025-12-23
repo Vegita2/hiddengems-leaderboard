@@ -37,6 +37,14 @@ function colorForKey(key) {
 	return `hsl(${hue}deg ${sat}% ${light}%)`;
 }
 
+function labelColorForKey(key) {
+	const hash = hashString(key);
+	const hue = hash % 360;
+	const sat = 70;
+	const light = 75;
+	return `hsl(${hue}deg ${sat}% ${light}%)`;
+}
+
 function colorForKeyWithAlpha(key, alpha) {
 	const hash = hashString(key);
 	const hue = hash % 360;
@@ -125,12 +133,18 @@ function buildRankSeries(daysInRange, botsById, metric, rankLimit) {
 			const rank = rankByDay.get(date)?.get(key);
 			if (typeof rankLimit === 'number' && Number.isFinite(rankLimit)) {
 				if (typeof rank !== 'number' || !Number.isFinite(rank) || rank > rankLimit) {
-					return {x: index, y: null};
+					return {x: index, y: null, rank: null, score: null};
 				}
 			}
 			
-			const value = metric === 'score' ? scoreByDay.get(date)?.get(key) : rank;
-			return {x: index, y: typeof value === 'number' && Number.isFinite(value) ? value : null};
+			const score = scoreByDay.get(date)?.get(key);
+			const value = metric === 'score' ? score : rank;
+			return {
+				x: index,
+				y: typeof value === 'number' && Number.isFinite(value) ? value : null,
+				rank: typeof rank === 'number' && Number.isFinite(rank) ? rank : null,
+				score: typeof score === 'number' && Number.isFinite(score) ? score : null,
+			};
 		});
 		if (data.some((point) => typeof point?.y === 'number' && Number.isFinite(point.y))) {
 			datasets.push({
@@ -402,12 +416,13 @@ function buildStageKeyAnnotations(dayDates, chartInstance) {
 		boundaries.push({index, info});
 	}
 
+	const isSingle = boundaries.length === 1;
 	for (let i = 0; i < boundaries.length; i += 1) {
 		const {index, info} = boundaries[i];
 		const color = lightenHexColor(info.color) || colorForKeyWithAlpha(info.stageKey, 0.75);
 		const labelText = info.stage ? [info.stage, info.stageKey] : info.stageKey;
-		const isFirst = i === 0;
-		const isLast = i === boundaries.length - 1;
+		const isFirst = i === 0 && !isSingle;
+		const isLast = i === boundaries.length - 1 && !isSingle;
 		const labelWidth = measureLabelWidth(labelText);
 		const xAdjust = isFirst ? Math.round(labelWidth / 2) : isLast ? Math.round(-labelWidth / 2) : 0;
 		annotations[`stageKey-${info.stageKey}-${index}`] = {
@@ -475,14 +490,21 @@ function ensureChart(dayDates, datasets) {
 					return false;
 				}
 				const point = context?.dataset?.data?.[context.dataIndex];
-				const y = point && typeof point === 'object' ? point.y : point;
-				return typeof y === 'number' && Number.isFinite(y);
+				if (!point || typeof point !== 'object') {
+					return false;
+				}
+				const value = labelMetric === 'score' ? point.score : point.rank;
+				return typeof value === 'number' && Number.isFinite(value);
 			},
 			formatter: (value) => {
-				const y = value && typeof value === 'object' ? value.y : value;
-				return formatMetricValue(labelMetric, y);
+				const point = value && typeof value === 'object' ? value : {};
+				const metricValue = labelMetric === 'score' ? point.score : point.rank;
+				return formatMetricValue(labelMetric, metricValue);
 			},
-			color: (context) => safeText(context?.dataset?.borderColor) || 'rgba(255, 255, 255, 0.9)',
+			color: (context) => {
+				const key = safeText(context?.dataset?._key);
+				return key ? labelColorForKey(key) : 'rgba(255, 255, 255, 0.9)';
+			},
 			align: 'top',
 			anchor: 'end',
 			offset: 4,
