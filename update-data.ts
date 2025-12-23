@@ -155,9 +155,9 @@ async function main() {
 	const { leaderboard, missingBots } = transformToLeaderboard(scrim, bots);
 	console.log(`Transformed to leaderboard with ${leaderboard.entries.length} entries`);
 	
-	const outputDir = join(__dirname, 'json');
+	const outputDir = join(__dirname, 'json', 'data');
 	mkdirSync(outputDir, { recursive: true });
-	
+
 	const outputPath = join(outputDir, `data-${date}.json`);
 	writeFileSync(outputPath, JSON.stringify(leaderboard));
 	console.log(`Wrote ${outputPath}`);

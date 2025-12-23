@@ -106,7 +106,7 @@ export async function loadBots() {
  * @returns {Promise<import('../types/types').Leaderboard>}
  */
 export async function loadDayData(date) {
-	const response = await fetch(`./json/data-${date}.json`, {cache: 'no-store'});
+	const response = await fetch(`./json/data/data-${date}.json`, {cache: 'no-store'});
 	if (!response.ok) {
 		throw new Error(`Failed to fetch data for ${date} (${response.status})`);
 	}

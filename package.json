@@ -2,6 +2,9 @@
   "name": "hiddengems-leaderboard",
   "type": "module",
   "private": true,
+  "scripts": {
+    "start": "python -m http.server 4200"
+  },
   "devDependencies": {
     "@types/node": "^24.0.0"
   }
