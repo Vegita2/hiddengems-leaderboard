@@ -107,14 +107,29 @@ function setSelectedDay(day) {
 }
 
 /**
- * @param {string[]} dates
+ * @param {Array<{date: string, stage: string|null, stageKey: string|null, color: string|null}>} dates
  */
 function fillDateSelect(dates) {
 	dateSelect.innerHTML = '';
-	for (const date of dates) {
+	for (const dateInfo of dates) {
 		const option = document.createElement('option');
-		option.value = date;
-		option.textContent = date;
+		option.value = dateInfo.date;
+		// Display format: "2025-10-07 | System Check (stage-0@0.1)"
+		let displayText = dateInfo.date;
+		if (dateInfo.stage && dateInfo.stageKey) {
+			displayText = `${dateInfo.date} | ${dateInfo.stage} (${dateInfo.stageKey})`;
+		} else if (dateInfo.stage) {
+			displayText = `${dateInfo.date} | ${dateInfo.stage}`;
+		}
+		option.textContent = displayText;
+
+		// Set background color if available
+		if (dateInfo.color) {
+			option.style.backgroundColor = dateInfo.color;
+			// Set text color to white for better contrast on dark backgrounds
+			option.style.color = '#ffffff';
+		}
+
 		dateSelect.append(option);
 	}
 }
@@ -130,14 +145,14 @@ async function main() {
 		]);
 		bots = botsData;
 
-		if (dates.length === 0) throw new Error('No dates found in index.json');
+		if (dates.length === 0) throw new Error('No dates found in stages.json');
 
 		fillDateSelect(dates);
-		const latestDate = dates[dates.length - 1];
-		dateSelect.value = latestDate;
+		const latestDateInfo = dates[dates.length - 1];
+		dateSelect.value = latestDateInfo.date;
 
 		// Load and display the latest day
-		const latestDay = await loadDayData(latestDate);
+		const latestDay = await loadDayData(latestDateInfo.date);
 		setSelectedDay(latestDay);
 
 		dateSelect.addEventListener('change', async () => {

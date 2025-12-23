@@ -18,7 +18,9 @@ export function setVisible(element, visible) {
  * @returns {string}
  */
 export function safeText(value) {
-	if (value === null || value === undefined) return '';
+	if (value === null || value === undefined) {
+		return '';
+	}
 	return String(value);
 }
 
@@ -33,7 +35,7 @@ export function escapeHtml(value) {
 		.replaceAll('<', '&lt;')
 		.replaceAll('>', '&gt;')
 		.replaceAll('"', '&quot;')
-		.replaceAll("'", '&#39;');
+		.replaceAll('\'', '&#39;');
 }
 
 /**
@@ -87,9 +89,13 @@ let botsCache = null;
  * @returns {Promise<import('../types/types').Bot[]>}
  */
 export async function loadBots() {
-	if (botsCache) return botsCache;
-	const response = await fetch('./json/bots.json', { cache: 'no-store' });
-	if (!response.ok) throw new Error(`Failed to fetch bots.json (${response.status})`);
+	if (botsCache) {
+		return botsCache;
+	}
+	const response = await fetch('./json/bots.json', {cache: 'no-store'});
+	if (!response.ok) {
+		throw new Error(`Failed to fetch bots.json (${response.status})`);
+	}
 	botsCache = await response.json();
 	return botsCache;
 }
@@ -100,21 +106,75 @@ export async function loadBots() {
  * @returns {Promise<import('../types/types').Leaderboard>}
  */
 export async function loadDayData(date) {
-	const response = await fetch(`./json/data-${date}.json`, { cache: 'no-store' });
-	if (!response.ok) throw new Error(`Failed to fetch data for ${date} (${response.status})`);
+	const response = await fetch(`./json/data-${date}.json`, {cache: 'no-store'});
+	if (!response.ok) {
+		throw new Error(`Failed to fetch data for ${date} (${response.status})`);
+	}
 	return response.json();
 }
 
 /**
- * Load available dates from index.json.
- * @returns {Promise<string[]>}
+ * Load available dates from stages.json with stage information.
+ * @returns {Promise<Array<{date: string, stage: string, stageKey: string, color: string}>>}
  */
 export async function loadAvailableDates() {
-	const response = await fetch('./json/index.json', { cache: 'no-store' });
-	if (!response.ok) throw new Error(`Failed to fetch index.json (${response.status})`);
-	const dates = await response.json();
-	if (!Array.isArray(dates)) throw new Error('index.json must be a JSON array of date strings');
-	return dates.sort();
+	const response = await fetch('./json/stages.json', {cache: 'no-store'});
+	if (!response.ok) {
+		throw new Error(`Failed to fetch stages.json (${response.status})`);
+	}
+	const stages = await response.json();
+	if (!Array.isArray(stages) || stages.length === 0) {
+		throw new Error('stages.json must be a non-empty JSON array of stage objects');
+	}
+	
+	// Use the first stage's startDate as the earliest date (stages are sorted)
+	const earliestDate = stages[0].startDate;
+	if (!earliestDate) {
+		throw new Error('First stage in stages.json must have a startDate');
+	}
+	
+	// Use today as the end date
+	const today = new Date().toISOString().split('T')[0];
+
+	// Generate all dates between earliest and today (inclusive) with stage information
+	const dates = [];
+	// Create date in UTC to avoid timezone issues
+	const [year, month, day] = earliestDate.split('-').map(Number);
+	const current = new Date(Date.UTC(year, month - 1, day));
+
+	while (true) {
+		const dateStr = current.toISOString().split('T')[0];
+
+		// Stop after today
+		if (dateStr > today) break;
+		
+		// Find which stage this date belongs to
+		const stage = stages.find(s => {
+			return dateStr >= s.startDate && dateStr <= s.endDate;
+		});
+		
+		// If we find a stage for this date, add it with stage info, otherwise just add the date
+		if (stage) {
+			dates.push({
+				date: dateStr,
+				stage: stage.stage,
+				stageKey: stage.stageKey,
+				color: stage.color || null
+			});
+		} else {
+			// Date is outside any defined stage (e.g., future dates)
+			dates.push({
+				date: dateStr,
+				stage: null,
+				stageKey: null,
+				color: null
+			});
+		}
+		
+		current.setUTCDate(current.getUTCDate() + 1);
+	}
+	
+	return dates;
 }
 
 /**
@@ -127,12 +187,16 @@ export async function loadData(serveHint) {
 	if (isLikelyFileUrl() && serveHint) {
 		setVisible(serveHint, true);
 	}
-
-	const response = await fetch('./data.json', { cache: 'no-store' });
-	if (!response.ok) throw new Error(`Failed to fetch data.json (${response.status})`);
+	
+	const response = await fetch('./data.json', {cache: 'no-store'});
+	if (!response.ok) {
+		throw new Error(`Failed to fetch data.json (${response.status})`);
+	}
 	const raw = await response.json();
-	if (!Array.isArray(raw)) throw new Error('data.json must be a JSON array of day objects');
-
+	if (!Array.isArray(raw)) {
+		throw new Error('data.json must be a JSON array of day objects');
+	}
+	
 	const days = raw.map(normalizeDay).filter((d) => d.date);
 	days.sort((a, b) => a.date.localeCompare(b.date));
 	return days;
@@ -145,10 +209,14 @@ export async function loadData(serveHint) {
  * @returns {string}
  */
 export function formatNumber(value, digits = 2) {
-	if (value === null || value === undefined || value === '') return '';
+	if (value === null || value === undefined || value === '') {
+		return '';
+	}
 	const number = Number(value);
-	if (!Number.isFinite(number)) return String(value);
-	return number.toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits });
+	if (!Number.isFinite(number)) {
+		return String(value);
+	}
+	return number.toLocaleString(undefined, {maximumFractionDigits: digits, minimumFractionDigits: digits});
 }
 
 /**
@@ -157,10 +225,14 @@ export function formatNumber(value, digits = 2) {
  * @returns {string}
  */
 export function formatInteger(value) {
-	if (value === null || value === undefined || value === '') return '';
+	if (value === null || value === undefined || value === '') {
+		return '';
+	}
 	const number = Number(value);
-	if (!Number.isFinite(number)) return String(value);
-	return number.toLocaleString(undefined, { maximumFractionDigits: 0 });
+	if (!Number.isFinite(number)) {
+		return String(value);
+	}
+	return number.toLocaleString(undefined, {maximumFractionDigits: 0});
 }
 
 /**
@@ -171,8 +243,12 @@ export function formatInteger(value) {
  */
 export function truncateText(value, maxLength) {
 	const text = safeText(value);
-	if (text.length <= maxLength) return text;
-	if (maxLength <= 1) return '…';
+	if (text.length <= maxLength) {
+		return text;
+	}
+	if (maxLength <= 1) {
+		return '…';
+	}
 	return `${text.slice(0, maxLength - 1)}…`;
 }
 

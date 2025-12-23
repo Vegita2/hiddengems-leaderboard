@@ -3274,5 +3274,149 @@
     "author": "",
     "location": "",
     "language": ""
+  },
+  {
+    "id": "a2381e95c20873b9",
+    "emoji": "💥",
+    "name": "Segfault Stumbler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "b0012ae94b56c11f",
+    "emoji": "🎯",
+    "name": "Wobbly Dart",
+    "student": false,
+    "author": "Kirusha",
+    "location": "München",
+    "language": "dart"
+  },
+  {
+    "id": "f9538bfcfe92c570",
+    "emoji": "🐹",
+    "name": "Lost Gopher",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "678d92e10c40ad65",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "e73ba9ebb54478ae",
+    "emoji": "⏳",
+    "name": "Async Rambler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "e9ae72369aa3eaad",
+    "emoji": "🌙",
+    "name": "Lunar Drifter",
+    "student": false,
+    "author": "123HI",
+    "location": "Berlin",
+    "language": "lua"
+  },
+  {
+    "id": "283063b33b809bb9",
+    "emoji": "🐍",
+    "name": "Snake in the Maze",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "cb5989b532225e49",
+    "emoji": "🐙",
+    "name": "Confused Octopus",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "c9b3924144687f73",
+    "emoji": " ",
+    "name": "Bean Walker",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "cd5e357aa4acfabb",
+    "emoji": "🦋",
+    "name": "Strange Attractor",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "67a2fc09ac4a53ce",
+    "emoji": "🐪",
+    "name": "Dune Rider",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "11ff04c619b9eebf",
+    "emoji": "🐘",
+    "name": "Wandering Elephant",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "5b2442c7d33e2634",
+    "emoji": "🐚",
+    "name": "Shell Shuffler",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "a35c909310ac197d",
+    "emoji": "🤖",
+    "name": "Marvin The Paranoid Android",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "85f5866930a15e93",
+    "emoji": "¶",
+    "name": "Schmorbraten",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
+  },
+  {
+    "id": "52607e8801bb26f9",
+    "emoji": "🧙",
+    "name": "Sir Qbert",
+    "student": false,
+    "author": "",
+    "location": "",
+    "language": ""
   }
 ]
