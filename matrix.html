@@ -31,15 +31,25 @@
 		<main class="container-fluid py-4">
 			<div class="table-shell">
 				<div class="row g-3 align-items-end">
-					<div class="col-12 col-md-4 col-lg-3">
+					<div class="col-12 col-md-6 col-lg-3">
 						<label class="form-label" for="startDate">Start date</label>
 						<input class="form-control" type="date" id="startDate" />
 					</div>
-					<div class="col-12 col-md-4 col-lg-3">
+					<div class="col-12 col-md-6 col-lg-3">
 						<label class="form-label" for="endDate">End date</label>
 						<input class="form-control" type="date" id="endDate" />
 					</div>
-					<div class="col-12 col-md-4 col-lg-6">
+					<div class="col-12 col-md-6 col-lg-3">
+						<label class="form-label" for="stageSelect">Stage</label>
+						<select class="form-select" id="stageSelect"></select>
+					</div>
+					<div class="col-12 col-md-6 col-lg-3">
+						<label class="form-label" for="stageKeySelect">Stage key</label>
+						<select class="form-select" id="stageKeySelect"></select>
+					</div>
+				</div>
+				<div class="row g-3 align-items-end mt-1">
+					<div class="col-12">
 						<div class="d-flex flex-wrap gap-2 justify-content-md-end">
 							<span class="badge text-bg-secondary" id="daysBadge" title="Days in range"></span>
 							<span class="badge text-bg-secondary" id="botsBadge" title="Bots in range"></span>
@@ -62,7 +72,7 @@
 							</table>
 						</div>
 						<div class="form-text mt-2">
-							Cells show the bot's rank on that day (1 = best). Average is computed over days where the bot appears.
+							Cells show the bot's rank on that day (1 = best). Median is computed over days where the bot appears.
 						</div>
 					</div>
 				</div>

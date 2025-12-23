@@ -63,3 +63,21 @@
 	margin-left: 0 !important;
 	margin-right: 0 !important;
 }
+
+#rankMatrix_wrapper thead th.day-column {
+	font-size: 0.7rem;
+}
+
+#rankMatrix_wrapper thead th.day-column .dt-column-order {
+	display: none;
+}
+
+#rankMatrix tbody tr.score-row td {
+	font-size: 0.75rem;
+}
+
+#rankMatrix tbody tr.score-row td.score-label {
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}

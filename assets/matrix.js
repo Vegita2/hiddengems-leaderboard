@@ -1,10 +1,12 @@
-import { safeText, escapeHtml, loadBots, loadAvailableDates, loadDayData, formatDisplayDate } from './utils.js';
+import { safeText, escapeHtml, loadBots, loadAvailableDates, loadDayData, formatDisplayDate, truncateText } from './utils.js';
 import { DataTable } from './vendor-datatables.js';
 import './components/navbar.js';
 import './components/alerts.js';
 
 const startDateInput = document.querySelector('#startDate');
 const endDateInput = document.querySelector('#endDate');
+const stageSelect = document.querySelector('#stageSelect');
+const stageKeySelect = document.querySelector('#stageKeySelect');
 const daysBadge = document.querySelector('#daysBadge');
 const botsBadge = document.querySelector('#botsBadge');
 const alertsComponent = document.querySelector('hg-alerts');
@@ -66,7 +68,7 @@ function buildMatrix(daysInRange, botsById) {
 			if (!botMeta.has(key)) {
 				const bot = botsById[entry.id] || {};
 				const emoji = bot.emoji ? `${bot.emoji} ` : '';
-				const label = `${emoji}${safeText(bot.name || entry.id)}`; // Fallback to ID if name not found
+				const label = truncateText(`${emoji}${safeText(bot.name || entry.id)}`, 22); // Fallback to ID if name not found
 				botMeta.set(key, { label, isStudent: Boolean(bot.student) });
 			}
 		}
@@ -74,85 +76,43 @@ function buildMatrix(daysInRange, botsById) {
 
 	const rows = [];
 	for (const [key, meta] of botMeta.entries()) {
-		let sum = 0;
-		let count = 0;
+		const ranks = [];
 		const row = { isStudent: meta.isStudent, bot: meta.label };
-		const timeline = [];
+		const scoresByDate = {};
 		for (const date of dayDates) {
 			const rank = perDayRank.get(date)?.get(key);
 			const details = perDayDetails.get(date)?.get(key);
 			if (typeof rank === 'number') {
 				row[date] = rank;
-				sum += rank;
-				count += 1;
+				ranks.push(rank);
 			} else {
 				row[date] = '';
 			}
-			timeline.push({
-				date,
-				rank: details?.rank ?? '',
-				score: details?.score ?? '',
-				id: details?.id ?? '',
-			});
+			scoresByDate[date] = typeof details?.score === 'number' ? details.score : '';
 		}
-		row._timeline = timeline;
-		row.avg = count ? sum / count : '';
+		row._scores = scoresByDate;
+		let median = '';
+		if (ranks.length) {
+			ranks.sort((a, b) => a - b);
+			const mid = Math.floor(ranks.length / 2);
+			median = ranks.length % 2 === 0
+				? (ranks[mid - 1] + ranks[mid]) / 2
+				: ranks[mid];
+		}
+		row.median = median;
 		rows.push(row);
 	}
 
 	rows.sort((a, b) => {
-		const av = typeof a.avg === 'number' ? a.avg : Number.POSITIVE_INFINITY;
-		const bv = typeof b.avg === 'number' ? b.avg : Number.POSITIVE_INFINITY;
+		const av = typeof a.median === 'number' ? a.median : Number.POSITIVE_INFINITY;
+		const bv = typeof b.median === 'number' ? b.median : Number.POSITIVE_INFINITY;
 		if (av !== bv) {
 			return av - bv;
 		}
 		return safeText(a.bot).localeCompare(safeText(b.bot));
 	});
 
-	for (let i = 0; i < rows.length; i += 1) {
-		rows[i].rank = i + 1;
-	}
-
 	return { dayDates, rows };
-}
-
-function formatRowDetails(rowData) {
-	const timeline = Array.isArray(rowData?._timeline) ? rowData._timeline : [];
-	const body = timeline
-		.map((item) => {
-			const date = escapeHtml(formatDisplayDate(safeText(item.date)));
-			const rank = escapeHtml(item.rank);
-			const score = escapeHtml(item.score);
-			const id = escapeHtml(item.id);
-
-			return `
-				<tr>
-					<td class="text-nowrap">${date}</td>
-					<td class="text-nowrap">${rank}</td>
-					<td class="text-nowrap">${score}</td>
-					<td class="text-nowrap font-monospace small">${id}</td>
-				</tr>
-			`;
-		})
-		.join('');
-
-	return `
-		<div class="p-2">
-			<div class="table-responsive">
-				<table class="table table-sm table-bordered align-middle mb-0">
-					<thead>
-						<tr>
-							<th scope="col">Day</th>
-							<th scope="col">Rank</th>
-							<th scope="col">Score</th>
-							<th scope="col">ID</th>
-						</tr>
-					</thead>
-					<tbody>${body}</tbody>
-				</table>
-			</div>
-		</div>
-	`;
 }
 
 function renderTable(dayDates, rows) {
@@ -166,20 +126,25 @@ function renderTable(dayDates, rows) {
 	const headerRow = table.querySelector('thead tr');
 
 	const columns = [
-		{ title: 'Rank', data: 'rank', render: (d) => escapeHtml(d), orderable: true, searchable: false, className: 'rank-cell' },
 		{ title: 'Bot', data: 'bot', render: (d) => escapeHtml(d) },
 		...dayDates.map((date) => ({
 			title: formatDisplayDate(date),
 			data: date,
-			render: (d) => escapeHtml(d),
-			orderable: false,
+			isDay: true,
+			render: (d, type) => {
+				if (type === 'sort' || type === 'type') {
+					return d === '' ? Number.POSITIVE_INFINITY : Number(d);
+				}
+				return escapeHtml(d);
+			},
+			orderable: true,
 			searchable: false,
 			className: 'rank-cell',
 		})),
 		{
-			title: 'Rank average',
-			data: 'avg',
-			render: (d) => (typeof d === 'number' ? escapeHtml(d.toFixed(2)) : ''),
+			title: 'median',
+			data: 'median',
+			render: (d) => (typeof d === 'number' ? escapeHtml(d) : ''),
 			orderable: true,
 			searchable: false,
 			className: 'rank-cell',
@@ -189,6 +154,9 @@ function renderTable(dayDates, rows) {
 	for (const col of columns) {
 		const th = document.createElement('th');
 		th.textContent = col.title;
+		if (col.isDay) {
+			th.classList.add('day-column');
+		}
 		headerRow.append(th);
 	}
 
@@ -217,7 +185,7 @@ function renderTable(dayDates, rows) {
 			}
 			for (let i = 0; i < dayDates.length; i += 1) {
 				const date = dayDates[i];
-				const cell = cells[i + 2];
+				const cell = cells[i + 1];
 				if (!cell) {
 					continue;
 				}
@@ -233,20 +201,53 @@ function renderTable(dayDates, rows) {
 		},
 	});
 
+	table.addEventListener('draw.dt', () => {
+		const scoreRows = table.tBodies[0]?.querySelectorAll('.score-row');
+		scoreRows?.forEach((row) => row.remove());
+		table.tBodies[0]?.querySelectorAll('tr.shown').forEach((row) => row.classList.remove('shown'));
+	});
+
 	table.tBodies[0]?.addEventListener('click', (event) => {
 		const tr = event.target instanceof Element ? event.target.closest('tr') : null;
 		if (!tr) {
 			return;
 		}
-		const row = dataTable.row(tr);
-		const rowData = row.data();
-		if (!rowData) return;
-		if (row.child.isShown()) {
-			row.child.hide();
+		if (tr.classList.contains('score-row')) {
+			return;
+		}
+		const nextRow = tr.nextElementSibling;
+		if (nextRow && nextRow.classList.contains('score-row')) {
+			nextRow.remove();
 			tr.classList.remove('shown');
 			return;
 		}
-		row.child(formatRowDetails(rowData)).show();
+
+		const rowData = dataTable.row(tr).data();
+		if (!rowData) {
+			return;
+		}
+
+		const scoreRow = document.createElement('tr');
+		scoreRow.classList.add('score-row');
+
+		const labelCell = document.createElement('td');
+		labelCell.textContent = 'Score';
+		labelCell.classList.add('score-label');
+		scoreRow.append(labelCell);
+
+		for (const date of dayDates) {
+			const cell = document.createElement('td');
+			const score = rowData._scores?.[date];
+			cell.textContent = score === '' ? '' : safeText(score);
+			cell.classList.add('score-cell');
+			scoreRow.append(cell);
+		}
+
+		const medianCell = document.createElement('td');
+		medianCell.textContent = '';
+		scoreRow.append(medianCell);
+
+		tr.insertAdjacentElement('afterend', scoreRow);
 		tr.classList.add('shown');
 	});
 }
@@ -262,6 +263,82 @@ function clampRange(availableDates, startIso, endIso) {
 	return { start, end, min, max };
 }
 
+function buildRangeMap(availableDates, keyName) {
+	const ranges = new Map();
+	const options = [];
+	for (const dateInfo of availableDates) {
+		const key = safeText(dateInfo[keyName]);
+		if (!key) {
+			continue;
+		}
+		if (!ranges.has(key)) {
+			ranges.set(key, { start: dateInfo.date, end: dateInfo.date });
+			options.push(key);
+		} else {
+			ranges.get(key).end = dateInfo.date;
+		}
+	}
+	return { ranges, options };
+}
+
+function buildStageKeyMap(availableDates) {
+	const keysByStage = new Map();
+	const allKeys = new Set();
+	const stageByKey = new Map();
+	for (const dateInfo of availableDates) {
+		const stage = safeText(dateInfo.stage);
+		const stageKey = safeText(dateInfo.stageKey);
+		if (!stageKey) {
+			continue;
+		}
+		allKeys.add(stageKey);
+		if (stage && !stageByKey.has(stageKey)) {
+			stageByKey.set(stageKey, stage);
+		}
+		if (!stage) {
+			continue;
+		}
+		if (!keysByStage.has(stage)) {
+			keysByStage.set(stage, new Set());
+		}
+		keysByStage.get(stage).add(stageKey);
+	}
+	return { keysByStage, allKeys, stageByKey };
+}
+
+function fillSelectOptions(select, options, allLabel, includeAll = true) {
+	if (!select) {
+		return;
+	}
+	select.innerHTML = '';
+	if (includeAll) {
+		const allOption = document.createElement('option');
+		allOption.value = '';
+		allOption.textContent = allLabel;
+		select.append(allOption);
+	}
+	for (const option of options) {
+		const item = document.createElement('option');
+		item.value = option;
+		item.textContent = option;
+		select.append(item);
+	}
+	select.value = '';
+}
+
+function updateStageKeyOptions(stageKeySelectInput, stageKeyMap, stageValue, selectedKey = '') {
+	if (!stageKeySelectInput) {
+		return;
+	}
+	const stageKeys = stageValue ? stageKeyMap.keysByStage.get(stageValue) : null;
+	const options = stageKeys ? Array.from(stageKeys) : Array.from(stageKeyMap.allKeys);
+	options.sort((a, b) => a.localeCompare(b));
+	fillSelectOptions(stageKeySelectInput, options, 'All stage keys');
+	if (selectedKey && options.includes(selectedKey)) {
+		stageKeySelectInput.value = selectedKey;
+	}
+}
+
 async function main() {
 	try {
 		// Load bots and available dates in parallel
@@ -272,8 +349,10 @@ async function main() {
 
 		// Convert bots array to an object indexed by ID
 		const botsById = {};
-		for (const bot of botsArray) {
+		for (let i = 0; i < botsArray.length; i += 1) {
+			const bot = botsArray[i];
 			botsById[bot.id] = bot;
+			botsById[i] = bot;
 		}
 
 		if (availableDates.length === 0) {
@@ -298,6 +377,35 @@ async function main() {
 		endDateInput.max = max;
 		startDateInput.value = start;
 		endDateInput.value = end;
+
+		const stageRanges = buildRangeMap(availableDates, 'stage');
+		const stageKeyRanges = buildRangeMap(availableDates, 'stageKey');
+		const stageKeyMap = buildStageKeyMap(availableDates);
+		stageRanges.options.sort((a, b) => a.localeCompare(b));
+		fillSelectOptions(stageSelect, stageRanges.options, 'All stages', false);
+		updateStageKeyOptions(stageKeySelect, stageKeyMap, '');
+
+		let lastStageKey = '';
+		let lastStage = '';
+		for (let i = availableDates.length - 1; i >= 0; i -= 1) {
+			const key = safeText(availableDates[i].stageKey);
+			if (key) {
+				lastStageKey = key;
+				lastStage = safeText(availableDates[i].stage);
+				break;
+			}
+		}
+		if (lastStageKey) {
+			if (stageSelect && lastStage) {
+				stageSelect.value = lastStage;
+			}
+			updateStageKeyOptions(stageKeySelect, stageKeyMap, lastStage, lastStageKey);
+			const range = stageKeyRanges.ranges.get(lastStageKey);
+			if (range) {
+				startDateInput.value = range.start;
+				endDateInput.value = range.end;
+			}
+		}
 
 		// Update function that loads only the necessary data
 		const update = async () => {
@@ -367,6 +475,34 @@ async function main() {
 
 		startDateInput.addEventListener('change', debouncedUpdate);
 		endDateInput.addEventListener('change', debouncedUpdate);
+		stageSelect?.addEventListener('change', () => {
+			if (stageKeySelect) {
+				updateStageKeyOptions(stageKeySelect, stageKeyMap, stageSelect.value);
+				stageKeySelect.value = '';
+			}
+			const range = stageRanges.ranges.get(stageSelect.value);
+			if (!range) {
+				return;
+			}
+			startDateInput.value = range.start;
+			endDateInput.value = range.end;
+			debouncedUpdate();
+		});
+		stageKeySelect?.addEventListener('change', () => {
+			const selectedKey = stageKeySelect.value;
+			const stage = stageKeyMap.stageByKey.get(selectedKey) || '';
+			if (stageSelect && stage) {
+				stageSelect.value = stage;
+			}
+			updateStageKeyOptions(stageKeySelect, stageKeyMap, stage || '', selectedKey);
+			const range = stageKeyRanges.ranges.get(selectedKey);
+			if (!range) {
+				return;
+			}
+			startDateInput.value = range.start;
+			endDateInput.value = range.end;
+			debouncedUpdate();
+		});
 
 		// Initial load
 		await update();
