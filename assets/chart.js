@@ -12,6 +12,7 @@ const highlightSelect = document.querySelector('#highlightBots');
 const botSearchInput = document.querySelector('#botSearch');
 const xPointsInput = document.querySelector('#xPoints');
 const yMetricInput = document.querySelector('#yMetric');
+const labelMetricInput = document.querySelector('#labelMetric');
 const rankLimitInput = document.querySelector('#rankLimit');
 const startDateInput = document.querySelector('#startDate');
 const endDateInput = document.querySelector('#endDate');
@@ -242,6 +243,7 @@ let lastDayDates = [];
 let xWindowPoints = 5;
 let forceXWindow = true;
 let yMetric = 'rank';
+let labelMetric = 'rank';
 let resetZoomOnNextUpdate = false;
 let rankLimit;
 let stageInfoByDate = new Map();
@@ -350,11 +352,43 @@ function ensureXWindow(dayDates, points, anchorToEnd = false) {
 	chart.options.scales.x.max = max;
 }
 
-function buildStageKeyAnnotations(dayDates) {
+function buildStageKeyAnnotations(dayDates, chartInstance) {
 	const annotations = {};
 	if (!Array.isArray(dayDates) || dayDates.length === 0) {
 		return annotations;
 	}
+	const labelFont = {size: 23};
+	const labelPadding = 6;
+	const measureLabelWidth = (text) => {
+		const ctx = chartInstance?.ctx;
+		if (!ctx) {
+			return 0;
+		}
+		const lines = Array.isArray(text) ? text : [text];
+		const chartFont = chartInstance?.options?.font || {};
+		const family = labelFont.family || chartFont.family || Chart.defaults?.font?.family || 'sans-serif';
+		const style = labelFont.style || chartFont.style || Chart.defaults?.font?.style || '';
+		const weight = labelFont.weight || chartFont.weight || Chart.defaults?.font?.weight || '';
+		const size = labelFont.size || Chart.defaults?.font?.size || 12;
+		const fontParts = [];
+		if (style) {
+			fontParts.push(style);
+		}
+		if (weight) {
+			fontParts.push(weight);
+		}
+		fontParts.push(`${size}px`);
+		fontParts.push(family);
+		ctx.save();
+		ctx.font = fontParts.join(' ');
+		const width = Math.max(
+			0,
+			...lines.map((line) => ctx.measureText(safeText(line)).width)
+		);
+		ctx.restore();
+		return width + labelPadding * 2;
+	};
+	const boundaries = [];
 	for (let index = 0; index < dayDates.length; index += 1) {
 		const date = dayDates[index];
 		const info = stageInfoByDate.get(date);
@@ -365,8 +399,17 @@ function buildStageKeyAnnotations(dayDates) {
 		if (prevKey === info.stageKey) {
 			continue;
 		}
+		boundaries.push({index, info});
+	}
+
+	for (let i = 0; i < boundaries.length; i += 1) {
+		const {index, info} = boundaries[i];
 		const color = lightenHexColor(info.color) || colorForKeyWithAlpha(info.stageKey, 0.75);
-		const labelText = info.stage ? `${info.stage} (${info.stageKey})` : info.stageKey;
+		const labelText = info.stage ? [info.stage, info.stageKey] : info.stageKey;
+		const isFirst = i === 0;
+		const isLast = i === boundaries.length - 1;
+		const labelWidth = measureLabelWidth(labelText);
+		const xAdjust = isFirst ? Math.round(labelWidth / 2) : isLast ? Math.round(-labelWidth / 2) : 0;
 		annotations[`stageKey-${info.stageKey}-${index}`] = {
 			type: 'line',
 			scaleID: 'x',
@@ -386,12 +429,10 @@ function buildStageKeyAnnotations(dayDates) {
 			color: '#f6f1e7',
 			// backgroundColor: 'rgba(10, 12, 15, 0.75)',
 			borderRadius: 4,
-			padding: 6,
-			textAlign: 'center',
-			font: {
-				size: 23,
-			},
-			yAdjust: 22,
+			padding: labelPadding,
+			font: labelFont,
+			xAdjust,
+			yAdjust: 32,
 		};
 	}
 	return annotations;
@@ -439,7 +480,7 @@ function ensureChart(dayDates, datasets) {
 			},
 			formatter: (value) => {
 				const y = value && typeof value === 'object' ? value.y : value;
-				return formatMetricValue(yMetric, y);
+				return formatMetricValue(labelMetric, y);
 			},
 			color: (context) => safeText(context?.dataset?.borderColor) || 'rgba(255, 255, 255, 0.9)',
 			align: 'top',
@@ -534,7 +575,7 @@ function updateChart(dayDates, datasets) {
 	lastDayDates = dayDates;
 	chart.options.plugins ||= {};
 	chart.options.plugins.annotation ||= {};
-	chart.options.plugins.annotation.annotations = buildStageKeyAnnotations(dayDates);
+	chart.options.plugins.annotation.annotations = buildStageKeyAnnotations(dayDates, chart);
 	
 	console.log('Chart config', chart.config);
 	
@@ -627,6 +668,17 @@ async function main() {
 				yMetric = yMetricInput.value === 'score' ? 'score' : 'rank';
 				resetZoomOnNextUpdate = true;
 				void update();
+			});
+		}
+
+		if (labelMetricInput instanceof HTMLSelectElement) {
+			labelMetric = labelMetricInput.value === 'score' ? 'score' : 'rank';
+			labelMetricInput.addEventListener('change', () => {
+				labelMetric = labelMetricInput.value === 'score' ? 'score' : 'rank';
+				if (!chart) {
+					return;
+				}
+				chart.update('none');
 			});
 		}
 		
