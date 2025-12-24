@@ -112,6 +112,9 @@ export function initDateRangeSelectors({
 	stageKeySelect,
 	onChange,
 	defaultWindowDays = 7,
+	defaultToLastStageKey = true,
+	allStagesLabel = 'All stages',
+	clearStageSelection = false,
 	debounceMs = 300,
 	includeAllStages = false,
 }) {
@@ -139,7 +142,10 @@ export function initDateRangeSelectors({
 	const stageKeyRanges = buildRangeMap(availableDates, 'stageKey');
 	const stageKeyMap = buildStageKeyMap(availableDates);
 	stageRanges.options.sort((a, b) => a.localeCompare(b));
-	fillSelectOptions(stageSelect, stageRanges.options, 'All stages', includeAllStages);
+	fillSelectOptions(stageSelect, stageRanges.options, allStagesLabel, includeAllStages);
+	if (clearStageSelection && stageSelect instanceof HTMLSelectElement) {
+		stageSelect.selectedIndex = -1;
+	}
 	updateStageKeyOptions(stageKeySelect, stageKeyMap, '');
 
 	let lastStageKey = '';
@@ -152,7 +158,7 @@ export function initDateRangeSelectors({
 			break;
 		}
 	}
-	if (lastStageKey) {
+	if (defaultToLastStageKey && lastStageKey) {
 		if (stageSelect && lastStage) {
 			stageSelect.value = lastStage;
 		}

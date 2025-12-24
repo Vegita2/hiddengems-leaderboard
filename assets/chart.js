@@ -408,6 +408,7 @@ function buildStageKeyAnnotations(dayDates, chartInstance) {
 	if (!Array.isArray(dayDates) || dayDates.length === 0) {
 		return annotations;
 	}
+	const labelYOffset = yMetric === 'rank' ? -24 : 32;
 	const labelFont = {size: 23};
 	const labelPadding = 6;
 	const measureLabelWidth = (text) => {
@@ -484,7 +485,7 @@ function buildStageKeyAnnotations(dayDates, chartInstance) {
 			padding: labelPadding,
 			font: labelFont,
 			xAdjust,
-			yAdjust: 32,
+			yAdjust: labelYOffset,
 		};
 	}
 	return annotations;
@@ -851,6 +852,9 @@ async function main() {
 			stageSelect,
 			stageKeySelect,
 			onChange: () => void update(),
+			defaultWindowDays: 21,
+			defaultToLastStageKey: false,
+			clearStageSelection: true,
 			debounceMs: 300,
 			includeAllStages: true,
 		});

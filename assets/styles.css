@@ -40,7 +40,7 @@ body {
 	margin-right: 0 !important;
 }
 
-#rankMatrix tr.non-student > td {
+#rankMatrix tr.non-student > td:nth-child(1) {
     color: #969696 !important;
 }
 
