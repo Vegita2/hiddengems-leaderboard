@@ -59,11 +59,13 @@ body {
     color: #ffffff !important;
 }
 
-#leaderboard td.diff-positive {
+#leaderboard td.diff-positive,
+#rankMatrix td.diff-positive {
 	color: #6dd17c !important;
 }
 
-#leaderboard td.diff-negative {
+#leaderboard td.diff-negative,
+#rankMatrix td.diff-negative {
 	color: #ff8a8a !important;
 }
 

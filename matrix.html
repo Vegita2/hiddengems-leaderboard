@@ -49,11 +49,20 @@
 					</div>
 				</div>
 				<div class="row g-3 align-items-end mt-1">
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-6 col-lg-3">
+						<label class="form-label" for="dayMode">Day columns</label>
+						<select class="form-select" id="dayMode" aria-label="Day column values">
+							<option value="rank" selected>Rank</option>
+							<option value="score">Score</option>
+							<option value="relative">Relative (best day)</option>
+							<option value="overall-relative">Relative (best bot)</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-6 col-lg-3">
 						<label class="form-label" for="matrixSearch">Search</label>
 						<input class="form-control" type="search" id="matrixSearch" placeholder="Search bots" />
 					</div>
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-lg-6">
 						<div class="d-flex flex-wrap gap-2 justify-content-md-end">
 							<span class="badge text-bg-secondary" id="daysBadge" title="Days in range"></span>
 							<span class="badge text-bg-secondary" id="botsBadge" title="Bots in range"></span>
