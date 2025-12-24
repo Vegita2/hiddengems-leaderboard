@@ -1,4 +1,4 @@
-import {formatBotLabel, formatDisplayDate, loadAvailableDates, loadBots, loadDayData, safeText} from './utils.js';
+import {formatBotLabel, formatDisplayDate, formatInteger, loadAvailableDates, loadBots, loadDayData, safeText} from './utils.js';
 import {initDateRangeSelectors} from './date-range.js';
 import {Chart} from './vendor-chart.js';
 import './components/navbar.js';
@@ -291,6 +291,9 @@ function formatMetricValue(metric, value) {
 	}
 	if (metric === 'rank') {
 		return String(Math.round(value));
+	}
+	if (metric === 'score' || metric === 'scoreGap') {
+		return formatInteger(value);
 	}
 	if (metric === 'scoreScaled') {
 		return `${value.toFixed(1)}%`;

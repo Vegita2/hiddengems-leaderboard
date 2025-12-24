@@ -334,9 +334,21 @@ async function main() {
 		const latestDateInfo = dates[dates.length - 1];
 		dateSelect.value = latestDateInfo.date;
 
-		// Load and display the latest day
-		const latestDay = await loadDayData(latestDateInfo.date);
-		setSelectedDay(latestDay);
+		// Load and display the latest day (fallback to previous day if needed)
+		let selectedDateInfo = latestDateInfo;
+		try {
+			const latestDay = await loadDayData(latestDateInfo.date);
+			setSelectedDay(latestDay);
+		} catch (error) {
+			const fallbackDateInfo = dates.length > 1 ? dates[dates.length - 2] : null;
+			if (!fallbackDateInfo) {
+				throw error;
+			}
+			const fallbackDay = await loadDayData(fallbackDateInfo.date);
+			setSelectedDay(fallbackDay);
+			selectedDateInfo = fallbackDateInfo;
+		}
+		dateSelect.value = selectedDateInfo.date;
 
 		searchInput?.addEventListener('input', () => {
 			dataTable?.search(searchInput.value).draw();
