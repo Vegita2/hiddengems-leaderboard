@@ -247,7 +247,7 @@
     "emoji": "🦘",
     "name": "Der MBboter",
     "student": false,
-    "author": "mb-bot",
+    "author": "Matthias B.",
     "location": "Breuna",
     "language": "python"
   },
@@ -1343,9 +1343,9 @@
   {
     "id": "9b69687f2b0614a3",
     "emoji": "🛰️",
-    "name": "Pathfinder",
+    "name": "Explorer",
     "student": true,
-    "author": "Pathfinder",
+    "author": "Lu",
     "location": "Berlin",
     "language": "go"
   },
@@ -2092,7 +2092,7 @@
     "emoji": "🤑",
     "name": "Dagobot Duck",
     "student": true,
-    "author": "Sebu",
+    "author": "Edelsteinlaus",
     "location": "Stuttgart",
     "language": "js"
   },
@@ -2254,7 +2254,7 @@
     "emoji": "🃏",
     "name": "Arti",
     "student": true,
-    "author": "HW/Arti",
+    "author": "",
     "location": "",
     "language": "cpp"
   },
@@ -2885,8 +2885,8 @@
     "name": "CLAJ",
     "student": false,
     "author": "",
-    "location": "",
-    "language": ""
+    "location": "Dresden",
+    "language": "java"
   },
   {
     "id": "738c3d55f1180d36",
@@ -3418,5 +3418,77 @@
     "author": "",
     "location": "",
     "language": ""
+  },
+  {
+    "id": "d454600d17e0d95a",
+    "emoji": "🐍",
+    "name": "Localhorst",
+    "student": false,
+    "author": "localhorst",
+    "location": "Regensburg",
+    "language": "python"
+  },
+  {
+    "id": "ef65f66e06efe2eb",
+    "emoji": "🐍",
+    "name": "Ami de Tornac",
+    "student": false,
+    "author": "Ami_de_Tornac",
+    "location": "Siegen",
+    "language": "python"
+  },
+  {
+    "id": "cef72bf50e5f6bf1",
+    "emoji": "🔍",
+    "name": "UAP Gem Finder",
+    "student": false,
+    "author": "uap-universe",
+    "location": "Voitze",
+    "language": "c"
+  },
+  {
+    "id": "0001ede4ff201708",
+    "emoji": "🦐",
+    "name": "Fischstäbchen",
+    "student": true,
+    "author": "Fischstäbchen",
+    "location": "Aachen",
+    "language": "cpp"
+  },
+  {
+    "id": "0767c4d3a1d0c857",
+    "emoji": "👑",
+    "name": "LordSuperKingKing",
+    "student": false,
+    "author": "LordSuperKing",
+    "location": "Braunschweig",
+    "language": "js"
+  },
+  {
+    "id": "b92b2aad14b6c9b4",
+    "emoji": "🐍",
+    "name": "gemaddict",
+    "student": true,
+    "author": "Tomek",
+    "location": "Wolfsburg",
+    "language": "python"
+  },
+  {
+    "id": "eac4cb09e3836b63",
+    "emoji": "💥",
+    "name": "geminator",
+    "student": false,
+    "author": "ask",
+    "location": "Wolfsburg",
+    "language": "cpp"
+  },
+  {
+    "id": "d7d74b1160a6cfa8",
+    "emoji": "🔒",
+    "name": "Bruteforce",
+    "student": false,
+    "author": "Bruteforce",
+    "location": "Stuttgart",
+    "language": "cpp"
   }
 ]
