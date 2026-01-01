@@ -31,10 +31,12 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 
 	const perDayRank = new Map();
 	const perDayScore = new Map();
+	const perDayGit = new Map();
 	const bestScoresByDate = new Map();
 	for (const day of daysInRange) {
 		const rankByBot = new Map();
 		const scoreByBot = new Map();
+		const gitByBot = new Map();
 		let bestScore = null;
 		for (let index = 0; index < day.entries.length; index += 1) {
 			const entry = day.entries[index];
@@ -48,9 +50,13 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 					bestScore = score;
 				}
 			}
+			if (entry.git) {
+				gitByBot.set(key, String(entry.git));
+			}
 		}
 		perDayRank.set(day.date, rankByBot);
 		perDayScore.set(day.date, scoreByBot);
+		perDayGit.set(day.date, gitByBot);
 		bestScoresByDate.set(day.date, bestScore);
 	}
 
@@ -118,6 +124,10 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 				row[date] = Number.isFinite(score) ? score : '';
 				continue;
 			}
+			if (dayMode === 'git') {
+				row[date] = perDayGit.get(date)?.get(key) ?? '';
+				continue;
+			}
 			if (dayMode === 'relative' || dayMode === 'overall-relative') {
 				const baseline = dayMode === 'overall-relative'
 					? overallScoresByDate.get(date)
@@ -168,10 +178,16 @@ function renderTable(dayDates, rows, dayMode) {
 				if (dayMode === 'score' || dayMode === 'relative' || dayMode === 'overall-relative') {
 					return d === '' ? Number.NEGATIVE_INFINITY : Number(d);
 				}
+				if (dayMode === 'git') {
+					return d ?? '';
+				}
 				return d === '' ? Number.POSITIVE_INFINITY : Number(d);
 			}
 			if (dayMode === 'score') {
 				return escapeHtml(formatInteger(d));
+			}
+			if (dayMode === 'git') {
+				return escapeHtml(d ?? '');
 			}
 			if (dayMode === 'relative' || dayMode === 'overall-relative') {
 				return escapeHtml(formatSignedInteger(d));

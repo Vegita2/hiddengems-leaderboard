@@ -156,7 +156,7 @@ function buildColumns(roundSeeds, roundMode) {
 			render: (data, type) => {
 				const author = safeText(data);
 				if (type !== 'display') return escapeHtml(author);
-				const short = truncateText(author, 20);
+				const short = truncateText(author, 15);
 				return short === author ? escapeHtml(short) : `<span title="${escapeHtml(author)}">${escapeHtml(short)}</span>`;
 			},
 		},
@@ -170,7 +170,7 @@ function buildColumns(roundSeeds, roundMode) {
 				return short === location ? escapeHtml(short) : `<span title="${escapeHtml(location)}">${escapeHtml(short)}</span>`;
 			},
 		},
-		{ title: 'Language', data: 'language', render: (d) => escapeHtml(d) },
+		{ title: 'Lang', data: 'language', render: (d) => escapeHtml(d) },
 		{
 			title: 'Commit',
 			data: 'git',
