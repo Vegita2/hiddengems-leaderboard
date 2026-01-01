@@ -48,6 +48,7 @@ function rowFromEntry(entry, rank, roundRanks, roundBestScores, overallBestScore
 		location: safeText(bot.location),
 		language: safeText(bot.language),
 		id: safeText(bot.id),
+		git: safeText(entry.git),
 	};
 
 	for (let i = 0; i < roundRanks.length; i += 1) {
@@ -170,6 +171,16 @@ function buildColumns(roundSeeds, roundMode) {
 			},
 		},
 		{ title: 'Language', data: 'language', render: (d) => escapeHtml(d) },
+		{
+			title: 'Commit',
+			data: 'git',
+			render: (data, type) => {
+				const git = safeText(data);
+				if (type !== 'display') return escapeHtml(git);
+				const short = truncateText(git, 12);
+				return short === git ? escapeHtml(short) : `<span title="${escapeHtml(git)}">${escapeHtml(short)}</span>`;
+			},
+		},
 	];
 
 	return [...baseColumns, ...roundColumns, ...metaColumns];

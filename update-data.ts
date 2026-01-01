@@ -33,6 +33,143 @@ async function fetchScrimData(date: string): Promise<API.Scrim> {
 	return response.json();
 }
 
+function decodeHtmlEntities(input: string): string {
+	return input
+		.replace(/&amp;/g, '&')
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>')
+		.replace(/&quot;/g, '"')
+		.replace(/&#39;/g, '\'')
+		.replace(/&ndash;/g, '–')
+		.replace(/&mdash;/g, '—');
+}
+
+function stripHtml(input: string): string {
+	return input.replace(/<[^>]*>/g, '');
+}
+
+function normalizeText(input: string): string {
+	const cleaned = input
+		.replace(/\u00a0/g, ' ')
+		.replace(/[–—]/g, '-')
+		.replace(/\s+/g, ' ')
+		.trim()
+		.toLowerCase();
+	if (cleaned === '-' || cleaned === '–' || cleaned === '—') {
+		return '';
+	}
+	return cleaned;
+}
+
+interface ScrimRow {
+	name: string;
+	author: string;
+	location: string;
+	score: number;
+	git: string;
+}
+
+function extractScrimRows(html: string): ScrimRow[] {
+	const rows: ScrimRow[] = [];
+	const commitHeader = '<th>Commit</th>';
+	const commitIndex = html.indexOf(commitHeader);
+	let scanHtml = html;
+	
+	if (commitIndex !== -1) {
+		const tableStart = html.lastIndexOf('<table', commitIndex);
+		const tableEnd = html.indexOf('</table>', commitIndex);
+		if (tableStart !== -1 && tableEnd !== -1) {
+			scanHtml = html.slice(tableStart, tableEnd + '</table>'.length);
+		}
+	}
+	
+	let headerCells: string[] = [];
+	const theadMatch = /<thead[^>]*>[\s\S]*?<tr[^>]*>([\s\S]*?)<\/tr>[\s\S]*?<\/thead>/i.exec(scanHtml);
+	if (theadMatch) {
+		const thRegex = /<th[^>]*>([\s\S]*?)<\/th>/gi;
+		let thMatch: RegExpExecArray | null;
+		while ((thMatch = thRegex.exec(theadMatch[1])) !== null) {
+			headerCells.push(normalizeText(decodeHtmlEntities(stripHtml(thMatch[1]))));
+		}
+	}
+	
+	const headerIndex = {
+		bot: headerCells.findIndex((cell) => cell === 'bot'),
+		score: headerCells.findIndex((cell) => cell === 'score'),
+		author: headerCells.findIndex((cell) => cell.includes('autor') && cell.includes('team')),
+		location: headerCells.findIndex((cell) => cell === 'ort'),
+		commit: headerCells.findIndex((cell) => cell === 'commit'),
+	};
+	
+	const defaultIndex = {
+		bot: 2,
+		score: 3,
+		author: 7,
+		location: 8,
+		commit: 10,
+	};
+	
+	const resolvedIndex = {
+		bot: headerIndex.bot >= 0 ? headerIndex.bot : defaultIndex.bot,
+		score: headerIndex.score >= 0 ? headerIndex.score : defaultIndex.score,
+		author: headerIndex.author >= 0 ? headerIndex.author : defaultIndex.author,
+		location: headerIndex.location >= 0 ? headerIndex.location : defaultIndex.location,
+		commit: headerIndex.commit >= 0 ? headerIndex.commit : defaultIndex.commit,
+	};
+	
+	const tbodyMatch = /<tbody[^>]*>([\s\S]*?)<\/tbody>/i.exec(scanHtml);
+	const bodyHtml = tbodyMatch ? tbodyMatch[1] : scanHtml;
+	const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+	const cellRegex = /<td[^>]*>([\s\S]*?)<\/td>/gi;
+	let rowMatch: RegExpExecArray | null;
+	
+	while ((rowMatch = rowRegex.exec(bodyHtml)) !== null) {
+		const rowHtml = rowMatch[1];
+		const cells: string[] = [];
+		let cellMatch: RegExpExecArray | null;
+		while ((cellMatch = cellRegex.exec(rowHtml)) !== null) {
+			cells.push(cellMatch[1]);
+		}
+		if (cells.length <= resolvedIndex.commit) {
+			continue;
+		}
+		
+		const name = decodeHtmlEntities(stripHtml(cells[resolvedIndex.bot])).trim();
+		const scoreText = decodeHtmlEntities(stripHtml(cells[resolvedIndex.score]));
+		const scoreValue = parseInt(scoreText.replace(/[^\d]/g, ''), 10);
+		const author = decodeHtmlEntities(stripHtml(cells[resolvedIndex.author])).trim();
+		const location = decodeHtmlEntities(stripHtml(cells[resolvedIndex.location])).trim();
+		const git = decodeHtmlEntities(stripHtml(cells[resolvedIndex.commit])).trim();
+		
+		if (!name || Number.isNaN(scoreValue) || !git) {
+			continue;
+		}
+		
+		rows.push({
+			name,
+			author,
+			location,
+			score: scoreValue,
+			git,
+		});
+	}
+	
+	return rows;
+}
+
+async function fetchScrimRows(): Promise<ScrimRow[]> {
+	const url = 'https://hiddengems.gymnasiumsteglitz.de/scrims';
+	console.log(`Fetching ${url}`);
+	
+	const response = await fetch(url);
+	if (!response.ok) {
+		throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+	}
+	
+	const html = await response.text();
+	return extractScrimRows(html);
+}
+
 function loadBots(): Bot[] {
 	const botsPath = join(__dirname, 'json', 'bots.json');
 	return JSON.parse(readFileSync(botsPath, 'utf-8'));
@@ -48,7 +185,11 @@ interface TransformResult {
 	missingBots: MissingBot[];
 }
 
-function transformToLeaderboard(scrim: API.Scrim, bots: Bot[]): TransformResult {
+function transformToLeaderboard(
+	scrim: API.Scrim,
+	bots: Bot[],
+	gitHashByBotId?: Map<string, string>,
+): TransformResult {
 	const entries: LeaderboardEntry[] = [];
 	const missingBots: MissingBot[] = [];
 	let stage = '';
@@ -83,6 +224,7 @@ function transformToLeaderboard(scrim: API.Scrim, bots: Bot[]): TransformResult 
 			}
 			continue;
 		}
+		const gitHash = gitHashByBotId?.get(botId);
 		
 		if (!botData.deterministic) {
 			const rounds: Round[] = roundSeeds.map(() => ({
@@ -98,7 +240,7 @@ function transformToLeaderboard(scrim: API.Scrim, bots: Bot[]): TransformResult 
 				score: 0,
 				gu: 0,
 				fc: 0,
-				git: '',
+				git: gitHash ?? '',
 				rounds,
 			});
 			continue;
@@ -121,7 +263,7 @@ function transformToLeaderboard(scrim: API.Scrim, bots: Bot[]): TransformResult 
 			score: profile.total_score,
 			gu: profile.gem_utilization_mean,
 			fc: profile.floor_coverage_mean,
-			git: profile.git_hash,
+			git: gitHash ?? '',
 			rounds,
 		});
 	}
@@ -148,16 +290,92 @@ async function main() {
 	
 	const bots = loadBots();
 	console.log(`Loaded ${bots.length} bots`);
+	const botIndexMap = new Map<string, number>();
+	for (let i = 0; i < bots.length; i++) {
+		botIndexMap.set(bots[i].id, i);
+	}
 	
 	const scrim = await fetchScrimData(date);
 	console.log(`Fetched scrim data with ${Object.keys(scrim.bots).length} bots`);
 	
-	const { leaderboard, missingBots } = transformToLeaderboard(scrim, bots);
+	let gitHashByBotId: Map<string, string> | undefined;
+	if (date === getDateString()) {
+		try {
+			const rows = await fetchScrimRows();
+			const matchMap = new Map<string, string[]>();
+			const scoreMap = new Map<number, string[]>();
+			for (const [botId, botData] of Object.entries(scrim.bots)) {
+				const profile = botData.profile;
+				if (!profile) {
+					continue;
+				}
+				const botIndex = botIndexMap.get(botId);
+				const bot = botIndex !== undefined ? bots[botIndex] : undefined;
+				const name = profile.name || bot?.name || '';
+				const author = bot?.author || '';
+				const location = bot?.location || '';
+				const key = `${profile.total_score}|${normalizeText(name)}|${normalizeText(author)}|${normalizeText(location)}`;
+				const existing = matchMap.get(key);
+				if (existing) {
+					existing.push(botId);
+				} else {
+					matchMap.set(key, [botId]);
+				}
+				const scoreExisting = scoreMap.get(profile.total_score);
+				if (scoreExisting) {
+					scoreExisting.push(botId);
+				} else {
+					scoreMap.set(profile.total_score, [botId]);
+				}
+			}
+			
+			gitHashByBotId = new Map<string, string>();
+			const usedBotIds = new Set<string>();
+			let unmatched = 0;
+			for (const row of rows) {
+				const scoreCandidates = scoreMap.get(row.score) ?? [];
+				const availableScoreCandidates = scoreCandidates.filter((id) => !usedBotIds.has(id));
+				let botId: string | undefined;
+				
+				if (availableScoreCandidates.length === 1) {
+					botId = availableScoreCandidates[0];
+				} else {
+					const key = `${row.score}|${normalizeText(row.name)}|${normalizeText(row.author)}|${normalizeText(row.location)}`;
+					const candidates = matchMap.get(key);
+					if (candidates && candidates.length > 0) {
+						while (candidates.length > 0) {
+							const candidate = candidates.shift();
+							if (candidate && !usedBotIds.has(candidate)) {
+								botId = candidate;
+								break;
+							}
+						}
+					}
+				}
+				
+				if (botId) {
+					usedBotIds.add(botId);
+					gitHashByBotId.set(botId, row.git);
+				} else {
+					unmatched += 1;
+				}
+			}
+			
+			if (unmatched > 0) {
+				console.warn(`Scrim page rows unmatched: ${unmatched}`);
+			}
+		} catch (err) {
+			console.warn('Failed to fetch scrim page git hashes, using API hashes instead.');
+			console.warn(err);
+		}
+	}
+	
+	const { leaderboard, missingBots } = transformToLeaderboard(scrim, bots, gitHashByBotId);
 	console.log(`Transformed to leaderboard with ${leaderboard.entries.length} entries`);
 	
 	const outputDir = join(__dirname, 'json', 'data');
 	mkdirSync(outputDir, { recursive: true });
-
+	
 	const outputPath = join(outputDir, `data-${date}.json`);
 	writeFileSync(outputPath, JSON.stringify(leaderboard));
 	console.log(`Wrote ${outputPath}`);
