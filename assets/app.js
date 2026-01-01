@@ -58,10 +58,16 @@ function rowFromEntry(entry, rank, roundRanks, roundBestScores, overallBestScore
 		if (roundMode === 'relative' || roundMode === 'overall-relative') {
 			const bestScores = roundMode === 'overall-relative' ? overallBestScores : roundBestScores;
 			const baseline = bestScores?.[i];
-			if (Number.isFinite(score) && Number.isFinite(baseline)) {
+			const hasScore = Number.isFinite(score);
+			const hasBaseline = Number.isFinite(baseline);
+			if (hasScore && hasBaseline) {
 				row[`round_${i}`] = score - baseline;
+				row[`roundScore_${i}`] = score;
+				row[`roundIsBaseline_${i}`] = score === baseline;
 			} else {
 				row[`round_${i}`] = '';
+				row[`roundScore_${i}`] = '';
+				row[`roundIsBaseline_${i}`] = false;
 			}
 			continue;
 		}
@@ -127,7 +133,7 @@ function buildColumns(roundSeeds, roundMode) {
 		title: `${index + 1}`,
 		data: `round_${index}`,
 		rankData: `roundRank_${index}`,
-		render: (d, type) => {
+		render: (d, type, row) => {
 			if (type === 'sort' || type === 'type') {
 				if (roundMode === 'score' || roundMode === 'relative' || roundMode === 'overall-relative') {
 					return d === '' ? Number.NEGATIVE_INFINITY : Number(d);
@@ -138,6 +144,10 @@ function buildColumns(roundSeeds, roundMode) {
 				return escapeHtml(formatInteger(d));
 			}
 			if (roundMode === 'relative' || roundMode === 'overall-relative') {
+				const isBaseline = Boolean(row?.[`roundIsBaseline_${index}`]);
+				if (isBaseline) {
+					return escapeHtml(formatInteger(row?.[`roundScore_${index}`]));
+				}
 				return escapeHtml(formatSignedInteger(d));
 			}
 			return escapeHtml(d);

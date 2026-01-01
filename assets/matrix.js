@@ -132,10 +132,16 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 				const baseline = dayMode === 'overall-relative'
 					? overallScoresByDate.get(date)
 					: bestScoresByDate.get(date);
-				if (Number.isFinite(score) && Number.isFinite(baseline)) {
+				const hasScore = Number.isFinite(score);
+				const hasBaseline = Number.isFinite(baseline);
+				if (hasScore && hasBaseline) {
 					row[date] = score - baseline;
+					row[`score_${date}`] = score;
+					row[`isBaseline_${date}`] = score === baseline;
 				} else {
 					row[date] = '';
+					row[`score_${date}`] = '';
+					row[`isBaseline_${date}`] = false;
 				}
 				continue;
 			}
@@ -173,7 +179,7 @@ function renderTable(dayDates, rows, dayMode) {
 		rankData: `rank_${date}`,
 		isDay: true,
 		isDayDiff: dayMode === 'relative' || dayMode === 'overall-relative',
-		render: (d, type) => {
+		render: (d, type, row) => {
 			if (type === 'sort' || type === 'type') {
 				if (dayMode === 'score' || dayMode === 'relative' || dayMode === 'overall-relative') {
 					return d === '' ? Number.NEGATIVE_INFINITY : Number(d);
@@ -190,6 +196,10 @@ function renderTable(dayDates, rows, dayMode) {
 				return escapeHtml(d ?? '');
 			}
 			if (dayMode === 'relative' || dayMode === 'overall-relative') {
+				const isBaseline = Boolean(row?.[`isBaseline_${date}`]);
+				if (isBaseline) {
+					return escapeHtml(formatInteger(row?.[`score_${date}`]));
+				}
 				return escapeHtml(formatSignedInteger(d));
 			}
 			return escapeHtml(d);
