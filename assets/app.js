@@ -52,6 +52,16 @@ function rowFromEntry(entry, rank, roundRanks, roundBestScores, overallBestScore
 	};
 
 	for (let i = 0; i < roundRanks.length; i += 1) {
+		const disqualified = safeText(entry.rounds?.[i]?.disqualified);
+		row[`roundDisqualified_${i}`] = disqualified;
+		if (disqualified) {
+			row[`roundRank_${i}`] = '';
+			row[`round_${i}`] = '';
+			row[`roundScore_${i}`] = '';
+			row[`roundIsBaseline_${i}`] = false;
+			continue;
+		}
+
 		const rankByBot = roundRanks[i];
 		row[`roundRank_${i}`] = rankByBot.get(entry.id) ?? '';
 		const score = Number(entry.rounds?.[i]?.s);
@@ -134,6 +144,10 @@ function buildColumns(roundSeeds, roundMode) {
 		data: `round_${index}`,
 		rankData: `roundRank_${index}`,
 		render: (d, type, row) => {
+			const disqualified = safeText(row?.[`roundDisqualified_${index}`]);
+			if (disqualified && type !== 'sort' && type !== 'type') {
+				return `<span class="text-danger fw-semibold" title="${escapeHtml(disqualified)}" aria-label="Disqualified">&#9888;</span>`;
+			}
 			if (type === 'sort' || type === 'type') {
 				if (roundMode === 'score' || roundMode === 'relative' || roundMode === 'overall-relative') {
 					return d === '' ? Number.NEGATIVE_INFINITY : Number(d);
