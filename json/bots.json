@@ -3490,5 +3490,14 @@
     "author": "Bruteforce",
     "location": "Stuttgart",
     "language": "cpp"
+  },
+  {
+    "id": "236b2fafbf1997b8",
+    "emoji": "🦀",
+    "name": "RustyClanker",
+    "student": true,
+    "author": "Okoloki",
+    "location": "Berlin",
+    "language": "rust"
   }
 ]

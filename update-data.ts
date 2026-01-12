@@ -175,6 +175,28 @@ function loadBots(): Bot[] {
 	return JSON.parse(readFileSync(botsPath, 'utf-8'));
 }
 
+function loadExistingGitHashes(outputPath: string, bots: Bot[]): Map<string, string> | undefined {
+	if (!existsSync(outputPath)) {
+		return undefined;
+	}
+	try {
+		const existing = JSON.parse(readFileSync(outputPath, 'utf-8')) as Leaderboard;
+		const gitMap = new Map<string, string>();
+		for (const entry of existing.entries ?? []) {
+			const bot = bots[entry.id];
+			if (!bot || !entry.git) {
+				continue;
+			}
+			gitMap.set(bot.id, entry.git);
+		}
+		return gitMap.size > 0 ? gitMap : undefined;
+	} catch (err) {
+		console.warn(`Failed to read existing data from ${outputPath}`);
+		console.warn(err);
+		return undefined;
+	}
+}
+
 interface MissingBot {
 	id: string;
 	data: API.Bot;
@@ -295,6 +317,13 @@ async function main() {
 		botIndexMap.set(bots[i].id, i);
 	}
 	
+	const outputDir = join(__dirname, 'json', 'data');
+	const outputPath = join(outputDir, `data-${date}.json`);
+	const existingGitHashByBotId = loadExistingGitHashes(outputPath, bots);
+	if (existingGitHashByBotId) {
+		console.log(`Loaded ${existingGitHashByBotId.size} existing commit hashes`);
+	}
+	
 	const scrim = await fetchScrimData(date);
 	console.log(`Fetched scrim data with ${Object.keys(scrim.bots).length} bots`);
 	
@@ -370,13 +399,22 @@ async function main() {
 		}
 	}
 	
+	if (existingGitHashByBotId) {
+		if (!gitHashByBotId) {
+			gitHashByBotId = existingGitHashByBotId;
+		} else {
+			for (const [botId, git] of existingGitHashByBotId) {
+				if (!gitHashByBotId.has(botId)) {
+					gitHashByBotId.set(botId, git);
+				}
+			}
+		}
+	}
+	
 	const { leaderboard, missingBots } = transformToLeaderboard(scrim, bots, gitHashByBotId);
 	console.log(`Transformed to leaderboard with ${leaderboard.entries.length} entries`);
 	
-	const outputDir = join(__dirname, 'json', 'data');
 	mkdirSync(outputDir, { recursive: true });
-	
-	const outputPath = join(outputDir, `data-${date}.json`);
 	writeFileSync(outputPath, JSON.stringify(leaderboard));
 	console.log(`Wrote ${outputPath}`);
 	

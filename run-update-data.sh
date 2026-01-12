@@ -5,7 +5,7 @@ python - <<'PY'
 from datetime import date, timedelta
 import subprocess
 
-start = date(2025, 10, 7)
+start = date(2026, 1, 1)
 today = date.today()
 
 d = start
