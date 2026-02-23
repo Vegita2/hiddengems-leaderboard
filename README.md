@@ -10,7 +10,7 @@ From this folder:
 python -m http.server 4200
 ```
 
-Then open `http://localhost:8000/` in your browser.
+Then open `http://localhost:4200/` in your browser.
 
 ## Notes
 
