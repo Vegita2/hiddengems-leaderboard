@@ -73,15 +73,23 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 	}
 
 	const botMedians = new Map();
+	const botScoreSums = new Map();
 	let bestBotKey = null;
 	let bestBotMedian = null;
 	let bestBotLabel = '';
 	for (const [key, meta] of botMeta.entries()) {
 		const ranks = [];
+		let scoreSum = 0;
+		let hasScore = false;
 		for (const date of dayDates) {
 			const rank = perDayRank.get(date)?.get(key);
+			const score = perDayScore.get(date)?.get(key);
 			if (typeof rank === 'number') {
 				ranks.push(rank);
+			}
+			if (Number.isFinite(score)) {
+				scoreSum += score;
+				hasScore = true;
 			}
 		}
 		let median = '';
@@ -93,6 +101,7 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 				: ranks[mid];
 		}
 		botMedians.set(key, median);
+		botScoreSums.set(key, hasScore ? scoreSum : '');
 		if (typeof median === 'number') {
 			if (bestBotMedian === null || median < bestBotMedian) {
 				bestBotMedian = median;
@@ -148,6 +157,7 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 			row[date] = typeof rank === 'number' ? rank : '';
 		}
 		row.median = botMedians.get(key) ?? '';
+		row.scoreSum = botScoreSums.get(key) ?? '';
 		rows.push(row);
 	}
 
@@ -220,6 +230,19 @@ function renderTable(dayDates, rows, dayMode) {
 			searchable: false,
 			className: 'rank-cell',
 		},
+		{
+			title: 'sum',
+			data: 'scoreSum',
+			render: (d, type) => {
+				if (type === 'sort' || type === 'type') {
+					return d === '' ? Number.NEGATIVE_INFINITY : Number(d);
+				}
+				return Number.isFinite(d) ? escapeHtml(formatInteger(d)) : '';
+			},
+			orderable: true,
+			searchable: false,
+			className: 'rank-cell',
+		},
 	];
 
 	for (const col of columns) {
@@ -232,6 +255,7 @@ function renderTable(dayDates, rows, dayMode) {
 	}
 
 	const dayColumnIndexes = [];
+	const medianColumnIndex = columns.findIndex((col) => col.data === 'median');
 	let applyDiffColors = false;
 	for (let i = 0; i < columns.length; i += 1) {
 		if (columns[i].isDay) {
@@ -254,7 +278,7 @@ function renderTable(dayDates, rows, dayMode) {
 		pageLength: 100,
 		lengthMenu: [[25, 50, 100, 250, -1], [25, 50, 100, 250, 'All']],
 		scrollX: true,
-		order: [[columns.length - 1, 'asc']],
+		order: medianColumnIndex >= 0 ? [[medianColumnIndex, 'asc']] : [],
 		layout: {
 			topStart: null,
 			topEnd: null,
