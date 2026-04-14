@@ -38,13 +38,13 @@
     "stage": "3 Resonance",
     "stageKey": "stage-3@0.1",
     "startDate": "2026-02-10",
-    "endDate": "2026-02-17",
+    "endDate": "2026-02-16",
     "color": "#554415"
   },
   {
     "stage": "3 Resonance",
     "stageKey": "stage-3@0.2",
-    "startDate": "2026-02-18",
+    "startDate": "2026-02-17",
     "endDate": "2026-03-16",
     "color": "#133c54"
   },
