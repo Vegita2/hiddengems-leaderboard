@@ -61,5 +61,12 @@
     "startDate": "2026-03-26",
     "endDate": "2026-04-20",
     "color": "#0e660d"
+  },
+  {
+    "stage": "5 Portal Nexus",
+    "stageKey": "stage-5@0.1",
+    "startDate": "2026-04-21",
+    "endDate": "2026-05-25",
+    "color": "#554415"
   }
 ]
