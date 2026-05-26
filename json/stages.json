@@ -68,5 +68,12 @@
     "startDate": "2026-04-21",
     "endDate": "2026-05-25",
     "color": "#554415"
+  },
+  {
+    "stage": "6 The Swarm",
+    "stageKey": "stage-6@0.1",
+    "startDate": "2026-05-26",
+    "endDate": "2026-06-29",
+    "color": "#133c54"
   }
 ]
