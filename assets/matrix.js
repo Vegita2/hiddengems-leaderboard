@@ -124,17 +124,34 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 	const rows = [];
 	for (const [key, meta] of botMeta.entries()) {
 		const row = { isStudent: meta.isStudent, bot: meta.label };
+		let lastGit = null; // Track the last commit shown for this bot across days
 		for (const date of dayDates) {
 			const rank = perDayRank.get(date)?.get(key);
 			const score = perDayScore.get(date)?.get(key);
 			const rankKey = `rank_${date}`;
 			row[rankKey] = typeof rank === 'number' ? rank : '';
+
+			// Detect when the bot's commit changed (vs. the last one seen) so both the
+			// rank and commit-changes views can flag those days.
+			const git = perDayGit.get(date)?.get(key) || '';
+			const gitChanged = Boolean(git) && git !== lastGit;
+			if (git) {
+				lastGit = git;
+			}
+			row[`gitChanged_${date}`] = gitChanged;
+			row[`git_${date}`] = git;
+
 			if (dayMode === 'score') {
 				row[date] = Number.isFinite(score) ? score : '';
 				continue;
 			}
 			if (dayMode === 'git') {
-				row[date] = perDayGit.get(date)?.get(key) ?? '';
+				row[date] = git;
+				continue;
+			}
+			if (dayMode === 'git-changes') {
+				// Show the commit only on days it changed (unchanged commits stay blank).
+				row[date] = gitChanged ? git : '';
 				continue;
 			}
 			if (dayMode === 'relative' || dayMode === 'overall-relative') {
@@ -194,13 +211,17 @@ function renderTable(dayDates, rows, dayMode) {
 				if (dayMode === 'score' || dayMode === 'relative' || dayMode === 'overall-relative') {
 					return d === '' ? Number.NEGATIVE_INFINITY : Number(d);
 				}
-				if (dayMode === 'git') {
+				if (dayMode === 'git' || dayMode === 'git-changes') {
 					return d ?? '';
 				}
 				return d === '' ? Number.POSITIVE_INFINITY : Number(d);
 			}
 			if (dayMode === 'score') {
 				return escapeHtml(formatInteger(d));
+			}
+			if (dayMode === 'git-changes') {
+				// Mark only the days where the commit changed; hash is kept in the tooltip.
+				return d ? `<span class="commit-change" title="${escapeHtml(d)}" aria-label="commit changed">●</span>` : '';
 			}
 			if (dayMode === 'git') {
 				return escapeHtml(d ?? '');
@@ -212,11 +233,18 @@ function renderTable(dayDates, rows, dayMode) {
 				}
 				return escapeHtml(formatSignedInteger(d));
 			}
-			return escapeHtml(d);
+			// Rank view: flag days where the bot's commit changed with a small blue dot.
+			const rankHtml = escapeHtml(d);
+			if (row?.[`gitChanged_${date}`]) {
+				const hash = escapeHtml(row?.[`git_${date}`] ?? '');
+				return `<span class="rank-commit-dot" title="${hash}" aria-label="commit changed">●</span>${rankHtml}`;
+			}
+			return rankHtml;
 		},
 		orderable: true,
 		searchable: false,
-		className: 'rank-cell',
+		// Rank view reserves a left gutter for the commit-change dot.
+		className: dayMode === 'rank' ? 'rank-cell day-rank-cell' : 'rank-cell',
 	}));
 
 	const columns = [

@@ -72,6 +72,44 @@
 	display: none;
 }
 
+/* "Commit changes" day mode: a small dot marks the days a bot's commit changed. */
+.commit-change {
+	display: block;
+	text-align: center;
+	color: #ffffff;
+	font-size: 1.25em;
+	line-height: 1;
+}
+
+/* Rank view reserves a left gutter so the commit-change dot can sit at the
+   column's left edge without shifting the (aligned) rank numbers. */
+#rankMatrix td.day-rank-cell {
+	position: relative;
+	padding-left: 0.95rem;
+}
+
+/* Small blue dot pinned to the left edge of the column marking commit changes. */
+.rank-commit-dot {
+	position: absolute;
+	left: .4rem;
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--bs-info, #6ea8fe);
+	font-size: 0.75em;
+	line-height: 1;
+}
+
+/* Vertical separators between every column so empty day columns stay countable. */
+#rankMatrix_wrapper th,
+#rankMatrix_wrapper td {
+	border-left: 1px solid var(--bs-border-color-translucent, rgba(255, 255, 255, 0.15));
+}
+
+#rankMatrix_wrapper th:first-child,
+#rankMatrix_wrapper td:first-child {
+	border-left: 0;
+}
+
 #rankMatrix tbody tr.score-row td {
 	font-size: 0.75rem;
 }
