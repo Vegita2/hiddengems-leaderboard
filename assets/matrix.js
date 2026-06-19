@@ -10,6 +10,8 @@ const stageSelect = document.querySelector('#stageSelect');
 const stageKeySelect = document.querySelector('#stageKeySelect');
 const dayModeSelect = document.querySelector('#dayMode');
 const searchInput = document.querySelector('#matrixSearch');
+const trianglesToggle = document.querySelector('#toggleTriangles');
+const rankBgToggle = document.querySelector('#toggleRankBg');
 const daysBadge = document.querySelector('#daysBadge');
 const botsBadge = document.querySelector('#botsBadge');
 const alertsComponent = document.querySelector('hg-alerts');
@@ -17,6 +19,8 @@ const alertsComponent = document.querySelector('hg-alerts');
 let dataTable;
 let currentDays = [];
 let botsById = {};
+let showTriangles = true; // Commit-change triangles visible across all day modes
+let showRankBg = true; // Rank-colored cell backgrounds
 
 function destroyTable() {
 	if (!dataTable) {
@@ -131,8 +135,8 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 			const rankKey = `rank_${date}`;
 			row[rankKey] = typeof rank === 'number' ? rank : '';
 
-			// Detect when the bot's commit changed (vs. the last one seen) so both the
-			// rank and commit-changes views can flag those days.
+			// Detect when the bot's commit changed (vs. the last one seen); the corner
+			// triangles flag those days in every day mode.
 			const git = perDayGit.get(date)?.get(key) || '';
 			const gitChanged = Boolean(git) && git !== lastGit;
 			if (git) {
@@ -147,11 +151,6 @@ function buildMatrix(daysInRange, botsById, dayMode) {
 			}
 			if (dayMode === 'git') {
 				row[date] = git;
-				continue;
-			}
-			if (dayMode === 'git-changes') {
-				// Show the commit only on days it changed (unchanged commits stay blank).
-				row[date] = gitChanged ? git : '';
 				continue;
 			}
 			if (dayMode === 'relative' || dayMode === 'overall-relative') {
@@ -211,17 +210,13 @@ function renderTable(dayDates, rows, dayMode) {
 				if (dayMode === 'score' || dayMode === 'relative' || dayMode === 'overall-relative') {
 					return d === '' ? Number.NEGATIVE_INFINITY : Number(d);
 				}
-				if (dayMode === 'git' || dayMode === 'git-changes') {
+				if (dayMode === 'git') {
 					return d ?? '';
 				}
 				return d === '' ? Number.POSITIVE_INFINITY : Number(d);
 			}
 			if (dayMode === 'score') {
 				return escapeHtml(formatInteger(d));
-			}
-			if (dayMode === 'git-changes') {
-				// Mark only the days where the commit changed; hash is kept in the tooltip.
-				return d ? `<span class="commit-change" title="${escapeHtml(d)}" aria-label="commit changed">●</span>` : '';
 			}
 			if (dayMode === 'git') {
 				return escapeHtml(d ?? '');
@@ -233,18 +228,12 @@ function renderTable(dayDates, rows, dayMode) {
 				}
 				return escapeHtml(formatSignedInteger(d));
 			}
-			// Rank view: flag days where the bot's commit changed with a small blue dot.
-			const rankHtml = escapeHtml(d);
-			if (row?.[`gitChanged_${date}`]) {
-				const hash = escapeHtml(row?.[`git_${date}`] ?? '');
-				return `<span class="rank-commit-dot" title="${hash}" aria-label="commit changed">●</span>${rankHtml}`;
-			}
-			return rankHtml;
+			return escapeHtml(d);
 		},
 		orderable: true,
 		searchable: false,
-		// Rank view reserves a left gutter for the commit-change dot.
-		className: dayMode === 'rank' ? 'rank-cell day-rank-cell' : 'rank-cell',
+		// All day cells are a positioning context for the commit-change corner triangle.
+		className: 'rank-cell day-cell',
 	}));
 
 	const columns = [
@@ -330,7 +319,7 @@ function renderTable(dayDates, rows, dayMode) {
 
 				const rankValue = data[columns[colIndex].rankData];
 				const rank = typeof rankValue === 'number' ? rankValue : Number(rankValue);
-				if (rank && rank <= rankClasses.length) {
+				if (showRankBg && rank && rank <= rankClasses.length) {
 					cell.classList.add(rankClasses[rank - 1]);
 				}
 				if (applyDiffColors) {
@@ -341,6 +330,17 @@ function renderTable(dayDates, rows, dayMode) {
 					} else if (diff < 0) {
 						cell.classList.add('diff-negative');
 					}
+				}
+
+				// Corner triangle marking days the bot's commit changed (any day mode).
+				const date = columns[colIndex].data;
+				cell.querySelector('.rank-commit-dot')?.remove();
+				if (showTriangles && data[`gitChanged_${date}`]) {
+					const triangle = document.createElement('span');
+					triangle.className = 'rank-commit-dot';
+					triangle.title = data[`git_${date}`] ?? '';
+					triangle.setAttribute('aria-label', 'commit changed');
+					cell.append(triangle);
 				}
 			}
 		},
@@ -458,6 +458,16 @@ async function main() {
 			daysBadge.textContent = `Days: ${dayDates.length}`;
 			botsBadge.textContent = `Bots: ${rows.length}`;
 			renderTable(dayDates, rows, dayMode);
+		});
+
+		trianglesToggle?.addEventListener('change', () => {
+			showTriangles = trianglesToggle.checked;
+			dataTable?.draw(false);
+		});
+
+		rankBgToggle?.addEventListener('change', () => {
+			showRankBg = rankBgToggle.checked;
+			dataTable?.draw(false);
 		});
 
 		// Initial load

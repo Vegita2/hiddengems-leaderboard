@@ -55,7 +55,6 @@
 							<option value="rank" selected>Rank</option>
 							<option value="score">Score</option>
 							<option value="git">Commit</option>
-							<option value="git-changes">Commit changes</option>
 							<option value="relative">Relative (best day)</option>
 							<option value="overall-relative">Relative (best bot)</option>
 						</select>
@@ -64,7 +63,18 @@
 						<label class="form-label" for="matrixSearch">Search</label>
 						<input class="form-control" type="search" id="matrixSearch" placeholder="Search bots" />
 					</div>
-					<div class="col-12 col-lg-6">
+					<div class="col-12 col-md-6 col-lg-3">
+						<label class="form-label d-block">Display</label>
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" role="switch" id="toggleTriangles" checked />
+							<label class="form-check-label" for="toggleTriangles">Commit triangles</label>
+						</div>
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" role="switch" id="toggleRankBg" checked />
+							<label class="form-check-label" for="toggleRankBg">Rank background</label>
+						</div>
+					</div>
+					<div class="col-12 col-md-6 col-lg-3">
 						<div class="d-flex flex-wrap gap-2 justify-content-md-end">
 							<span class="badge text-bg-secondary" id="daysBadge" title="Days in range"></span>
 							<span class="badge text-bg-secondary" id="botsBadge" title="Bots in range"></span>
